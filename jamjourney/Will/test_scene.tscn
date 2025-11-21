@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://m6u5jmahtm35"]
+
+[ext_resource type="PackedScene" uid="uid://dw4p333ts2dby" path="res://Will/selection.tscn" id="1_jxpkh"]
+[ext_resource type="PackedScene" uid="uid://bgs04cxt2g5m6" path="res://Will/spawner.tscn" id="2_2jvrn"]
+
+[node name="TestScene" type="Node2D"]
+
+[node name="Selection" parent="." instance=ExtResource("1_jxpkh")]
+
+[node name="Spawner" parent="." instance=ExtResource("2_2jvrn")]

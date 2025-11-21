@@ -11,8 +11,8 @@ config_version=5
 [application]
 
 config/name="JamJourney"
-run/main_scene="uid://dkjxvs8oa8dnd"
-config/features=PackedStringArray("4.5", "Forward Plus")
+run/main_scene="res://Will/test_scene.tscn"
+config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
 [input]

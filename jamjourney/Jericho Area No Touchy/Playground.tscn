@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=3 uid="uid://cy62273hng4qf"]
+
+[ext_resource type="Script" uid="uid://bbhhejwo3j7ed" path="res://Jericho Area No Touchy/Scripts/character_body_2d.gd" id="1_j8atl"]
+[ext_resource type="Texture2D" uid="uid://dekcwttti3r4f" path="res://icon.svg" id="2_gbv5x"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gbv5x"]
+radius = 3.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_gbv5x"]
+vertices = PackedVector2Array(16, 16, 96.89844, 50.9375, -96.82031, 50.039063, -16, 16, 86.97656, -45, 16, -16, -95.171875, -45, -16, -16)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 1, 0, 5), PackedInt32Array(6, 4, 5, 7), PackedInt32Array(3, 2, 6, 7)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-105, -55, 96, -55, 108, 61, -107, 60)])
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wnsvo"]
+size = Vector2(12, 12)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+position = Vector2(-36, 0)
+script = ExtResource("1_j8atl")
+
+[node name="Polygon2D" type="Polygon2D" parent="CharacterBody2D"]
+color = Color(0, 1, 1, 1)
+polygon = PackedVector2Array(-2, 2, 3, 2, 3, -2, 0, -5, -3, -2, -3, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_gbv5x")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="CharacterBody2D"]
+radius = 5.0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(5, 5)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_gbv5x")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="NavigationRegion2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NavigationRegion2D/StaticBody2D"]
+shape = SubResource("RectangleShape2D_wnsvo")
+
+[node name="Sprite2D" type="Sprite2D" parent="NavigationRegion2D/StaticBody2D"]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_gbv5x")
