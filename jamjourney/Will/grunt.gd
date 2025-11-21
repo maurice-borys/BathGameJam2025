@@ -17,7 +17,6 @@ func _process(delta: float) -> void:
 	move_and_slide()
 
 func _on_click_area_input(viewport, event, shape_idx):
-	print("CLICKED")
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			get_tree().call_group("selection", "handle_enemy_click", self)
