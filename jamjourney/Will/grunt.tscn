@@ -9,6 +9,8 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_vqibj"]
 
 [node name="Grunt" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 7
 script = ExtResource("1_dsrx1")
 speed = 50
 
@@ -25,3 +27,19 @@ texture = SubResource("PlaceholderTexture2D_cr0by")
 shape = SubResource("CircleShape2D_vqibj")
 
 [node name="NavAgent" type="NavigationAgent2D" parent="."]
+path_desired_distance = 10.0
+avoidance_enabled = true
+avoidance_layers = 2
+avoidance_mask = 3
+debug_enabled = true
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+radius = 13.51
+avoidance_layers = 7
+
+[node name="NavTimer" type="Timer" parent="."]
+wait_time = 0.1
+
+[connection signal="input_event" from="ClickArea" to="." method="_on_click_area_input_event"]
+[connection signal="velocity_computed" from="NavAgent" to="." method="_on_nav_agent_velocity_computed"]
+[connection signal="timeout" from="NavTimer" to="." method="_on_nav_timer_timeout"]
