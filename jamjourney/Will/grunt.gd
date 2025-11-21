@@ -6,6 +6,7 @@ var vel = Vector2.ZERO
 var is_selected = false
 
 @onready var click_area: Area2D = $ClickArea
+@onready var nav_agent: NavigationAgent2D = $NavAgent
 
 func _ready():
 	add_to_group("enemies")

@@ -23,3 +23,5 @@ texture = SubResource("PlaceholderTexture2D_cr0by")
 
 [node name="ClickCollision" type="CollisionShape2D" parent="ClickArea"]
 shape = SubResource("CircleShape2D_vqibj")
+
+[node name="NavAgent" type="NavigationAgent2D" parent="."]
