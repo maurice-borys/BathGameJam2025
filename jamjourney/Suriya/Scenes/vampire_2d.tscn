@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://cvc6f8x21qg4m"]
+
+[ext_resource type="Script" uid="uid://dxwe512yeap4o" path="res://Suriya/scripts/vampire.gd" id="1_x0grt"]
+[ext_resource type="Texture2D" uid="uid://bfohg1exquadn" path="res://skeleton left.png" id="2_x0grt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3epp1"]
+size = Vector2(130, 132)
+
+[node name="Vampire2D" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+script = ExtResource("1_x0grt")
+
+[node name="VampireSprite" type="Sprite2D" parent="CharacterBody2D"]
+scale = Vector2(0.21000002, 0.262)
+texture = ExtResource("2_x0grt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(-1, 1)
+shape = SubResource("RectangleShape2D_3epp1")
+
+[node name="Timer" type="Timer" parent="CharacterBody2D"]
+wait_time = 3.0
+one_shot = true
+
+[connection signal="timeout" from="CharacterBody2D/Timer" to="CharacterBody2D" method="_on_timer_timeout"]
