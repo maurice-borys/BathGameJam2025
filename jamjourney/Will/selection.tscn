@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dw4p333ts2dby"]
+
+[ext_resource type="Script" path="res://Will/selection.gd" id="1_erxlh"]
+
+[node name="Selection" type="Node2D"]
+script = ExtResource("1_erxlh")
