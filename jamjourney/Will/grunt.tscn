@@ -27,7 +27,6 @@ collision_mask = 0
 shape = SubResource("CircleShape2D_qo6so")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource("CircleShape2D_oejt3")
 
 [node name="Sprite" type="Sprite2D" parent="."]
@@ -36,7 +35,6 @@ scale = Vector2(0.04, 0.042)
 texture = ExtResource("3_pc5cf")
 
 [node name="ClickArea" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 collision_mask = 0
 monitorable = false
@@ -55,6 +53,7 @@ neighbor_distance = 1000.0
 time_horizon_obstacles = 1.0
 avoidance_layers = 2
 avoidance_mask = 2
+debug_enabled = true
 debug_path_custom_line_width = 1.0
 
 [node name="NavTimer" type="Timer" parent="."]
