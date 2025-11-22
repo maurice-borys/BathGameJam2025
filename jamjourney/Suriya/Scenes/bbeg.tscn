@@ -8,9 +8,6 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p1lyt"]
 size = Vector2(86.25, 98.75)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_lfbiv"]
-size = Vector2(52, 89)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_ksgwu"]
 atlas = ExtResource("3_km84k")
 region = Rect2(0, 0, 32, 32)
@@ -110,6 +107,9 @@ animations = [{
 "speed": 30.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lfbiv"]
+size = Vector2(74, 101.5)
+
 [node name="Node2D" type="Node2D"]
 metadata/_edit_horizontal_guides_ = [65.0, 47.0, 41.0]
 
@@ -125,19 +125,6 @@ texture = ExtResource("2_dbqag")
 scale = Vector2(0.8, 0.8)
 shape = SubResource("RectangleShape2D_p1lyt")
 
-[node name="AttackHitbox" type="Area2D" parent="LichBody2D"]
-position = Vector2(-50, 7)
-collision_layer = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LichBody2D/AttackHitbox"]
-position = Vector2(-11, -8)
-shape = SubResource("RectangleShape2D_lfbiv")
-
-[node name="BasicAttack" type="AnimatedSprite2D" parent="LichBody2D"]
-position = Vector2(-61, 2)
-scale = Vector2(1.5937501, 2.75)
-sprite_frames = SubResource("SpriteFrames_yy8je")
-
 [node name="death_timer" type="Timer" parent="LichBody2D"]
 wait_time = 3.0
 one_shot = true
@@ -145,5 +132,20 @@ one_shot = true
 [node name="HealthModule" parent="LichBody2D" instance=ExtResource("4_lfbiv")]
 position = Vector2(-98.73566, -1.0166473)
 maxHealth = 500.0
+
+[node name="pivot" type="Node2D" parent="LichBody2D"]
+
+[node name="BasicAttack" type="AnimatedSprite2D" parent="LichBody2D/pivot"]
+position = Vector2(-74.75, -3.9999928)
+scale = Vector2(2.4531255, 3.5625)
+sprite_frames = SubResource("SpriteFrames_yy8je")
+
+[node name="AttackHitbox" type="Area2D" parent="LichBody2D/pivot"]
+position = Vector2(-50, 7)
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LichBody2D/pivot/AttackHitbox"]
+position = Vector2(-22, -14.25)
+shape = SubResource("RectangleShape2D_lfbiv")
 
 [connection signal="timeout" from="LichBody2D/death_timer" to="LichBody2D" method="_on_death_timer_timeout"]
