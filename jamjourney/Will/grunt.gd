@@ -2,6 +2,8 @@ extends CharacterBody2D
 
 class_name Grunt
 
+signal goto_command_path_start(path: CommandPath)
+
 @export var speed: float = 100.0
 @onready var click_area: Area2D = $ClickArea
 
@@ -10,15 +12,17 @@ class_name Grunt
 @onready var sprite: Sprite2D = $Sprite
 @export var godottexture: Texture2D
 
-@onready var skelebones: Texture2D = preload("res://Will/skeleton left.png")
+var follow_path_active = false
+
+#@onready var skelebones: Texture2D = preload("res://Will/skeleton left.png")
 
 var pointer_node: Node2D
 
 var target: Node2D
+var follow: CommandPath
 
 var vel = Vector2.ZERO
 var is_selected = false
-
 
 func _ready():
 	add_to_group("enemies")
@@ -33,25 +37,9 @@ func _physics_process(delta: float) -> void:
 	if not target:
 		target_player()
 		return
-	
-	if nav_agent.is_target_reached():
-		if pointer_node:
-			remove_child(pointer_node)
-			pointer_node.queue_free()
-			pointer_node = null
-			return
-			
-		velocity = Vector2.ZERO
-		### turn off reacting to avoidance when attacking
-		nav_agent.set_avoidance_mask_value(0b10, false)
-		sprite.texture = godottexture
-		sprite.scale = Vector2(0.3,0.3)
-		return
-		
-	nav_agent.set_avoidance_mask_value(0b10, true)
-	sprite.texture = skelebones
 		
 	if nav_agent.is_navigation_finished():
+		velocity = Vector2.ZERO
 		return
 	
 	var next_path_position = nav_agent.get_next_path_position()
@@ -67,11 +55,18 @@ func goto(end: Vector2):
 	pointer_node = Node2D.new()
 	pointer_node.global_position = end
 	add_child(pointer_node)
-	target = pointer_node
+	set_target(pointer_node)
 	
 func set_target(new_target: Node2D):
-	target = new_target
-	nav_agent.target_position = new_target.global_position
+	if new_target:
+		follow = null
+		target = new_target
+		nav_agent.target_position = new_target.global_position
+
+func set_command_follow(new_follow: CommandPath):
+	follow = new_follow
+	target = follow.command_follow
+	nav_agent.target_position = follow.command_follow.global_position
 
 func _draw():
 	if is_selected:
@@ -85,7 +80,39 @@ func _on_nav_agent_velocity_computed(safe_velocity: Vector2) -> void:
 
 
 func _on_click_area_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
-	print("CLICKED")
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			get_tree().call_group("selection", "handle_enemy_click", self)
+
+func _on_nav_timer_timeout() -> void:
+	if target:
+		nav_agent.target_position = target.global_position
+	nav_timer.start()
+	
+
+func _on_nav_agent_target_reached() -> void:
+	velocity = Vector2.ZERO
+	if follow:
+		if follow.finished:
+			follow.get_parent().remove_child(follow)
+			follow.queue_free()
+			target = null
+			follow = null
+		elif not follow.going:
+			follow.start()
+		
+	if pointer_node:
+		remove_child(pointer_node)
+		pointer_node.queue_free()
+		target = null
+		pointer_node = null
+	### turn off reacting to avoidance when attacking
+	nav_agent.set_avoidance_mask_value(0b10, false)
+
+
+func _on_nav_agent_path_changed() -> void:
+	if nav_agent.is_target_reached():
+		### turn off reacting to avoidance when attacking
+		nav_agent.set_avoidance_mask_value(0b10, false)
+	else:
+		nav_agent.set_avoidance_mask_value(0b10, true)

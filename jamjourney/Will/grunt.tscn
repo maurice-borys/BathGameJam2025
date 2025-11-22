@@ -42,8 +42,10 @@ debug_path_custom_line_width = 1.0
 [node name="NavTimer" type="Timer" parent="."]
 process_callback = 0
 wait_time = 0.1
+autostart = true
 
 [connection signal="input_event" from="ClickArea" to="." method="_on_click_area_input_event"]
+[connection signal="path_changed" from="NavAgent" to="." method="_on_nav_agent_path_changed"]
+[connection signal="target_reached" from="NavAgent" to="." method="_on_nav_agent_target_reached"]
 [connection signal="velocity_computed" from="NavAgent" to="." method="_on_nav_agent_velocity_computed"]
-[connection signal="timeout" from="NavTimer" to="." method="_on_nav_tracker_timer_timeout"]
 [connection signal="timeout" from="NavTimer" to="." method="_on_nav_timer_timeout"]

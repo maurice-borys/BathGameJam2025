@@ -1,15 +1,14 @@
 [gd_scene load_steps=6 format=3 uid="uid://bgs04cxt2g5m6"]
 
-[ext_resource type="Script" path="res://Will/spawner.gd" id="1_j3we2"]
+[ext_resource type="Script" uid="uid://iwdhahmn150y" path="res://Will/spawner.gd" id="1_j3we2"]
 [ext_resource type="PackedScene" uid="uid://ymppe0fju62a" path="res://Will/grunt.tscn" id="2_xjnqu"]
-[ext_resource type="Script" path="res://Will/spawn_timer.gd" id="3_ocyob"]
+[ext_resource type="Script" uid="uid://ngfm6idxuc32" path="res://Will/spawn_timer.gd" id="3_ocyob"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_srm62"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_y2dk1"]
 
 [node name="Spawner" type="Area2D"]
-position = Vector2(548, 330)
 script = ExtResource("1_j3we2")
 spawn_entity = ExtResource("2_xjnqu")
 
@@ -24,4 +23,5 @@ texture = SubResource("PlaceholderTexture2D_y2dk1")
 [node name="SpawnTimer" type="Timer" parent="."]
 process_callback = 0
 wait_time = 5.0
+one_shot = true
 script = ExtResource("3_ocyob")

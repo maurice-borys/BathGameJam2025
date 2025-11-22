@@ -72,13 +72,20 @@ func command(event):
 		start_path(drag_start)
 	else:
 		if new_path.curve.get_point_count() == 1:
-			new_path = path_manager.register_goto(new_path.curve.get_point_position(0), selected_units)
+			path_manager.register_goto(new_path.get_start_point(), selected_units)
+			free_path()
 		else:
-			new_path = path_manager.register_path(new_path, selected_units)
+			path_manager.register_path(new_path, selected_units)
+			free_path()
 			clear_selection()
 			is_commanding = false
 			line.clear_points()
 			queue_redraw()
+
+func free_path():
+	remove_child(new_path)
+	new_path.queue_free()
+	new_path = null
 
 func _process(delta: float) -> void:
 	if Input.is_mouse_button_pressed(2):
