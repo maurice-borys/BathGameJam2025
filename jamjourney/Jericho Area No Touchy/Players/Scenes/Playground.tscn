@@ -1,19 +1,16 @@
-[gd_scene load_steps=11 format=3 uid="uid://cy62273hng4qf"]
+[gd_scene load_steps=10 format=3 uid="uid://cy62273hng4qf"]
 
+[ext_resource type="Script" uid="uid://c5sos8l71u852" path="res://Jericho Area No Touchy/Buildings/Scripts/wall.gd" id="1_oic03"]
 [ext_resource type="PackedScene" uid="uid://14q8x5lk82hm" path="res://Jericho Area No Touchy/Players/Scenes/fighter.tscn" id="1_rjgpw"]
-[ext_resource type="Texture2D" uid="uid://bvxbe0wqihhwo" path="res://Sprites/icon.svg" id="2_gbv5x"]
 [ext_resource type="PackedScene" uid="uid://dixjgii5h8mg6" path="res://Jericho Area No Touchy/Players/Scenes/mage.tscn" id="2_rjgpw"]
 [ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://GlobalModules/HealthModule.tscn" id="3_wnsvo"]
 [ext_resource type="PackedScene" uid="uid://ohjyvm53ohnf" path="res://Jericho Area No Touchy/Players/Scenes/cleric.tscn" id="5_4xjm6"]
 [ext_resource type="PackedScene" uid="uid://4okppg7asb2m" path="res://Jericho Area No Touchy/Buildings/manaGenerator.tscn" id="6_oic03"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_gbv5x"]
-vertices = PackedVector2Array(16, 16, 114.13281, 61.039063, -109.21094, 61.953125, -16, 16, 104.78125, -51.148438, 16, -16, -111.77344, -54.820313, -16, -16)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 1, 0, 5), PackedInt32Array(6, 4, 5, 7), PackedInt32Array(3, 2, 6, 7)])
+vertices = PackedVector2Array(103.5, -51.171875, 98.453125, 51.4375, -109.21875, 61.507813, -111.77344, -54.820313)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-122, -65, 114, -61, 108, 61, -119, 72)])
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_wnsvo"]
-size = Vector2(12, 12)
 
 [sub_resource type="GDScript" id="GDScript_od5hr"]
 script/source = "extends CharacterBody2D
@@ -58,16 +55,8 @@ radius = 3.0
 zoom = Vector2(5, 5)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+visible = false
 navigation_polygon = SubResource("NavigationPolygon_gbv5x")
-
-[node name="StaticBody2D" type="StaticBody2D" parent="NavigationRegion2D"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="NavigationRegion2D/StaticBody2D"]
-shape = SubResource("RectangleShape2D_wnsvo")
-
-[node name="Sprite2D" type="Sprite2D" parent="NavigationRegion2D/StaticBody2D"]
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("2_gbv5x")
 
 [node name="TestEnemy" type="CharacterBody2D" parent="."]
 position = Vector2(48, 1)
@@ -89,9 +78,8 @@ position = Vector2(-7, -41)
 targetArray = [NodePath("../Mana Generator"), NodePath("../Mana Generator2"), NodePath("../TestEnemy")]
 testEnemy = NodePath("../TestEnemy")
 
-[node name="Cleric" parent="." node_paths=PackedStringArray("allies") instance=ExtResource("5_4xjm6")]
+[node name="Cleric" parent="." instance=ExtResource("5_4xjm6")]
 position = Vector2(-25, -38)
-allies = [NodePath("../Mage"), NodePath("../Fighter")]
 range = Vector2(15, 30)
 
 [node name="Fighter" parent="." node_paths=PackedStringArray("targetArray", "testEnemy") instance=ExtResource("1_rjgpw")]
@@ -104,3 +92,22 @@ position = Vector2(82, 0)
 
 [node name="Mana Generator2" parent="." instance=ExtResource("6_oic03")]
 position = Vector2(-84, 1)
+
+[node name="Wall" type="StaticBody2D" parent="."]
+collision_layer = 4
+collision_mask = 15
+script = ExtResource("1_oic03")
+
+[node name="Polygon2D" type="Polygon2D" parent="Wall"]
+polygon = PackedVector2Array(-5, -5, 9, -5, 13, 10, -13, 13)
+
+[node name="Area2D" type="Area2D" parent="Wall"]
+collision_layer = 7
+collision_mask = 7
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Wall/Area2D"]
+polygon = PackedVector2Array(45, -44, 5, -60, -11, 18, 62, -2)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Wall"]
+visible = false
+polygon = PackedVector2Array(-18, 21, 21, 24, 31, -3, -23, 6)
