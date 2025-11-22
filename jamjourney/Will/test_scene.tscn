@@ -20,7 +20,7 @@ position = Vector2(518, 340)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_cabux")
-navigation_layers = 3
+navigation_layers = 7
 
 [node name="testPlayer" parent="." instance=ExtResource("4_rhqoi")]
 position = Vector2(687, 246)

@@ -27,14 +27,13 @@ shape = SubResource("CircleShape2D_vqibj")
 
 [node name="NavAgent" type="NavigationAgent2D" parent="."]
 path_desired_distance = 10.0
+target_desired_distance = 40.0
+navigation_layers = 2
 avoidance_enabled = true
 avoidance_layers = 2
-avoidance_mask = 3
+avoidance_mask = 6
 debug_enabled = true
-
-[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
-radius = 13.51
-avoidance_layers = 7
+debug_path_custom_line_width = 1.0
 
 [node name="NavTimer" type="Timer" parent="."]
 process_callback = 0
