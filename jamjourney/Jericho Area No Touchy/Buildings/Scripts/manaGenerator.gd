@@ -1,4 +1,5 @@
 extends StaticBody2D
+class_name Generators
 
 @onready var timer = $Timer
 @onready var healthModule = $HealthModule

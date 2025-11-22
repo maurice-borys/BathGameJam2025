@@ -10,7 +10,9 @@ var endPoint : Vector2
 @onready var area : Area2D = $Area2D
 
 @export var width : float = 3
+@export var costPerLength : int = 5
 
+signal loseMana(amount)
 signal rebakeMesh()
 
 func _ready() -> void:
@@ -26,6 +28,8 @@ func _process(delta: float) -> void:
 		built = true
 		currentCollider.set_deferred("polygon", getVertexPositions())
 		areaCollider.disabled = true
+		
+		loseMana.emit(Vector2.ZERO.distance_to(get_local_mouse_position()) * costPerLength)
 		rebakeMesh.emit()
 
 func showBuild():

@@ -1,7 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://cy62273hng4qf"]
+[gd_scene load_steps=10 format=3 uid="uid://cy62273hng4qf"]
 
-[ext_resource type="Script" uid="uid://c5sos8l71u852" path="res://Jericho Area No Touchy/Buildings/Scripts/wall.gd" id="1_oic03"]
 [ext_resource type="PackedScene" uid="uid://14q8x5lk82hm" path="res://Jericho Area No Touchy/Players/Scenes/fighter.tscn" id="1_rjgpw"]
+[ext_resource type="Script" uid="uid://vyeylncg66k1" path="res://Jericho Area No Touchy/Buildings/Scripts/manaManager.gd" id="1_w2wr8"]
 [ext_resource type="PackedScene" uid="uid://dixjgii5h8mg6" path="res://Jericho Area No Touchy/Players/Scenes/mage.tscn" id="2_rjgpw"]
 [ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://GlobalModules/HealthModule.tscn" id="3_wnsvo"]
 [ext_resource type="PackedScene" uid="uid://ohjyvm53ohnf" path="res://Jericho Area No Touchy/Players/Scenes/cleric.tscn" id="5_4xjm6"]
@@ -11,19 +11,6 @@
 vertices = PackedVector2Array(103.5, -51.171875, 98.453125, 51.4375, -109.21875, 61.507813, -111.77344, -54.820313)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-122, -65, 114, -61, 108, 61, -119, 72)])
-
-[sub_resource type="GDScript" id="GDScript_oic03"]
-resource_name = "killMe"
-script/source = "extends NavigationRegion2D
-
-@export var wallNode : WallClass
-
-func _ready() -> void:
-	wallNode.rebakeMesh.connect(rebake)
-	
-func rebake():
-	bake_navigation_polygon()
-"
 
 [sub_resource type="GDScript" id="GDScript_od5hr"]
 script/source = "extends CharacterBody2D
@@ -63,30 +50,13 @@ func healthChanged(old, new):
 radius = 3.0
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_w2wr8")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(5, 5)
 
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." node_paths=PackedStringArray("wallNode")]
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_gbv5x")
-script = SubResource("GDScript_oic03")
-wallNode = NodePath("Wall")
-
-[node name="Wall" type="StaticBody2D" parent="NavigationRegion2D"]
-collision_layer = 4
-collision_mask = 15
-script = ExtResource("1_oic03")
-
-[node name="Polygon2D" type="Polygon2D" parent="NavigationRegion2D/Wall"]
-
-[node name="Area2D" type="Area2D" parent="NavigationRegion2D/Wall"]
-collision_layer = 7
-collision_mask = 7
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="NavigationRegion2D/Wall/Area2D"]
-polygon = PackedVector2Array(45, -44, 5, -60, -11, 18, 62, -2)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="NavigationRegion2D/Wall"]
 
 [node name="TestEnemy" type="CharacterBody2D" parent="."]
 position = Vector2(48, 1)
