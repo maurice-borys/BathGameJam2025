@@ -1,24 +1,37 @@
-[gd_scene load_steps=5 format=3 uid="uid://m6u5jmahtm35"]
+[gd_scene load_steps=8 format=3 uid="uid://m6u5jmahtm35"]
 
-[ext_resource type="PackedScene" uid="uid://dw4p333ts2dby" path="res://Will/selection.tscn" id="1_jxpkh"]
+[ext_resource type="PackedScene" uid="uid://ohjyvm53ohnf" path="res://Jericho Area No Touchy/Players/Scenes/cleric.tscn" id="1_6r45p"]
+[ext_resource type="PackedScene" uid="uid://4okppg7asb2m" path="res://Jericho Area No Touchy/Buildings/manaGenerator.tscn" id="1_cabux"]
 [ext_resource type="PackedScene" uid="uid://bgs04cxt2g5m6" path="res://Will/spawner.tscn" id="2_2jvrn"]
-[ext_resource type="PackedScene" path="res://Will/test_character.tscn" id="4_rhqoi"]
+[ext_resource type="PackedScene" uid="uid://14q8x5lk82hm" path="res://Jericho Area No Touchy/Players/Scenes/fighter.tscn" id="2_rhqoi"]
+[ext_resource type="PackedScene" uid="uid://dixjgii5h8mg6" path="res://Jericho Area No Touchy/Players/Scenes/mage.tscn" id="3_cabux"]
+[ext_resource type="PackedScene" uid="uid://efjnpdvfo662" path="res://Will/baked_wall.tscn" id="6_nhs50"]
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_3nngp"]
-vertices = PackedVector2Array(1145.04, 21.8672, 1147.95, 633.008, 10.9766, 634.977, 10.0078, 7.13281)
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_nhs50"]
+vertices = PackedVector2Array(1142.0391, 10.9921875, 1144.9531, 639.9922, 7.0390625, 639, 9.953125, 10)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(1155, 12, 1158, 643, 1, 645, 0, -3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(1155, 650, -3, 649, 0, 0, 1152, 1)])
 
 [node name="TestScene" type="Node2D"]
 
-[node name="Selection" parent="." instance=ExtResource("1_jxpkh")]
+[node name="Mana Generator" parent="." instance=ExtResource("1_cabux")]
+position = Vector2(241, 196)
+
+[node name="Cleric" parent="." instance=ExtResource("1_6r45p")]
+position = Vector2(128, 336)
+
+[node name="Fighter" parent="." instance=ExtResource("2_rhqoi")]
+position = Vector2(240, 372)
+
+[node name="Mage" parent="." instance=ExtResource("3_cabux")]
+position = Vector2(129, 246)
 
 [node name="Spawner" parent="." instance=ExtResource("2_2jvrn")]
-position = Vector2(108, 361)
+position = Vector2(814, 255)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
-navigation_polygon = SubResource("NavigationPolygon_3nngp")
-navigation_layers = 7
+navigation_polygon = SubResource("NavigationPolygon_nhs50")
 
-[node name="testPlayer" parent="." instance=ExtResource("4_rhqoi")]
-position = Vector2(861, 366)
+[node name="BakedWall" parent="." instance=ExtResource("6_nhs50")]
+position = Vector2(463, 311)
+scale = Vector2(1, 23.400005)

@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://efjnpdvfo662"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n1n1p"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_y8x6n"]
+
+[node name="BakedWall" type="StaticBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_n1n1p")
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+affect_navigation_mesh = true
+carve_navigation_mesh = true
+avoidance_enabled = false
+avoidance_layers = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.27393675, 0.7394603, 0.6175171, 1)
+texture = SubResource("PlaceholderTexture2D_y8x6n")
