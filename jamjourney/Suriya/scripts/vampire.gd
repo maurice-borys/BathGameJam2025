@@ -32,6 +32,3 @@ func die():
 func _on_timer_timeout() -> void:
 	print("dead")
 	queue_free()
-
-func attack():
-	pass
