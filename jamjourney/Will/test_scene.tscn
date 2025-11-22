@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dw4p333ts2dby" path="res://Will/selection.tscn" id="1_jxpkh"]
 [ext_resource type="PackedScene" uid="uid://bgs04cxt2g5m6" path="res://Will/spawner.tscn" id="2_2jvrn"]
-[ext_resource type="PackedScene" path="res://path/to/your/player_scene.tscn" id="4_rhqoi"]
+[ext_resource type="PackedScene" path="res://Will/test_character.tscn" id="4_rhqoi"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_3nngp"]
 vertices = PackedVector2Array(1145.04, 21.8672, 1147.95, 633.008, 10.9766, 634.977, 10.0078, 7.13281)

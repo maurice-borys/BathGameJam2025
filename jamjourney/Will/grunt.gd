@@ -35,9 +35,12 @@ func _physics_process(delta: float) -> void:
 		return
 	
 	if nav_agent.is_target_reached():
-		remove_child(pointer_node)
-		pointer_node.queue_free()
-		pointer_node = null
+		if pointer_node:
+			remove_child(pointer_node)
+			pointer_node.queue_free()
+			pointer_node = null
+			return
+			
 		velocity = Vector2.ZERO
 		### turn off reacting to avoidance when attacking
 		nav_agent.set_avoidance_mask_value(0b10, false)
@@ -74,3 +77,15 @@ func _draw():
 	if is_selected:
 		draw_circle(Vector2.ZERO, 25, Color(0, 1, 0, 0.3))
 		draw_arc(Vector2.ZERO, 25, 0, TAU, 32, Color(0, 1, 0), 2.0)
+
+
+func _on_nav_agent_velocity_computed(safe_velocity: Vector2) -> void:
+	velocity = safe_velocity
+	move_and_slide()
+
+
+func _on_click_area_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+	print("CLICKED")
+	if event is InputEventMouseButton and event.pressed:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			get_tree().call_group("selection", "handle_enemy_click", self)
