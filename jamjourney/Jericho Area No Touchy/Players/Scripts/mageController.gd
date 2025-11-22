@@ -66,7 +66,7 @@ func move() -> void:
 	move_and_slide()
 
 func attack(targ : Node2D) -> void:
-	if specialTimer.time_left == 0:
+	if specialTimer.time_left == 0 && basicTimer.time_left == 0:
 		specialAttack()
 		specialTimer.start()
 		basicTimer.start()

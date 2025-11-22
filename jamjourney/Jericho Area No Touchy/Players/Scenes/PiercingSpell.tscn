@@ -19,3 +19,32 @@ shape = SubResource("RectangleShape2D_4xjm6")
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+z_index = -1
+amount = 100
+lifetime = 0.5
+emission_shape = 1
+emission_sphere_radius = 3.64
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_max = 3.0
+scale_amount_min = 0.1
+scale_amount_max = 0.75
+color = Color(0.4117098, 0.59714514, 1, 1)
+
+[node name="CPUParticles2D2" type="CPUParticles2D" parent="."]
+z_index = -1
+emitting = false
+amount = 100
+one_shot = true
+explosiveness = 1.0
+emission_shape = 1
+emission_sphere_radius = 3.64
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 5.0
+initial_velocity_max = 8.0
+scale_amount_min = 0.1
+scale_amount_max = 0.75
+color = Color(0.4117098, 0.59714514, 1, 1)

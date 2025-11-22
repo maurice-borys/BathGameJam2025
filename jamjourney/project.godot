@@ -15,6 +15,10 @@ run/main_scene="res://Will/test_scene.tscn"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[global_group]
+
+Players=""
+
 [input]
 
 left_click={

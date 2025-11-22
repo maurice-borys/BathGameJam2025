@@ -61,7 +61,7 @@ func move() -> void:
 	move_and_slide()
 
 func action() -> void:
-	if specialTimer.time_left == 0:
+	if specialTimer.time_left == 0 && basicTimer.time_left == 0:
 		specialAction()
 		specialTimer.start()
 		basicTimer.start()
