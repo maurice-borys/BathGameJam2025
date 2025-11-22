@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 var speed = 300
-var health = 100
+@onready var health_module: Health = $HealthModule 
 
 var click_position = Vector2()
 var target_position = Vector2()
@@ -15,7 +15,8 @@ var attacking: bool = false
 
 func _ready():
 	click_position = position
-	die()
+	hitbox.body_entered.connect(_on_Hitbox_body_entered)
+	health_module.healthChanged.connect(health_changed)
 
 func _process(delta):
 	if Input.is_action_just_pressed("button_1") and not attacking:
@@ -36,13 +37,17 @@ func _physics_process(delta):
 		velocity = target_position * speed 
 		move_and_slide()
 
-func die():
-	if health <= 0:
+func health_changed(old, new):
+	if new <= 0:
 		timer.start()
 
 func _on_timer_timeout() -> void:
 	print("dead")
 	queue_free()
+
+func _on_Hitbox_body_entered(body):
+	if attacking:
+		Health.findHealthModule(body).dealDamage(10)
 
 
 func _on_basic_attack_animation_finished() -> void:

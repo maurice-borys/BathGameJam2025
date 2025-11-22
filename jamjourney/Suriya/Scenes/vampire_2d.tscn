@@ -1,9 +1,10 @@
-[gd_scene load_steps=21 format=3 uid="uid://cvc6f8x21qg4m"]
+[gd_scene load_steps=22 format=3 uid="uid://cvc6f8x21qg4m"]
 
 [ext_resource type="Script" uid="uid://dxwe512yeap4o" path="res://Suriya/scripts/vampire.gd" id="1_x0grt"]
 [ext_resource type="Texture2D" uid="uid://vwcterlms2dh" path="res://Sprites/RPG Maker x3 size/Pallete 2/Vampire.png" id="2_x0grt"]
 [ext_resource type="Script" uid="uid://b0mxiqjvetgjv" path="res://Suriya/scripts/attack_hitbox.gd" id="3_3a70m"]
 [ext_resource type="Texture2D" uid="uid://deixsilqjxyq8" path="res://Sprites/attack.png" id="4_3epp1"]
+[ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://GlobalModules/HealthModule.tscn" id="5_ksgwu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3epp1"]
 size = Vector2(72, 133)
@@ -113,6 +114,8 @@ animations = [{
 [node name="world" type="Node2D"]
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+collision_layer = 2
+collision_mask = 13
 script = ExtResource("1_x0grt")
 
 [node name="VampireSprite" type="Sprite2D" parent="CharacterBody2D"]
@@ -140,6 +143,9 @@ shape = SubResource("RectangleShape2D_ksgwu")
 position = Vector2(-99.5, 1)
 scale = Vector2(1.5937501, 2.75)
 sprite_frames = SubResource("SpriteFrames_07sv4")
+
+[node name="HealthModule" parent="CharacterBody2D" instance=ExtResource("5_ksgwu")]
+maxHealth = 100.0
 
 [connection signal="timeout" from="CharacterBody2D/Timer" to="CharacterBody2D" method="_on_timer_timeout"]
 [connection signal="animation_finished" from="CharacterBody2D/BasicAttack" to="CharacterBody2D" method="_on_basic_attack_animation_finished"]
