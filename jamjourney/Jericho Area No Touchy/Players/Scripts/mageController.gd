@@ -26,6 +26,7 @@ signal completedMap()
 @export var damageSpecial : float = 25
 
 func _ready() -> void:
+	add_to_group("player")
 	basicTimer.wait_time = basicCoolDown
 	specialTimer.wait_time = specialCoolDown
 	

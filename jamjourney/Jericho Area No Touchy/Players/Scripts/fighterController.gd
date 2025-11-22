@@ -27,6 +27,7 @@ signal completedMap()
 @export var damageSpecial : float = 30
 
 func _ready() -> void:
+	add_to_group("player")
 	areaRange.body_entered.connect(enteredRange)
 	areaRange.body_exited.connect(exitedRange)
 	

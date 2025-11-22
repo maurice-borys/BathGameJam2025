@@ -25,6 +25,7 @@ var piercingSpellScene : PackedScene = preload("res://Jericho Area No Touchy/Pla
 @export var specialHeal : float = 25
 
 func _ready() -> void:
+	add_to_group("player")
 	currentRange = range.x
 	
 	basicTimer.wait_time = basicCoolDown
