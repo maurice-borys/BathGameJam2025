@@ -1,20 +1,137 @@
-[gd_scene load_steps=4 format=3 uid="uid://dkjxvs8oa8dnd"]
+[gd_scene load_steps=20 format=3 uid="uid://dkjxvs8oa8dnd"]
 
 [ext_resource type="Script" uid="uid://2dpqtcj0rh63" path="res://Suriya/scripts/lich.gd" id="1_5jvye"]
 [ext_resource type="Texture2D" uid="uid://4m60mm43sipu" path="res://Sprites/RPG Maker x3 size/Pallete 2/Lich.png" id="2_dbqag"]
+[ext_resource type="Texture2D" uid="uid://deixsilqjxyq8" path="res://Sprites/animated sprites/attack.png" id="3_km84k"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p1lyt"]
-size = Vector2(128, 128)
+size = Vector2(86.25, 98.75)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lfbiv"]
+size = Vector2(52, 89)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ksgwu"]
+atlas = ExtResource("3_km84k")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_547wv"]
+atlas = ExtResource("3_km84k")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gnl88"]
+atlas = ExtResource("3_km84k")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rthyc"]
+atlas = ExtResource("3_km84k")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g1j2v"]
+atlas = ExtResource("3_km84k")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_405hl"]
+atlas = ExtResource("3_km84k")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7d2b1"]
+atlas = ExtResource("3_km84k")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a7bkc"]
+atlas = ExtResource("3_km84k")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_svmyt"]
+atlas = ExtResource("3_km84k")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w4l1i"]
+atlas = ExtResource("3_km84k")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oi3k6"]
+atlas = ExtResource("3_km84k")
+region = Rect2(64, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x2186"]
+atlas = ExtResource("3_km84k")
+region = Rect2(96, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3epp1"]
+atlas = ExtResource("3_km84k")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yy8je"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ksgwu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_547wv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gnl88")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rthyc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g1j2v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_405hl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7d2b1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a7bkc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_svmyt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w4l1i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oi3k6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x2186")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3epp1")
+}],
+"loop": false,
+"name": &"default",
+"speed": 30.0
+}]
 
 [node name="Node2D" type="Node2D"]
+metadata/_edit_horizontal_guides_ = [65.0, 47.0]
 
 [node name="LichBody2D" type="CharacterBody2D" parent="."]
 script = ExtResource("1_5jvye")
 
 [node name="LichSprite" type="Sprite2D" parent="LichBody2D"]
-scale = Vector2(0.7, 0.7)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_dbqag")
 
 [node name="LichCollision2D" type="CollisionShape2D" parent="LichBody2D"]
-position = Vector2(0, 1)
+scale = Vector2(0.8, 0.8)
 shape = SubResource("RectangleShape2D_p1lyt")
+
+[node name="AttackHitbox" type="Area2D" parent="LichBody2D"]
+position = Vector2(-98, -1)
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LichBody2D/AttackHitbox"]
+position = Vector2(-1, 2)
+shape = SubResource("RectangleShape2D_lfbiv")
+
+[node name="BasicAttack" type="AnimatedSprite2D" parent="LichBody2D"]
+position = Vector2(-99.5, 1)
+scale = Vector2(1.5937501, 2.75)
+sprite_frames = SubResource("SpriteFrames_yy8je")
