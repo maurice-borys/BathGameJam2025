@@ -13,6 +13,11 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(1155, 12, 1158, 643, 1,
 [node name="Selection" parent="." instance=ExtResource("1_jxpkh")]
 
 [node name="Spawner" parent="." instance=ExtResource("2_2jvrn")]
+position = Vector2(108, 361)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
-navigation_polygon = SubResource("NavigationPolygon_3nngp")
+navigation_polygon = SubResource("NavigationPolygon_cabux")
+navigation_layers = 7
+
+[node name="testPlayer" parent="." instance=ExtResource("4_rhqoi")]
+position = Vector2(861, 366)

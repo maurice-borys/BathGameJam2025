@@ -23,4 +23,5 @@ texture = SubResource("PlaceholderTexture2D_y2dk1")
 
 [node name="SpawnTimer" type="Timer" parent="."]
 process_callback = 0
+wait_time = 5.0
 script = ExtResource("3_ocyob")
