@@ -1,14 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://m6u5jmahtm35"]
+[gd_scene load_steps=8 format=3 uid="uid://m6u5jmahtm35"]
 
+[ext_resource type="Script" path="res://Will/test_scene.gd" id="1_7lydq"]
 [ext_resource type="PackedScene" uid="uid://dw4p333ts2dby" path="res://Will/selection.tscn" id="1_jxpkh"]
 [ext_resource type="PackedScene" uid="uid://bgs04cxt2g5m6" path="res://Will/spawner.tscn" id="2_2jvrn"]
+[ext_resource type="Script" path="res://Will/test_character.gd" id="3_0xwc2"]
+[ext_resource type="Texture2D" uid="uid://bvxbe0wqihhwo" path="res://icon.svg" id="3_1hiag"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_3nngp"]
 vertices = PackedVector2Array(1145.04, 21.8672, 1147.95, 633.008, 10.9766, 634.977, 10.0078, 7.13281)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(1155, 12, 1158, 643, 1, 645, 0, -3)])
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_eq1tk"]
+
 [node name="TestScene" type="Node2D"]
+script = ExtResource("1_7lydq")
 
 [node name="Selection" parent="." instance=ExtResource("1_jxpkh")]
 
@@ -16,3 +22,21 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(1155, 12, 1158, 643, 1,
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_3nngp")
+navigation_layers = 3
+
+[node name="TestCharacter" type="CharacterBody2D" parent="."]
+position = Vector2(891, 165)
+script = ExtResource("3_0xwc2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TestCharacter"]
+shape = SubResource("CircleShape2D_eq1tk")
+
+[node name="Sprite2D" type="Sprite2D" parent="TestCharacter"]
+scale = Vector2(0.46875, 0.460938)
+texture = ExtResource("3_1hiag")
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="TestCharacter"]
+scale = Vector2(0.46875, 0.460938)
+radius = 29.28
+affect_navigation_mesh = true
+carve_navigation_mesh = true
