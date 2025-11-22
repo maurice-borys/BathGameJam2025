@@ -282,6 +282,7 @@ animations = [{
 }]
 
 [node name="world" type="Node2D"]
+metadata/_edit_horizontal_guides_ = [36.0]
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 collision_layer = 2
@@ -294,10 +295,6 @@ sprite_frames = SubResource("SpriteFrames_3epp1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
 shape = SubResource("RectangleShape2D_3epp1")
-
-[node name="Timer" type="Timer" parent="CharacterBody2D"]
-wait_time = 3.0
-one_shot = true
 
 [node name="AttackHitbox" type="Area2D" parent="CharacterBody2D"]
 position = Vector2(-98, -1)
@@ -325,9 +322,21 @@ shape = SubResource("CircleShape2D_x3drn")
 position = Vector2(-100, -2)
 sprite_frames = SubResource("SpriteFrames_2ofud")
 
+[node name="death_timer" type="Timer" parent="CharacterBody2D"]
+wait_time = 3.0
+one_shot = true
+
 [node name="bat_timer" type="Timer" parent="CharacterBody2D"]
 wait_time = 5.0
 
-[connection signal="timeout" from="CharacterBody2D/Timer" to="CharacterBody2D" method="_on_timer_timeout"]
+[node name="bite_cooldown" type="Timer" parent="CharacterBody2D"]
+wait_time = 10.0
+
+[node name="transform_cooldown" type="Timer" parent="CharacterBody2D"]
+wait_time = 20.0
+
 [connection signal="animation_finished" from="CharacterBody2D/BasicAttack" to="CharacterBody2D" method="_on_basic_attack_animation_finished"]
+[connection signal="timeout" from="CharacterBody2D/death_timer" to="CharacterBody2D" method="_on_timer_timeout"]
 [connection signal="timeout" from="CharacterBody2D/bat_timer" to="CharacterBody2D" method="_on_bat_timer_timeout"]
+[connection signal="timeout" from="CharacterBody2D/bite_cooldown" to="CharacterBody2D" method="_on_bite_cooldown_timeout"]
+[connection signal="timeout" from="CharacterBody2D/transform_cooldown" to="CharacterBody2D" method="_on_transform_cooldown_timeout"]

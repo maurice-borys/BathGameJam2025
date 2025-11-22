@@ -1,13 +1,16 @@
 extends CharacterBody2D
 
 var speed = 300
+var damage = 10
 @onready var health_module: Health = $HealthModule 
 
 var click_position = Vector2()
 var target_position = Vector2()
 
-@onready var timer: Timer = $Timer
+@onready var timer: Timer = $death_timer
 @onready var bat_timer: Timer = $bat_timer
+@onready var bite_cooldown: Timer = $bite_cooldown
+@onready var transform_cooldown: Timer = $transform_cooldown
 
 @onready var sprite: AnimatedSprite2D = $BasicAttack
 @onready var hitbox: Area2D = $AttackHitbox
@@ -23,6 +26,8 @@ var target_position = Vector2()
 var attacking: bool = false
 var healing: bool = false
 var bat_form: bool = false
+var bite_avaliable: bool = true
+var bat_available: bool = true
 
 func _ready():
 	click_position = position
@@ -33,11 +38,10 @@ func _process(_delta):
 	if Input.is_action_just_pressed("button_1") and not attacking:
 		start_attack()
 	
-	elif Input.is_action_just_pressed("button_2") and not attacking:
-
+	elif Input.is_action_just_pressed("button_2") and not attacking and bite_avaliable:
 		start_bite_attack()
 	
-	elif Input.is_action_just_pressed("button_3") and not attacking:
+	elif Input.is_action_just_pressed("button_3") and not attacking and bat_available:
 		bat_form = true
 		start_bat_form()
 
@@ -51,6 +55,7 @@ func start_bite_attack():
 	healing = true
 	attacking = true
 	bite_hitbox_shape.disabled = false
+	bite_avaliable = false
 	vampire_sprite.play("Bite")
 	bite_sprite.play("default")
 	_on_bite_attack_animation_finished()
@@ -58,8 +63,10 @@ func start_bite_attack():
 func start_bat_form():
 	bat_form = true
 	attacking = true
+	bat_available = false
 	vampire_sprite.play("bat")
 	bat_timer.start()
+	transform_cooldown.start()
 	vampire_hitbox_shape.disabled = true
 	
 	
@@ -85,9 +92,9 @@ func _on_timer_timeout() -> void:
 
 func _on_Hitbox_body_entered(body):
 	if attacking:
-		Health.findHealthModule(body).dealDamage(10)
+		Health.findHealthModule(body).dealDamage(damage)
 	if healing:
-		Health.findHealthModule(self).healHealth(10)
+		Health.findHealthModule(self).healHealth(damage)
 		healing = false
 
 
@@ -100,6 +107,7 @@ func _on_bite_attack_animation_finished() -> void:
 	if sprite.animation == "default":
 		bite_hitbox_shape.disabled = true
 		attacking = false
+	bite_cooldown.start()
 
 
 func _on_bat_timer_timeout() -> void:
@@ -108,3 +116,10 @@ func _on_bat_timer_timeout() -> void:
 	vampire_sprite.play("default")
 	vampire_hitbox_shape.disabled = false
 	attacking = false
+
+
+func _on_bite_cooldown_timeout() -> void:
+	bite_avaliable = true
+
+func _on_transform_cooldown_timeout() -> void:
+	bat_available = true

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cniwquojnjx5f"
-path="res://.godot/imported/skeleton left.png-5f886d4ca51f603f979fc8eaeb970c08.ctex"
+uid="uid://7jrnpjfcuepx"
+path="res://.godot/imported/Untitled_Artwork 6.png-d8fa39df9dc105c6388fa112d2f75137.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/skeleton left.png"
-dest_files=["res://.godot/imported/skeleton left.png-5f886d4ca51f603f979fc8eaeb970c08.ctex"]
+source_file="res://Sprites/animated sprites/Mummy/Untitled_Artwork 6.png"
+dest_files=["res://.godot/imported/Untitled_Artwork 6.png-d8fa39df9dc105c6388fa112d2f75137.ctex"]
 
 [params]
 
