@@ -1,8 +1,9 @@
-[gd_scene load_steps=20 format=3 uid="uid://dkjxvs8oa8dnd"]
+[gd_scene load_steps=21 format=3 uid="uid://dkjxvs8oa8dnd"]
 
 [ext_resource type="Script" uid="uid://2dpqtcj0rh63" path="res://Suriya/scripts/lich.gd" id="1_5jvye"]
 [ext_resource type="Texture2D" uid="uid://4m60mm43sipu" path="res://Sprites/RPG Maker x3 size/Pallete 2/Lich.png" id="2_dbqag"]
 [ext_resource type="Texture2D" uid="uid://deixsilqjxyq8" path="res://Sprites/animated sprites/attack.png" id="3_km84k"]
+[ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://GlobalModules/HealthModule.tscn" id="4_lfbiv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p1lyt"]
 size = Vector2(86.25, 98.75)
@@ -110,10 +111,11 @@ animations = [{
 }]
 
 [node name="Node2D" type="Node2D"]
-metadata/_edit_horizontal_guides_ = [65.0, 47.0]
+metadata/_edit_horizontal_guides_ = [65.0, 47.0, 41.0]
 
 [node name="LichBody2D" type="CharacterBody2D" parent="."]
 script = ExtResource("1_5jvye")
+teleport_range = 500.0
 
 [node name="LichSprite" type="Sprite2D" parent="LichBody2D"]
 scale = Vector2(0.5, 0.5)
@@ -124,14 +126,24 @@ scale = Vector2(0.8, 0.8)
 shape = SubResource("RectangleShape2D_p1lyt")
 
 [node name="AttackHitbox" type="Area2D" parent="LichBody2D"]
-position = Vector2(-98, -1)
+position = Vector2(-50, 7)
 collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LichBody2D/AttackHitbox"]
-position = Vector2(-1, 2)
+position = Vector2(-11, -8)
 shape = SubResource("RectangleShape2D_lfbiv")
 
 [node name="BasicAttack" type="AnimatedSprite2D" parent="LichBody2D"]
-position = Vector2(-99.5, 1)
+position = Vector2(-61, 2)
 scale = Vector2(1.5937501, 2.75)
 sprite_frames = SubResource("SpriteFrames_yy8je")
+
+[node name="death_timer" type="Timer" parent="LichBody2D"]
+wait_time = 3.0
+one_shot = true
+
+[node name="HealthModule" parent="LichBody2D" instance=ExtResource("4_lfbiv")]
+position = Vector2(-98.73566, -1.0166473)
+maxHealth = 500.0
+
+[connection signal="timeout" from="LichBody2D/death_timer" to="LichBody2D" method="_on_death_timer_timeout"]

@@ -32,6 +32,7 @@ var bat_available: bool = true
 func _ready():
 	click_position = position
 	hitbox.body_entered.connect(_on_Hitbox_body_entered)
+	bite_hitbox.body_entered.connect(_on_Hitbox_body_entered)
 	health_module.healthChanged.connect(health_changed)
 
 func _process(_delta):
@@ -94,7 +95,7 @@ func _on_Hitbox_body_entered(body):
 	if attacking:
 		Health.findHealthModule(body).dealDamage(damage)
 	if healing:
-		Health.findHealthModule(self).healHealth(damage)
+		health_module.healHealth(damage)
 		healing = false
 
 
