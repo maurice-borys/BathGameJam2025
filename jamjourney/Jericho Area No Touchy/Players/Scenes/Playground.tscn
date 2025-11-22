@@ -1,10 +1,10 @@
 [gd_scene load_steps=10 format=3 uid="uid://cy62273hng4qf"]
 
-[ext_resource type="PackedScene" uid="uid://14q8x5lk82hm" path="res://Jericho Area No Touchy/fighter.tscn" id="1_rjgpw"]
+[ext_resource type="PackedScene" uid="uid://14q8x5lk82hm" path="res://Jericho Area No Touchy/Players/Scenes/fighter.tscn" id="1_rjgpw"]
 [ext_resource type="Texture2D" uid="uid://bvxbe0wqihhwo" path="res://Sprites/icon.svg" id="2_gbv5x"]
-[ext_resource type="PackedScene" uid="uid://dixjgii5h8mg6" path="res://Jericho Area No Touchy/mage.tscn" id="2_rjgpw"]
+[ext_resource type="PackedScene" uid="uid://dixjgii5h8mg6" path="res://Jericho Area No Touchy/Players/Scenes/mage.tscn" id="2_rjgpw"]
 [ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://GlobalModules/HealthModule.tscn" id="3_wnsvo"]
-[ext_resource type="PackedScene" uid="uid://ohjyvm53ohnf" path="res://Jericho Area No Touchy/cleric.tscn" id="5_4xjm6"]
+[ext_resource type="PackedScene" uid="uid://ohjyvm53ohnf" path="res://Jericho Area No Touchy/Players/Scenes/cleric.tscn" id="5_4xjm6"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_gbv5x"]
 vertices = PackedVector2Array(16, 16, 96.89844, 50.9375, -96.82031, 50.039063, -16, 16, 86.97656, -45, 16, -16, -95.171875, -45, -16, -16)

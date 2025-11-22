@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://14q8x5lk82hm"]
 
-[ext_resource type="Script" path="res://Jericho Area No Touchy/Scripts/fighterController.gd" id="1_hnd4r"]
+[ext_resource type="Script" uid="uid://c728ruy6senqn" path="res://Jericho Area No Touchy/Players/Scripts/fighterController.gd" id="1_hnd4r"]
 [ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://GlobalModules/HealthModule.tscn" id="2_p30ql"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gbv5x"]
-radius = 3.0
+radius = 3.1622777
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnd4r"]
 size = Vector2(6, 11)

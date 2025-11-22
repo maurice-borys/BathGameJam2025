@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://ohjyvm53ohnf"]
 
-[ext_resource type="Script" uid="uid://cexu82lyqvrx2" path="res://Jericho Area No Touchy/Scripts/clericController.gd" id="1_m2chb"]
+[ext_resource type="Script" uid="uid://cexu82lyqvrx2" path="res://Jericho Area No Touchy/Players/Scripts/clericController.gd" id="1_m2chb"]
 [ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://GlobalModules/HealthModule.tscn" id="2_kcvrr"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_od5hr"]
