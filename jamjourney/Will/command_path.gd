@@ -5,22 +5,33 @@ class_name CommandPath
 signal path_completed(command_path)
 
 @onready var command_follow: PathFollow2D = $CommandFollow
+@onready var sprite: Sprite2D = $CommandFollow/Sprite2D
 var going = false
-@export var speed: float = 0.2
+var finished = false
+@export var speed: float = 20.0
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	curve = curve.duplicate()
+func deepcopy() -> CommandPath:
+	var copy = load("res://Will/command_path.tscn").instantiate()
+	copy.curve = curve.duplicate_deep(Resource.DEEP_DUPLICATE_ALL)
+	
+	return copy
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	### checks to see if path follow at end
-	if command_follow.progress_ratio == 1.0:
-		path_completed.emit(self)
 	if going:
+		### checks to see if path follow at end
+		if command_follow.progress_ratio >= 1.0:
+			path_completed.emit(self)
+			going = false
+			finished = true
 		command_follow.progress += speed * delta
-	pass
 
+func get_start_point() -> Vector2:
+	return curve.get_point_position(0)
+
+func remove_sprite():
+	sprite.texture = null
 
 func start():
 	going = true
