@@ -1,9 +1,11 @@
 extends CharacterBody2D
 
-@export var target : Node2D
+var target : Node2D
 var closestEnemy : Node2D
 var inRange : Array[Health]
 var inRangeSpecial : Array[Health]
+
+signal completedMap()
 
 @onready var agent : NavigationAgent2D = $NavigationAgent2D
 @onready var sprite : Node2D = $Polygon2D
@@ -13,10 +15,11 @@ var inRangeSpecial : Array[Health]
 @onready var areaRangeSpecial : Area2D = $SpecialRange
 @onready var healthModule : Health = $HealthModule
 
+@export var targetArray : Array[Node2D]
 @export var testEnemy : Node2D
 @export var maxHealth = 1000
 @export var speed : float = 10
-@export var range : float = 10
+@export var range : Vector2 = Vector2(10,20)
 @export var basicCoolDown : float = 1
 @export var specialCoolDown : float = 3
 @export var damage : float = 10
@@ -36,18 +39,27 @@ func _ready() -> void:
 	healthModule.health = maxHealth
 	healthModule.healthChanged.connect(healthChanged)
 	
+	agent.velocity_computed.connect(safeVelocity)
+	
+	target = targetArray.pop_front()
 	setClosestEnemy(testEnemy)
 
 func _physics_process(delta: float) -> void:
+	if not is_instance_valid(target):
+		if targetArray.size() <= 0:
+			completedMap.emit()
+		else:
+			target = targetArray.pop_front()
+	
 	agent.target_position = target.global_position
 	
 	if not is_instance_valid(closestEnemy):
 		closestEnemy = null
 	
-	if global_position.distance_to(closestEnemy.global_position) < range && closestEnemy != null:
+	if global_position.distance_to(closestEnemy.global_position) < range.x && closestEnemy != null:
 		rotation = (global_position.direction_to(closestEnemy.position).angle() + PI/2) 
 		attack()
-	elif global_position.distance_to(target.global_position) > range:
+	elif global_position.distance_to(target.global_position) > range.y:
 		move()
 	else:
 		attack()
@@ -55,8 +67,8 @@ func _physics_process(delta: float) -> void:
 func move() -> void:
 	var pathPos = agent.get_next_path_position()
 	var newVelocity = Vector2 (global_position.direction_to(pathPos) * speed)
-	velocity = newVelocity
-	rotation = newVelocity.angle() + PI/2
+	agent.velocity = newVelocity
+	rotation = velocity.angle() + PI/2
 	
 	move_and_slide()
 
@@ -101,3 +113,6 @@ func healthChanged(old : float, new : float) -> void:
 	print(self.name + " -> " + str(new))
 	if new <= 0:
 		queue_free()
+		
+func safeVelocity(safeVel):
+	velocity = safeVel
