@@ -1,4 +1,5 @@
 extends StaticBody2D
+class_name WallClass
 
 var built : bool
 var endPoint : Vector2
@@ -9,6 +10,8 @@ var endPoint : Vector2
 @onready var area : Area2D = $Area2D
 
 @export var width : float = 3
+
+signal rebakeMesh()
 
 func _ready() -> void:
 	built = false
@@ -22,6 +25,8 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("left_click") and not built:
 		built = true
 		currentCollider.set_deferred("polygon", getVertexPositions())
+		areaCollider.disabled = true
+		rebakeMesh.emit()
 
 func showBuild():
 	areaCollider.disabled = true

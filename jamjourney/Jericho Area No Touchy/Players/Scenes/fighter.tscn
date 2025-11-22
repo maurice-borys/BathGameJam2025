@@ -13,6 +13,7 @@ size = Vector2(6, 11)
 radius = 23.086792
 
 [node name="Fighter" type="CharacterBody2D" groups=["Players"]]
+collision_mask = 15
 script = ExtResource("1_hnd4r")
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
