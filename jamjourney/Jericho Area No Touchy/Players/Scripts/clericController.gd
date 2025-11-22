@@ -11,8 +11,8 @@ var healingArea : Array[Health]
 @onready var healthModule : Health = $HealthModule
 @onready var specialHitbox : Area2D = $Area2D
 
-var homingSpellScene : PackedScene = preload("res://Jericho Area No Touchy/mageBulletHoming.tscn")
-var piercingSpellScene : PackedScene = preload("res://Jericho Area No Touchy/PiercingSpell.tscn")
+var homingSpellScene : PackedScene = preload("res://Jericho Area No Touchy/Players/Scenes/mageBulletHoming.tscn")
+var piercingSpellScene : PackedScene = preload("res://Jericho Area No Touchy/Players/Scenes/PiercingSpell.tscn")
 
 @export var allies : Array[Node2D]
 @export var maxHealth : float = 1000
@@ -32,6 +32,8 @@ func _ready() -> void:
 	healthModule.maxHealth = maxHealth
 	healthModule.health = maxHealth
 	healthModule.healthChanged.connect(healthChanged)
+	
+	agent.velocity_computed.connect(safeVelocity)
 
 func _physics_process(delta: float) -> void:
 	allies.filter(func(item): return item != null)
@@ -39,20 +41,22 @@ func _physics_process(delta: float) -> void:
 	
 	if allyTarget != null:
 		agent.target_position = allyTarget.position
-
-	if global_position.distance_to(allyTarget.global_position) < currentRange && allyTarget != null:
+	else:
+		return
+	
+	if global_position.distance_to(allyTarget.global_position) < currentRange:
 		currentRange = range.y
 		rotation = (global_position.direction_to(allyTarget.position).angle() + PI/2) 
 		action()
-	elif global_position.distance_to(allyTarget.global_position) > currentRange && allyTarget != null:
+	elif global_position.distance_to(allyTarget.global_position) > currentRange:
 		currentRange = range.x
 		move()
 
 func move() -> void:
 	var pathPos = agent.get_next_path_position()
 	var newVelocity = Vector2 (global_position.direction_to(pathPos) * speed)
-	velocity = newVelocity
-	rotation = newVelocity.angle() + PI/2
+	agent.velocity = newVelocity
+	rotation = velocity.angle() + PI/2
 	move_and_slide()
 
 func action() -> void:
@@ -93,3 +97,6 @@ func healthChanged(old, new):
 	print(self.name + " -> " + str(new))
 	if new <= 0:
 		queue_free()
+
+func safeVelocity(safeVel):
+	velocity = safeVel

@@ -1,23 +1,25 @@
-[gd_scene load_steps=5 format=3 uid="uid://ymppe0fju62a"]
+[gd_scene load_steps=6 format=3 uid="uid://ymppe0fju62a"]
 
-[ext_resource type="Script" path="res://Will/grunt.gd" id="1_dsrx1"]
+[ext_resource type="Script" uid="uid://ctvvqfohxcmda" path="res://Will/grunt.gd" id="1_dsrx1"]
+[ext_resource type="Texture2D" uid="uid://bvxbe0wqihhwo" path="res://Sprites/icon.svg" id="2_gtcv5"]
+[ext_resource type="Texture2D" uid="uid://d2wfnbehbka05" path="res://Will/skeleton left.png" id="3_pc5cf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_oejt3"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_cr0by"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vqibj"]
 
 [node name="Grunt" type="CharacterBody2D"]
 script = ExtResource("1_dsrx1")
-speed = 50
+speed = 20.0
+godottexture = ExtResource("2_gtcv5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_oejt3")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(20, 21)
-texture = SubResource("PlaceholderTexture2D_cr0by")
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, 6.3108872e-30)
+scale = Vector2(0.04, 0.042)
+texture = ExtResource("3_pc5cf")
 
 [node name="ClickArea" type="Area2D" parent="."]
 
@@ -25,3 +27,23 @@ texture = SubResource("PlaceholderTexture2D_cr0by")
 shape = SubResource("CircleShape2D_vqibj")
 
 [node name="NavAgent" type="NavigationAgent2D" parent="."]
+path_desired_distance = 10.0
+target_desired_distance = 30.0
+navigation_layers = 2
+avoidance_enabled = true
+radius = 15.0
+neighbor_distance = 1000.0
+time_horizon_obstacles = 1.0
+avoidance_layers = 2
+avoidance_mask = 2
+debug_enabled = true
+debug_path_custom_line_width = 1.0
+
+[node name="NavTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.1
+
+[connection signal="input_event" from="ClickArea" to="." method="_on_click_area_input_event"]
+[connection signal="velocity_computed" from="NavAgent" to="." method="_on_nav_agent_velocity_computed"]
+[connection signal="timeout" from="NavTimer" to="." method="_on_nav_tracker_timer_timeout"]
+[connection signal="timeout" from="NavTimer" to="." method="_on_nav_timer_timeout"]

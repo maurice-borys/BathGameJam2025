@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://m6u5jmahtm35"]
+[gd_scene load_steps=5 format=3 uid="uid://m6u5jmahtm35"]
 
 [ext_resource type="PackedScene" uid="uid://dw4p333ts2dby" path="res://Will/selection.tscn" id="1_jxpkh"]
 [ext_resource type="PackedScene" uid="uid://bgs04cxt2g5m6" path="res://Will/spawner.tscn" id="2_2jvrn"]
+[ext_resource type="PackedScene" path="res://Will/test_character.tscn" id="4_rhqoi"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_3nngp"]
 vertices = PackedVector2Array(1145.04, 21.8672, 1147.95, 633.008, 10.9766, 634.977, 10.0078, 7.13281)
@@ -13,6 +14,11 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(1155, 12, 1158, 643, 1,
 [node name="Selection" parent="." instance=ExtResource("1_jxpkh")]
 
 [node name="Spawner" parent="." instance=ExtResource("2_2jvrn")]
+position = Vector2(108, 361)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_3nngp")
+navigation_layers = 7
+
+[node name="testPlayer" parent="." instance=ExtResource("4_rhqoi")]
+position = Vector2(861, 366)

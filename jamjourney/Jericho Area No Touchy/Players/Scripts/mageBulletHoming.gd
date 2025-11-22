@@ -10,6 +10,9 @@ var target : Node2D
 var direction : Vector2 = Vector2.RIGHT
 
 func _process(delta: float) -> void:
+	if not is_instance_valid(target):
+		queue_free()
+	
 	direction = lerp(direction, global_position.direction_to(target.global_position), rotationSpeed * delta)
 	position += direction * speed * delta
 	
