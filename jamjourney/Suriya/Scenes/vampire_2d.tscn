@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://cvc6f8x21qg4m"]
+[gd_scene load_steps=21 format=3 uid="uid://cvc6f8x21qg4m"]
 
 [ext_resource type="Script" uid="uid://dxwe512yeap4o" path="res://Suriya/scripts/vampire.gd" id="1_x0grt"]
 [ext_resource type="Texture2D" uid="uid://vwcterlms2dh" path="res://Sprites/RPG Maker x3 size/Pallete 2/Vampire.png" id="2_x0grt"]
 [ext_resource type="Script" uid="uid://b0mxiqjvetgjv" path="res://Suriya/scripts/attack_hitbox.gd" id="3_3a70m"]
+[ext_resource type="Texture2D" uid="uid://deixsilqjxyq8" path="res://Sprites/attack.png" id="4_3epp1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3epp1"]
 size = Vector2(72, 133)
@@ -10,7 +11,106 @@ size = Vector2(72, 133)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ksgwu"]
 size = Vector2(52, 89)
 
-[node name="Vampire2D" type="Node2D"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ksgwu"]
+atlas = ExtResource("4_3epp1")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_547wv"]
+atlas = ExtResource("4_3epp1")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gnl88"]
+atlas = ExtResource("4_3epp1")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rthyc"]
+atlas = ExtResource("4_3epp1")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g1j2v"]
+atlas = ExtResource("4_3epp1")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_405hl"]
+atlas = ExtResource("4_3epp1")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7d2b1"]
+atlas = ExtResource("4_3epp1")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a7bkc"]
+atlas = ExtResource("4_3epp1")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_svmyt"]
+atlas = ExtResource("4_3epp1")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w4l1i"]
+atlas = ExtResource("4_3epp1")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oi3k6"]
+atlas = ExtResource("4_3epp1")
+region = Rect2(64, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x2186"]
+atlas = ExtResource("4_3epp1")
+region = Rect2(96, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3epp1"]
+atlas = ExtResource("4_3epp1")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_07sv4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ksgwu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_547wv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gnl88")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rthyc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g1j2v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_405hl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7d2b1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a7bkc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_svmyt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w4l1i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oi3k6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x2186")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3epp1")
+}],
+"loop": false,
+"name": &"default",
+"speed": 30.0
+}]
+
+[node name="world" type="Node2D"]
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 script = ExtResource("1_x0grt")
@@ -29,11 +129,17 @@ one_shot = true
 
 [node name="AttackHitbox" type="Area2D" parent="CharacterBody2D"]
 position = Vector2(-98, -1)
-collision_mask = 2
+collision_layer = 2
 script = ExtResource("3_3a70m")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/AttackHitbox"]
-position = Vector2(1, 0)
+position = Vector2(-1, 2)
 shape = SubResource("RectangleShape2D_ksgwu")
 
+[node name="BasicAttack" type="AnimatedSprite2D" parent="CharacterBody2D"]
+position = Vector2(-99.5, 1)
+scale = Vector2(1.5937501, 2.75)
+sprite_frames = SubResource("SpriteFrames_07sv4")
+
 [connection signal="timeout" from="CharacterBody2D/Timer" to="CharacterBody2D" method="_on_timer_timeout"]
+[connection signal="animation_finished" from="CharacterBody2D/BasicAttack" to="CharacterBody2D" method="_on_basic_attack_animation_finished"]
