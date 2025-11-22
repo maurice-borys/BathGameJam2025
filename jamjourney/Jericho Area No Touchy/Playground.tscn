@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://cy62273hng4qf"]
+[gd_scene load_steps=9 format=3 uid="uid://cy62273hng4qf"]
 
-[ext_resource type="Script" uid="uid://bbhhejwo3j7ed" path="res://Jericho Area No Touchy/Scripts/character_body_2d.gd" id="1_j8atl"]
+[ext_resource type="PackedScene" uid="uid://14q8x5lk82hm" path="res://Jericho Area No Touchy/fighter.tscn" id="1_rjgpw"]
 [ext_resource type="Texture2D" uid="uid://bvxbe0wqihhwo" path="res://Sprites/icon.svg" id="2_gbv5x"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_gbv5x"]
-radius = 3.0
+[ext_resource type="PackedScene" uid="uid://dixjgii5h8mg6" path="res://Jericho Area No Touchy/mage.tscn" id="2_rjgpw"]
+[ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://GlobalModules/HealthModule.tscn" id="3_wnsvo"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_gbv5x"]
 vertices = PackedVector2Array(16, 16, 96.89844, 50.9375, -96.82031, 50.039063, -16, 16, 86.97656, -45, 16, -16, -95.171875, -45, -16, -16)
@@ -14,22 +13,44 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-105, -55, 96, -55, 108
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wnsvo"]
 size = Vector2(12, 12)
 
+[sub_resource type="GDScript" id="GDScript_od5hr"]
+script/source = "extends CharacterBody2D
+
+@onready var healthModule : Health = $HealthModule
+
+@export var maxHealth = 100
+@export var speed = 35
+
+func _ready() -> void:
+	healthModule.maxHealth = maxHealth
+	healthModule.health = maxHealth
+	healthModule.healthChanged.connect(healthChanged)
+
+func _physics_process(delta: float) -> void:
+	var hori = 0
+	var vert = 0
+	
+	if Input.is_key_pressed(KEY_W):
+		vert = -1
+	elif Input.is_key_pressed(KEY_S):
+		vert = 1
+		
+	if Input.is_key_pressed(KEY_A):
+		hori = -1
+	elif Input.is_key_pressed(KEY_D):
+		hori = 1
+
+	velocity = Vector2(hori,vert).normalized() * speed
+	move_and_slide()
+
+func healthChanged(old, new):
+	print(\"Health changed to \" + str(new))
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4xjm6"]
+radius = 3.0
+
 [node name="Node2D" type="Node2D"]
-
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
-position = Vector2(-36, 0)
-script = ExtResource("1_j8atl")
-
-[node name="Polygon2D" type="Polygon2D" parent="CharacterBody2D"]
-color = Color(0, 1, 1, 1)
-polygon = PackedVector2Array(-2, 2, 3, 2, 3, -2, 0, -5, -3, -2, -3, 2)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
-position = Vector2(0, -1)
-shape = SubResource("CircleShape2D_gbv5x")
-
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="CharacterBody2D"]
-radius = 5.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(5, 5)
@@ -45,3 +66,32 @@ shape = SubResource("RectangleShape2D_wnsvo")
 [node name="Sprite2D" type="Sprite2D" parent="NavigationRegion2D/StaticBody2D"]
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_gbv5x")
+
+[node name="testTarget" type="Node2D" parent="."]
+position = Vector2(63, 0)
+
+[node name="Mage" parent="." node_paths=PackedStringArray("target", "testEnemy") instance=ExtResource("2_rjgpw")]
+position = Vector2(-50, 0)
+target = NodePath("../testTarget")
+testEnemy = NodePath("../TestEnemy")
+
+[node name="TestEnemy" type="CharacterBody2D" parent="."]
+position = Vector2(48, 1)
+collision_layer = 2
+script = SubResource("GDScript_od5hr")
+
+[node name="Polygon2D" type="Polygon2D" parent="TestEnemy"]
+color = Color(1, 0, 0, 1)
+polygon = PackedVector2Array(-2, 2, 3, 2, 3, -2, 0, -5, -3, -2, -3, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TestEnemy"]
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_4xjm6")
+
+[node name="HealthModule" parent="TestEnemy" instance=ExtResource("3_wnsvo")]
+
+[node name="Fighter" parent="." node_paths=PackedStringArray("target", "testEnemy") instance=ExtResource("1_rjgpw")]
+position = Vector2(-44, -29)
+target = NodePath("../testTarget")
+testEnemy = NodePath("../TestEnemy")
+range = 15.0

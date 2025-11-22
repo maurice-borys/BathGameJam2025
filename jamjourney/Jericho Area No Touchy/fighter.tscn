@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=3 uid="uid://14q8x5lk82hm"]
+
+[ext_resource type="Script" path="res://Jericho Area No Touchy/Scripts/fighterController.gd" id="1_hnd4r"]
+[ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://GlobalModules/HealthModule.tscn" id="2_p30ql"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gbv5x"]
+radius = 3.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hnd4r"]
+size = Vector2(6, 11)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hnd4r"]
+radius = 23.086792
+
+[node name="Fighter" type="CharacterBody2D"]
+script = ExtResource("1_hnd4r")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0, 1, 1, 1)
+polygon = PackedVector2Array(-2, 2, 3, 2, 3, -2, 0, -5, -3, -2, -3, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_gbv5x")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+radius = 5.0
+
+[node name="BasicCoolDown" type="Timer" parent="."]
+one_shot = true
+
+[node name="SpecialCoolDown" type="Timer" parent="."]
+one_shot = true
+
+[node name="BasicRange" type="Area2D" parent="."]
+collision_mask = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BasicRange"]
+position = Vector2(0, -5.5)
+shape = SubResource("RectangleShape2D_hnd4r")
+
+[node name="SpecialRange" type="Area2D" parent="."]
+collision_mask = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpecialRange"]
+shape = SubResource("CircleShape2D_hnd4r")
+
+[node name="HealthModule" parent="." instance=ExtResource("2_p30ql")]

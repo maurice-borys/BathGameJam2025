@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://ds67rcg4tofcn"]
+
+[ext_resource type="Script" uid="uid://bxeylfogu7ch4" path="res://Jericho Area No Touchy/Scripts/mageBulletHoming.gd" id="1_4mscr"]
+
+[node name="MageBulletHoming" type="Node2D"]
+script = ExtResource("1_4mscr")
+rotationSpeed = 5.0
+minDistance = 3.0
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(2.4065375e-06, 0, 0.75384223, 1)
+polygon = PackedVector2Array(-1, -1, 1, -1, 1, 1, -1, 1)

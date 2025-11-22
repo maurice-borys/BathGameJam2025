@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://bptot8lfc04y2"]
+
+[ext_resource type="Script" uid="uid://dxyvnyaydkmef" path="res://Jericho Area No Touchy/Scripts/PiercingSpell.gd" id="1_6bbt5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4xjm6"]
+size = Vector2(6, 6)
+
+[node name="PiercingSpell" type="Area2D"]
+collision_mask = 2
+script = ExtResource("1_6bbt5")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+scale = Vector2(3, 3)
+color = Color(2.4065375e-06, 0, 0.75384223, 1)
+polygon = PackedVector2Array(-1, -1, 1, -1, 1, 1, -1, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_4xjm6")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
