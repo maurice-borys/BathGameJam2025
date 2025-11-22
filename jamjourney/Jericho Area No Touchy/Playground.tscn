@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://cy62273hng4qf"]
 
 [ext_resource type="Script" uid="uid://bbhhejwo3j7ed" path="res://Jericho Area No Touchy/Scripts/character_body_2d.gd" id="1_j8atl"]
-[ext_resource type="Texture2D" uid="uid://dekcwttti3r4f" path="res://icon.svg" id="2_gbv5x"]
+[ext_resource type="Texture2D" uid="uid://bvxbe0wqihhwo" path="res://Sprites/icon.svg" id="2_gbv5x"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gbv5x"]
 radius = 3.0

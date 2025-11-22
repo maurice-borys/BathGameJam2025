@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bfohg1exquadn"
-path="res://.godot/imported/skeleton left.png-98fa0aacc30ae87a012e8ce678a50b2d.ctex"
+uid="uid://2q6qha83jqwr"
+path="res://.godot/imported/Vampire.png-f0e5dd9ec48188b2cecc4aa76c481069.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://skeleton left.png"
-dest_files=["res://.godot/imported/skeleton left.png-98fa0aacc30ae87a012e8ce678a50b2d.ctex"]
+source_file="res://Sprites/RPG Maker x3 size/Pallete 1/Vampire.png"
+dest_files=["res://.godot/imported/Vampire.png-f0e5dd9ec48188b2cecc4aa76c481069.ctex"]
 
 [params]
 
