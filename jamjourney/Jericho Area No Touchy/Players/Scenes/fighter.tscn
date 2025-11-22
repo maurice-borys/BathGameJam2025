@@ -33,7 +33,7 @@ one_shot = true
 [node name="SpecialCoolDown" type="Timer" parent="."]
 one_shot = true
 
-[node name="BasicRange" type="Area2D" parent="."]
+[node name="BasicRange" type="Area2D" parent="." groups=["Players"]]
 collision_mask = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BasicRange"]

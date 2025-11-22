@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Fighter
 
 var target : Node2D
 var closestEnemy : Node2D
@@ -73,7 +74,7 @@ func move() -> void:
 	move_and_slide()
 
 func attack() -> void:
-	if specialTimer.time_left == 0:
+	if specialTimer.time_left == 0 && basicTimer.time_left == 0:
 		specialAttack()
 		specialTimer.start()
 		basicTimer.start()

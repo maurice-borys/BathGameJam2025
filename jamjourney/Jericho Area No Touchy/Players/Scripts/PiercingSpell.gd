@@ -2,6 +2,7 @@ extends Area2D
 class_name PiercingSpell
 
 @onready var timer = $Timer
+@onready var party : CPUParticles2D = $CPUParticles2D2
 
 var direction
 
@@ -16,6 +17,8 @@ func _ready() -> void:
 	timer.wait_time = lifeSpan
 	timer.start()
 	timer.timeout.connect(limitDepleted)
+	
+	party.emitting = true
 
 func _process(delta: float) -> void:
 	position += direction * speed * delta

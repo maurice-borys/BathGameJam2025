@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://cwjrvqo2do843"]
+
+[ext_resource type="PackedScene" uid="uid://cumebfp17yi6m" path="res://Jericho Area No Touchy/Mummy/mummy.tscn" id="1_fd32x"]
+[ext_resource type="PackedScene" uid="uid://14q8x5lk82hm" path="res://Jericho Area No Touchy/Players/Scenes/fighter.tscn" id="2_fd32x"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_fd32x"]
+vertices = PackedVector2Array(179, -97.02344, 179, 96, -180.95313, 96, -180.03906, -97.96875)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-190, -108, 189, -107, 189, 106, -191, 106)])
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Mummy" parent="." instance=ExtResource("1_fd32x")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3, 3)
+
+[node name="Fighter" parent="." node_paths=PackedStringArray("targetArray", "testEnemy") instance=ExtResource("2_fd32x")]
+position = Vector2(-98, -2)
+targetArray = [NodePath("")]
+testEnemy = NodePath("../Mummy")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+visible = false
+navigation_polygon = SubResource("NavigationPolygon_fd32x")
