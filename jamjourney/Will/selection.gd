@@ -6,7 +6,6 @@ const DOUBLE_CLICK_TIME = 0.3
 
 @onready var command_path: PackedScene = preload("res://Will/command_path.tscn")
 
-
 var is_selecting = false
 var is_commanding = false
 
@@ -23,6 +22,7 @@ var new_path: CommandPath
 
 func _ready():
 	add_to_group("selection")
+	
 	
 	line = Line2D.new()
 	line.width = 3
@@ -43,10 +43,35 @@ func handle_drag(event):
 	queue_redraw()
 	
 func handle_hold():
+	if selected_units.is_empty():
+		return
+		
+	var common = 0 
 	for unit in selected_units:
-		unit.toggle_hold()
+		if unit.holding:
+			common += 1
+		else:
+			common -= 1
+	if common > 0:
+		move_all()
+	elif common < 0:
+		hold_all()
+	else:
+		if selected_units[0].holding:
+			move_all()
+		else:
+			hold_all()
 	deselect_all()
-	
+
+func hold_all():
+	for unit in selected_units:
+		unit.hold_position()
+
+func move_all():
+	for unit in selected_units:
+		unit.target_player()
+
+
 func handle_click(event):
 	if event.button_index == MOUSE_BUTTON_LEFT:
 		select(event)
@@ -54,21 +79,38 @@ func handle_click(event):
 		command(event)
 
 func select(event):
+	var mouse_pos = get_global_mouse_position()
 	if event.pressed:
 		is_selecting = true
-		drag_start = get_global_mouse_position()
+		drag_start = mouse_pos
 		drag_end = drag_start
 		click_was_handled = false
 	else:
-		var notDrag = drag_start.distance_to(drag_end) <= 5
+		var notDrag = drag_start.distance_to(drag_end) <= 15.0
 		if notDrag:
-			await get_tree().process_frame
-			if not click_was_handled:
+			if not select_single(mouse_pos):
 				handle_empty_click()
 		else:
 			select_units_in_box()	
 		is_selecting = false
 		queue_redraw()
+
+func select_single(pos: Vector2) -> bool:
+	var space_state = get_world_2d().direct_space_state
+	var query = PhysicsPointQueryParameters2D.new()
+	query.position = pos
+	query.collision_mask = 2  # Adjust based on your collision layers
+	query.collide_with_areas = true
+	var result = space_state.intersect_point(query)
+	
+	if result:
+		for collision in result:
+			var enemy = collision.collider
+			if enemy.is_in_group("enemies"):
+				handle_enemy_click(enemy)
+				click_was_handled = true
+				return true
+	return false
 
 func command(event):
 	var mouse_pos = get_global_mouse_position()
@@ -168,13 +210,11 @@ func select_units_in_box():
 			select_unit(enemy)
 
 func handle_enemy_click(enemy):
-	if Input.is_key_pressed(KEY_CTRL):
+	if Input.is_key_pressed(KEY_SHIFT):
 		if enemy in selected_units:
 			deselect_unit(enemy)
 		else:
 			select_unit(enemy)
-	elif Input.is_key_pressed(KEY_SHIFT):
-		select_unit(enemy)
 	else:
 		deselect_all()
 		select_unit(enemy)
