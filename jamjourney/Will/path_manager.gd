@@ -17,6 +17,11 @@ func register_path(command_path: CommandPath, selected_units: Array[Grunt]):
 		unit.set_target(command_path.command_follow)
 	command_path.start()
 
+func register_goto(point: Vector2, selected_units: Array[Grunt]):
+	for unit in selected_units:
+		unit.goto(point)
+	
+
 func _on_path_completed(command_path: CommandPath):
 	var id = command_path.get_instance_id()
 	active_paths.erase(id) 

@@ -1,6 +1,5 @@
 extends Node2D
 
-var is_dragging = false
 class_name Selector
 
 const DOUBLE_CLICK_TIME = 0.3
@@ -72,15 +71,14 @@ func command(event):
 		drag_end = drag_start
 		start_path(drag_start)
 	else:
-		if new_path.curve.get_point_count():
-			
-			
-		print(new_path.curve.get_point_count())
-		new_path = path_manager.register_path(new_path, selected_units)
-		clear_selection()
-		is_commanding = false
-		line.clear_points()
-		queue_redraw()
+		if new_path.curve.get_point_count() == 1:
+			new_path = path_manager.register_goto(new_path.curve.get_point_position(0), selected_units)
+		else:
+			new_path = path_manager.register_path(new_path, selected_units)
+			clear_selection()
+			is_commanding = false
+			line.clear_points()
+			queue_redraw()
 
 func _process(delta: float) -> void:
 	if Input.is_mouse_button_pressed(2):

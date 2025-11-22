@@ -12,13 +12,13 @@ class_name Grunt
 
 @onready var skelebones: Texture2D = preload("res://Will/skeleton left.png")
 
+var pointer_node: Node2D
+
 var target: Node2D
 
 var vel = Vector2.ZERO
 var is_selected = false
 
-@onready var click_area: Area2D = $ClickArea
-@onready var nav_agent: NavigationAgent2D = $NavAgent
 
 func _ready():
 	add_to_group("enemies")
@@ -35,6 +35,9 @@ func _physics_process(delta: float) -> void:
 		return
 	
 	if nav_agent.is_target_reached():
+		remove_child(pointer_node)
+		pointer_node.queue_free()
+		pointer_node = null
 		velocity = Vector2.ZERO
 		### turn off reacting to avoidance when attacking
 		nav_agent.set_avoidance_mask_value(0b10, false)
@@ -56,6 +59,12 @@ func _physics_process(delta: float) -> void:
 func set_selected(selected: bool):
 	is_selected = selected
 	queue_redraw()
+	
+func goto(end: Vector2):
+	pointer_node = Node2D.new()
+	pointer_node.global_position = end
+	add_child(pointer_node)
+	target = pointer_node
 	
 func set_target(new_target: Node2D):
 	target = new_target
