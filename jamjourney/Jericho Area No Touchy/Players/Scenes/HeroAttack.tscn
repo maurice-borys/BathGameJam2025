@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bkanptabd703b"]
+
+[ext_resource type="Script" uid="uid://dbln55bsc1rcd" path="res://Jericho Area No Touchy/Players/Scripts/heroAttack.gd" id="1_gnplt"]
+
+[node name="HeroAttack" type="Node2D"]
+script = ExtResource("1_gnplt")
