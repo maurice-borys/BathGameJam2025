@@ -10,8 +10,8 @@ func _ready() -> void:
 
 func _on_spawn_timer_timeout():
 	var enemy = spawn_entity.instantiate()
-	get_parent().add_child(enemy)  # Add this!
-	enemy.global_position = global_position  # Position it
+	get_parent().add_child(enemy)  
+	enemy.global_position = global_position 
 
 
 func _process(delta: float) -> void:

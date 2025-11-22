@@ -12,7 +12,6 @@ signal goto_command_path_start(path: CommandPath)
 @onready var sprite: Sprite2D = $Sprite
 @export var godottexture: Texture2D
 
-var follow_path_active = false
 
 #@onready var skelebones: Texture2D = preload("res://Will/skeleton left.png")
 
@@ -34,6 +33,9 @@ func target_player():
 	nav_agent.target_position = target.global_position
 
 func _physics_process(delta: float) -> void:
+	if Engine.get_frames_drawn() % 60 == 0:
+		debug_state()
+		
 	if not target:
 		target_player()
 		return
@@ -47,11 +49,28 @@ func _physics_process(delta: float) -> void:
 	
 	nav_agent.velocity = direction * speed
 
+func debug_state():
+	print("=== GRUNT: ", name, " ===")
+	print("Target: ", target)
+	print("Target name: ", target.name if target else "None")
+	print("Target position: ", target.global_position if target else "None")
+	print("Follow: ", follow)
+	if follow:
+		print("Follow instance ID: ", follow.get_instance_id())
+		print("Follow going: ", follow.going)
+		print("Follow finished: ", follow.finished)
+		print("Follow command_follow: ", follow.command_follow)
+		print("Follow command_follow position: ", follow.command_follow.global_position)
+	print("Pointer node: ", pointer_node)
+	print("Nav target position: ", nav_agent.target_position)
+	print("=========================")
+
 func set_selected(selected: bool):
 	is_selected = selected
 	queue_redraw()
 	
 func goto(end: Vector2):
+	free_all()
 	pointer_node = Node2D.new()
 	pointer_node.global_position = end
 	add_child(pointer_node)
@@ -59,11 +78,13 @@ func goto(end: Vector2):
 	
 func set_target(new_target: Node2D):
 	if new_target:
-		follow = null
+		free_all()
 		target = new_target
 		nav_agent.target_position = new_target.global_position
 
 func set_command_follow(new_follow: CommandPath):
+	free_all()
+	
 	follow = new_follow
 	target = follow.command_follow
 	nav_agent.target_position = follow.command_follow.global_position
@@ -72,6 +93,24 @@ func _draw():
 	if is_selected:
 		draw_circle(Vector2.ZERO, 25, Color(0, 1, 0, 0.3))
 		draw_arc(Vector2.ZERO, 25, 0, TAU, 32, Color(0, 1, 0), 2.0)
+
+
+func free_pointer_node():
+	if pointer_node:
+		remove_child(pointer_node)
+		pointer_node.queue_free()
+		pointer_node = null
+
+func free_follow():
+	if follow:
+		follow.get_parent().remove_child(follow)
+		follow.queue_free()
+		follow = null
+
+func free_all():
+	free_follow()
+	free_pointer_node()
+	target = null
 
 
 func _on_nav_agent_velocity_computed(safe_velocity: Vector2) -> void:
@@ -94,18 +133,15 @@ func _on_nav_agent_target_reached() -> void:
 	velocity = Vector2.ZERO
 	if follow:
 		if follow.finished:
-			follow.get_parent().remove_child(follow)
-			follow.queue_free()
+			free_all()
 			target = null
-			follow = null
+			
 		elif not follow.going:
 			follow.start()
 		
 	if pointer_node:
-		remove_child(pointer_node)
-		pointer_node.queue_free()
+		free_all()
 		target = null
-		pointer_node = null
 	### turn off reacting to avoidance when attacking
 	nav_agent.set_avoidance_mask_value(0b10, false)
 

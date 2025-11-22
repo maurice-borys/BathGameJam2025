@@ -1,10 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://dw4p333ts2dby"]
+[gd_scene load_steps=2 format=3 uid="uid://dw4p333ts2dby"]
 
 [ext_resource type="Script" uid="uid://moau1bacjd5o" path="res://Will/selection.gd" id="1_erxlh"]
-[ext_resource type="Script" uid="uid://crrcoh8iw3qg7" path="res://Will/path_manager.gd" id="2_k8po7"]
 
 [node name="Selection" type="Node2D"]
 script = ExtResource("1_erxlh")
-
-[node name="PathManager" type="Node" parent="."]
-script = ExtResource("2_k8po7")

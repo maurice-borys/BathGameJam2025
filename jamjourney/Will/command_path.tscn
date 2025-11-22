@@ -8,6 +8,7 @@
 [node name="CommandPath" type="Path2D"]
 curve = SubResource("Curve2D_gr2du")
 script = ExtResource("1_2akbg")
+speed = 100.0
 
 [node name="CommandFollow" type="PathFollow2D" parent="."]
 loop = false

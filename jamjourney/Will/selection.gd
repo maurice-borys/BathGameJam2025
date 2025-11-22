@@ -4,7 +4,6 @@ class_name Selector
 
 const DOUBLE_CLICK_TIME = 0.3
 
-@onready var path_manager: PathManager = $PathManager
 @onready var command_path: PackedScene = preload("res://Will/command_path.tscn")
 
 
@@ -65,27 +64,39 @@ func select(event):
 
 func command(event):
 	var mouse_pos = get_global_mouse_position()
+	print(new_path, drag_start, drag_end)
 	if event.pressed:
 		is_commanding = true
 		drag_start = mouse_pos
 		drag_end = drag_start
 		start_path(drag_start)
 	else:
+		is_commanding = false
+		line.clear_points()
 		if new_path.curve.get_point_count() == 1:
-			path_manager.register_goto(new_path.get_start_point(), selected_units)
-			free_path()
+			register_goto(new_path.get_start_point(), selected_units)
 		else:
-			path_manager.register_path(new_path, selected_units)
-			free_path()
-			clear_selection()
-			is_commanding = false
-			line.clear_points()
+			register_path(new_path, selected_units)
 			queue_redraw()
 
 func free_path():
 	remove_child(new_path)
 	new_path.queue_free()
 	new_path = null
+	drag_start = Vector2.ZERO
+	drag_end = Vector2.ZERO
+	
+func register_path(command_path: CommandPath, selected_units: Array[Grunt]):
+	for unit in selected_units:
+		var unit_command_path = command_path.deepcopy()
+		add_child(unit_command_path)
+		unit.set_command_follow(unit_command_path)
+	free_path()
+
+func register_goto(point: Vector2, selected_units: Array[Grunt]):
+	for unit in selected_units:
+		unit.goto(point)
+	free_path()
 
 func _process(delta: float) -> void:
 	if Input.is_mouse_button_pressed(2):
@@ -93,12 +104,17 @@ func _process(delta: float) -> void:
 		queue_redraw()
 
 func start_path(pos: Vector2):
+	if new_path and is_instance_valid(new_path):
+		new_path.curve.clear_points()
+		free_path()
+
 	make_path()
 	line.clear_points()
 	add_point(pos)
 
 func make_path():
 	new_path = command_path.instantiate()
+	new_path.curve.clear_points()
 	add_child(new_path)
 	
 func add_curve_point_safe(pos: Vector2):

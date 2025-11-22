@@ -11,9 +11,10 @@ var finished = false
 @export var speed: float = 20.0
 
 func deepcopy() -> CommandPath:
-	var new_command_path = duplicate()
-	new_command_path.curve = curve.duplicate()
-	return new_command_path
+	var copy = load("res://Will/command_path.tscn").instantiate()
+	copy.curve = curve.duplicate_deep(Resource.DEEP_DUPLICATE_ALL)
+	
+	return copy
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
