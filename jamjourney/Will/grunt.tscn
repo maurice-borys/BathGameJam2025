@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://ymppe0fju62a"]
+[gd_scene load_steps=6 format=3 uid="uid://ymppe0fju62a"]
 
 [ext_resource type="Script" uid="uid://ctvvqfohxcmda" path="res://Will/grunt.gd" id="1_dsrx1"]
+[ext_resource type="Texture2D" uid="uid://bvxbe0wqihhwo" path="res://icon.svg" id="2_gtcv5"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_oejt3"]
 
@@ -12,11 +13,17 @@
 collision_layer = 2
 collision_mask = 7
 script = ExtResource("1_dsrx1")
+godottexture = ExtResource("2_gtcv5")
+
+[node name="NavObstacle" type="NavigationObstacle2D" parent="."]
+radius = 15.0
+avoidance_enabled = false
+avoidance_layers = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_oejt3")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="."]
 scale = Vector2(20, 21)
 texture = SubResource("PlaceholderTexture2D_cr0by")
 
@@ -27,12 +34,12 @@ shape = SubResource("CircleShape2D_vqibj")
 
 [node name="NavAgent" type="NavigationAgent2D" parent="."]
 path_desired_distance = 10.0
-target_desired_distance = 40.0
+target_desired_distance = 30.0
 navigation_layers = 2
 avoidance_enabled = true
+radius = 15.0
 avoidance_layers = 2
 avoidance_mask = 6
-debug_enabled = true
 debug_path_custom_line_width = 1.0
 
 [node name="NavTimer" type="Timer" parent="."]
@@ -41,4 +48,5 @@ wait_time = 0.1
 
 [connection signal="input_event" from="ClickArea" to="." method="_on_click_area_input_event"]
 [connection signal="velocity_computed" from="NavAgent" to="." method="_on_nav_agent_velocity_computed"]
+[connection signal="timeout" from="NavTimer" to="." method="_on_nav_tracker_timer_timeout"]
 [connection signal="timeout" from="NavTimer" to="." method="_on_nav_timer_timeout"]

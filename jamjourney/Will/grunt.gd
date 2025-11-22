@@ -5,6 +5,9 @@ extends CharacterBody2D
 
 @onready var nav_agent: NavigationAgent2D = $NavAgent
 @onready var nav_timer: Timer = $NavTimer
+@onready var sprite: Sprite2D = $Sprite
+@export var godottexture: Texture2D
+
 var target: Node2D
 
 var is_selected = false
@@ -16,10 +19,21 @@ func _ready():
 	nav_agent.target_position = target.global_position
 
 func _physics_process(delta: float) -> void:
+	if nav_agent.is_target_reached():
+		velocity = Vector2.ZERO
+		### turn off reacting to avoidance when attacking
+		nav_agent.set_avoidance_mask_value(0b10, false)
+		sprite.texture = godottexture
+		sprite.scale = Vector2(0.3,0.3)
+		return
+		
+	nav_agent.set_avoidance_mask_value(0b10, true)
+	sprite.texture = PlaceholderTexture2D.new()
+		
+	
 	if nav_agent.is_navigation_finished():
 		return
 	
-	# Get the next path position
 	var next_path_position = nav_agent.get_next_path_position()
 	var direction = global_position.direction_to(next_path_position)
 	
