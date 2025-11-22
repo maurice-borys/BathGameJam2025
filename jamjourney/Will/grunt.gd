@@ -33,8 +33,8 @@ func target_player():
 	nav_agent.target_position = target.global_position
 
 func _physics_process(delta: float) -> void:
-	if Engine.get_frames_drawn() % 60 == 0:
-		debug_state()
+	#if Engine.get_frames_drawn() % 60 == 0:
+		#debug_state()
 		
 	if not target:
 		target_player()
@@ -49,21 +49,21 @@ func _physics_process(delta: float) -> void:
 	
 	nav_agent.velocity = direction * speed
 
-func debug_state():
-	print("=== GRUNT: ", name, " ===")
-	print("Target: ", target)
-	print("Target name: ", target.name if target else "None")
-	print("Target position: ", target.global_position if target else "None")
-	print("Follow: ", follow)
-	if follow:
-		print("Follow instance ID: ", follow.get_instance_id())
-		print("Follow going: ", follow.going)
-		print("Follow finished: ", follow.finished)
-		print("Follow command_follow: ", follow.command_follow)
-		print("Follow command_follow position: ", follow.command_follow.global_position)
-	print("Pointer node: ", pointer_node)
-	print("Nav target position: ", nav_agent.target_position)
-	print("=========================")
+#func debug_state():
+	#print("=== GRUNT: ", name, " ===")
+	#print("Target: ", target)
+	#print("Target name: ", target.name if target else "None")
+	#print("Target position: ", target.global_position if target else "None")
+	#print("Follow: ", follow)
+	#if follow:
+		#print("Follow instance ID: ", follow.get_instance_id())
+		#print("Follow going: ", follow.going)
+		#print("Follow finished: ", follow.finished)
+		#print("Follow command_follow: ", follow.command_follow)
+		#print("Follow command_follow position: ", follow.command_follow.global_position)
+	#print("Pointer node: ", pointer_node)
+	#print("Nav target position: ", nav_agent.target_position)
+	#print("=========================")
 
 func set_selected(selected: bool):
 	is_selected = selected
