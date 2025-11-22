@@ -12,7 +12,7 @@ size = Vector2(6, 11)
 [sub_resource type="CircleShape2D" id="CircleShape2D_hnd4r"]
 radius = 23.086792
 
-[node name="Fighter" type="CharacterBody2D"]
+[node name="Fighter" type="CharacterBody2D" groups=["Players"]]
 script = ExtResource("1_hnd4r")
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
@@ -33,7 +33,7 @@ one_shot = true
 [node name="SpecialCoolDown" type="Timer" parent="."]
 one_shot = true
 
-[node name="BasicRange" type="Area2D" parent="." groups=["Players"]]
+[node name="BasicRange" type="Area2D" parent="."]
 collision_mask = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BasicRange"]

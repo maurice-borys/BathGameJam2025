@@ -1,8 +1,8 @@
 [gd_scene load_steps=3 format=3 uid="uid://efjnpdvfo662"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_n1n1p"]
+[ext_resource type="Texture2D" uid="uid://lnshwxpiw05b" path="res://Sprites/bat.png" id="1_46gn3"]
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_y8x6n"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n1n1p"]
 
 [node name="BakedWall" type="StaticBody2D"]
 
@@ -10,11 +10,12 @@
 shape = SubResource("RectangleShape2D_n1n1p")
 
 [node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+vertices = PackedVector2Array(10.069013, -10.182665, 10.069013, 10.182665, -10.069013, 10.182665, -10.069013, -10.182665)
 affect_navigation_mesh = true
 carve_navigation_mesh = true
-avoidance_enabled = false
 avoidance_layers = 3
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0.27393675, 0.7394603, 0.6175171, 1)
-texture = SubResource("PlaceholderTexture2D_y8x6n")
+scale = Vector2(0.15999925, 0.1600003)
+texture = ExtResource("1_46gn3")

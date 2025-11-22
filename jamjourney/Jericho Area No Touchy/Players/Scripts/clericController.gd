@@ -15,7 +15,7 @@ var healingArea : Array[Health]
 var homingSpellScene : PackedScene = preload("res://Jericho Area No Touchy/Players/Scenes/mageBulletHoming.tscn")
 var piercingSpellScene : PackedScene = preload("res://Jericho Area No Touchy/Players/Scenes/PiercingSpell.tscn")
 
-@export var allies : Array[Node2D]
+var allies : Array[Node2D]
 @export var maxHealth : float = 1000
 @export var speed : float = 10
 @export var range : Vector2 = Vector2(10,30)
@@ -36,6 +36,12 @@ func _ready() -> void:
 	healthModule.healthChanged.connect(healthChanged)
 	
 	agent.velocity_computed.connect(safeVelocity)
+	
+	allies = []
+	var rawPlayer = get_tree().get_nodes_in_group("Players")
+	for raw in rawPlayer:
+		if raw is Node2D and raw != self:
+			allies.append(raw)
 
 func _physics_process(delta: float) -> void:
 	allies.filter(func(item): return item != null)

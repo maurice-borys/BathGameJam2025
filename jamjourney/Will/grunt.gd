@@ -5,21 +5,20 @@ class_name Grunt
 signal goto_command_path_start(path: CommandPath)
 
 @export var speed: float = 100.0
+@export var damadge: float = 1.0
 @onready var click_area: Area2D = $ClickArea
 
 @onready var nav_agent: NavigationAgent2D = $NavAgent
+@onready var attack_timer: Timer = $AttackTimer
+@onready var attack_hitbox: Area2D = $AttackHitbox
 @onready var nav_timer: Timer = $NavTimer
 @onready var sprite: Sprite2D = $Sprite
 @export var godottexture: Texture2D
 
 
-#@onready var skelebones: Texture2D = preload("res://Will/skeleton left.png")
-
 var pointer_node: Node2D
-
 var target: Node2D
 var follow: CommandPath
-
 var vel = Vector2.ZERO
 var is_selected = false
 
@@ -30,7 +29,8 @@ func _ready():
 
 func target_player():
 	target = get_tree().get_first_node_in_group("player")
-	nav_agent.target_position = target.global_position
+	if target:
+		nav_agent.target_position = target.global_position
 
 func _physics_process(delta: float) -> void:
 	#if Engine.get_frames_drawn() % 60 == 0:
@@ -84,7 +84,6 @@ func set_target(new_target: Node2D):
 
 func set_command_follow(new_follow: CommandPath):
 	free_all()
-	
 	follow = new_follow
 	target = follow.command_follow
 	nav_agent.target_position = follow.command_follow.global_position
@@ -152,3 +151,19 @@ func _on_nav_agent_path_changed() -> void:
 		nav_agent.set_avoidance_mask_value(0b10, false)
 	else:
 		nav_agent.set_avoidance_mask_value(0b10, true)
+
+
+
+
+func _on_attack_hitbox_body_entered(body: Node2D) -> void:
+	attack_timer.start()
+	
+
+func _on_attack_timer_timeout() -> void:
+	for body in attack_hitbox.get_overlapping_bodies():
+		if body.is_in_group("player"):
+			var health = Health.findHealthModule(body)
+			if health:
+				health.dealDamage(damadge)
+				
+		
