@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://ohjyvm53ohnf"]
+
+[ext_resource type="Script" uid="uid://cexu82lyqvrx2" path="res://Jericho Area No Touchy/Scripts/clericController.gd" id="1_m2chb"]
+[ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://GlobalModules/HealthModule.tscn" id="2_kcvrr"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_od5hr"]
+radius = 3.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_m2chb"]
+radius = 31.0
+
+[node name="Cleric" type="CharacterBody2D"]
+script = ExtResource("1_m2chb")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0, 1, 1, 1)
+polygon = PackedVector2Array(-2, 2, 3, 2, 3, -2, 0, -5, -3, -2, -3, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_od5hr")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+radius = 5.0
+
+[node name="BasicCoolDown" type="Timer" parent="."]
+one_shot = true
+
+[node name="SpecialCoolDown" type="Timer" parent="."]
+one_shot = true
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_m2chb")
+
+[node name="HealthModule" parent="." instance=ExtResource("2_kcvrr")]

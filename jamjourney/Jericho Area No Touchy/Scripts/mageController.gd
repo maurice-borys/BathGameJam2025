@@ -86,5 +86,6 @@ func setClosestEnemy(enemy : Node2D) -> void:
 		closestEnemy = enemy
 
 func healthChanged(old, new):
+	print(self.name + " -> " + str(new))
 	if new <= 0:
 		queue_free()
