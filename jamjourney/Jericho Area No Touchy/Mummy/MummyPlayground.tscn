@@ -17,7 +17,7 @@ zoom = Vector2(3, 3)
 
 [node name="Fighter" parent="." node_paths=PackedStringArray("targetArray", "testEnemy") instance=ExtResource("2_fd32x")]
 position = Vector2(-98, -2)
-targetArray = [NodePath("")]
+targetArray = [NodePath("../Mummy")]
 testEnemy = NodePath("../Mummy")
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]

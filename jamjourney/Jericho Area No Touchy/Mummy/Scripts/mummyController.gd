@@ -13,7 +13,7 @@ var inRange : Array[Health]
 @onready var healthModule : Health = $HealthModule
 @onready var strikeHitBox : Area2D = $Area2D
 
-@export var players : Array[Node2D]
+var players : Array[Node2D]
 @export var maxHealth : float = 1000
 @export var speed : float = 25
 @export var damage : float = 30
@@ -25,6 +25,11 @@ var inRange : Array[Health]
 @export var stopHealDuration : float = 1
 
 func _ready() -> void:
+	var rawPlayer = get_tree().get_nodes_in_group("Players")
+	for raw in rawPlayer:
+		if raw is Node2D:
+			players.append(raw)
+	
 	healthModule.maxHealth = maxHealth
 	healthModule.health = maxHealth
 	healthModule.healthChanged.connect(healthChanged)
