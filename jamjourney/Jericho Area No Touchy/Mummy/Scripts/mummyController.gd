@@ -11,9 +11,10 @@ var inRange : Array[Health]
 @onready var stopHealDTimer : Timer = $Timers/stopHealDuration
 
 @onready var healthModule : Health = $HealthModule
-@onready var strikeHitBox : Area2D = $Area2D
+@onready var strikeHitBox : Area2D = $Pivot/Area2D
+@onready var pivot : Node2D = $Pivot
 
-@export var players : Array[Node2D]
+var players : Array[Node2D]
 @export var maxHealth : float = 1000
 @export var speed : float = 25
 @export var damage : float = 30
@@ -25,6 +26,11 @@ var inRange : Array[Health]
 @export var stopHealDuration : float = 1
 
 func _ready() -> void:
+	var rawPlayer = get_tree().get_nodes_in_group("Players")
+	for raw in rawPlayer:
+		if raw is Node2D:
+			players.append(raw)
+	
 	healthModule.maxHealth = maxHealth
 	healthModule.health = maxHealth
 	healthModule.healthChanged.connect(healthChanged)
@@ -52,6 +58,7 @@ func _ready() -> void:
 			playerOriginalStats[body] = Vector2(body.damage,body.damageSpecial)
 
 func _physics_process(delta: float) -> void:
+	
 	players.filter(func(item): return item != null)
 	
 	if Input.is_action_pressed("left_click"):
@@ -72,6 +79,7 @@ func _physics_process(delta: float) -> void:
 		stopHealCTimer.start()
 		stopHealDTimer.start()
 	
+	pivot.rotation = global_position.direction_to(get_global_mouse_position()).angle() - PI
 	velocity = global_position.direction_to(target).normalized() * speed
 	move_and_slide()
 
