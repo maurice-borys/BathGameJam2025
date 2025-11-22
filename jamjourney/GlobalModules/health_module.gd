@@ -21,3 +21,9 @@ func healHealth(amount : float) -> void:
 	
 func getHealth() -> float:
 	return health
+
+static func findHealthModule(body : Node2D) -> Health:
+	for child in body.get_children():
+		if child is Health:
+			return child
+	return null
