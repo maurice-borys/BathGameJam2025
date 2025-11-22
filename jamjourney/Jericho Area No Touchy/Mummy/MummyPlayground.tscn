@@ -1,0 +1,66 @@
+[gd_scene load_steps=7 format=3 uid="uid://cwjrvqo2do843"]
+
+[ext_resource type="Script" uid="uid://c7yk63ctwjjwc" path="res://Jericho Area No Touchy/Mummy/Scripts/mummyController.gd" id="1_xvk18"]
+[ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://GlobalModules/HealthModule.tscn" id="2_asrxr"]
+[ext_resource type="PackedScene" uid="uid://14q8x5lk82hm" path="res://Jericho Area No Touchy/Players/Scenes/fighter.tscn" id="2_fd32x"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r1mk7"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fd32x"]
+radius = 34.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_fd32x"]
+vertices = PackedVector2Array(179, -97.02344, 179, 96, -180.95313, 96, -180.03906, -97.96875)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-190, -108, 189, -107, 189, 106, -191, 106)])
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Mummy" type="CharacterBody2D" parent="." node_paths=PackedStringArray("players")]
+collision_layer = 2
+script = ExtResource("1_xvk18")
+players = [NodePath("../Fighter")]
+
+[node name="Polygon2D" type="Polygon2D" parent="Mummy"]
+color = Color(0.5921569, 0, 0, 1)
+polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mummy"]
+shape = SubResource("RectangleShape2D_r1mk7")
+
+[node name="Timers" type="Node2D" parent="Mummy"]
+
+[node name="shieldCooldown" type="Timer" parent="Mummy/Timers"]
+one_shot = true
+
+[node name="stopHealCooldown" type="Timer" parent="Mummy/Timers"]
+one_shot = true
+
+[node name="strikeCooldown" type="Timer" parent="Mummy/Timers"]
+one_shot = true
+
+[node name="shieldDuration" type="Timer" parent="Mummy/Timers"]
+one_shot = true
+
+[node name="stopHealDuration" type="Timer" parent="Mummy/Timers"]
+one_shot = true
+
+[node name="Area2D" type="Area2D" parent="Mummy"]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mummy/Area2D"]
+shape = SubResource("CircleShape2D_fd32x")
+
+[node name="HealthModule" parent="Mummy" instance=ExtResource("2_asrxr")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3, 3)
+
+[node name="Fighter" parent="." node_paths=PackedStringArray("targetArray", "testEnemy") instance=ExtResource("2_fd32x")]
+position = Vector2(-98, -2)
+targetArray = [NodePath("../Mummy")]
+testEnemy = NodePath("../Mummy")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+visible = false
+navigation_polygon = SubResource("NavigationPolygon_fd32x")

@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Cleric
 
 var allyTarget : Node2D
 var currentRange : float

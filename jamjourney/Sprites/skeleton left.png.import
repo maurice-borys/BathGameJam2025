@@ -2,25 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bfohg1exquadn"
-<<<<<<<< HEAD:jamjourney/Sprites/skeleton left.png.import
+uid="uid://d4a86wjnx0fpf"
 path="res://.godot/imported/skeleton left.png-5f886d4ca51f603f979fc8eaeb970c08.ctex"
-========
-path="res://.godot/imported/skeleton left.png-7f2d1180f4c1a7d06e42e259091dd104.ctex"
->>>>>>>> a7c743e (selection work):jamjourney/Will/skeleton left.png.import
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-<<<<<<<< HEAD:jamjourney/Sprites/skeleton left.png.import
 source_file="res://Sprites/skeleton left.png"
 dest_files=["res://.godot/imported/skeleton left.png-5f886d4ca51f603f979fc8eaeb970c08.ctex"]
-========
-source_file="res://Will/skeleton left.png"
-dest_files=["res://.godot/imported/skeleton left.png-7f2d1180f4c1a7d06e42e259091dd104.ctex"]
->>>>>>>> a7c743e (selection work):jamjourney/Will/skeleton left.png.import
 
 [params]
 

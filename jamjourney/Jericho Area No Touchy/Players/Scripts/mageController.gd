@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Mage
 
 var target : Node2D
 var closestEnemy : Node2D
@@ -22,6 +23,7 @@ signal completedMap()
 @export var basicCoolDown : float = 1
 @export var specialCoolDown : float = 3
 @export var damage : float = 10
+@export var damageSpecial : float = 25
 
 func _ready() -> void:
 	basicTimer.wait_time = basicCoolDown
@@ -47,7 +49,6 @@ func _physics_process(delta: float) -> void:
 	
 	if not is_instance_valid(closestEnemy):
 		closestEnemy = null
-		
 
 	if global_position.distance_to(closestEnemy.global_position) < range && closestEnemy != null:
 		rotation = (global_position.direction_to(closestEnemy.position).angle() + PI/2) 
@@ -86,7 +87,7 @@ func specialAttack():
 	var spell : PiercingSpell = piercingSpellScene.instantiate()
 	spell.global_position = global_position
 	spell.direction = Vector2.RIGHT.rotated(rotation - PI/2)
-	spell.damage = damage
+	spell.damage = damageSpecial
 	
 	get_tree().current_scene.add_child(spell)
 
