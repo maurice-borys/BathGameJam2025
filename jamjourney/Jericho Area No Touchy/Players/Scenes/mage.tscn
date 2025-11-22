@@ -11,7 +11,7 @@ script = ExtResource("1_6845g")
 range = 30.0
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
-color = Color(0, 1, 1, 1)
+color = Color(0.6043658, 0.0042320406, 0.98827714, 1)
 polygon = PackedVector2Array(-2, 2, 3, 2, 3, -2, 0, -5, -3, -2, -3, 2)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
