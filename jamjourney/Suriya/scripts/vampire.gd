@@ -12,16 +12,18 @@ var target_position = Vector2()
 @onready var bite_cooldown: Timer = $bite_cooldown
 @onready var transform_cooldown: Timer = $transform_cooldown
 
-@onready var sprite: AnimatedSprite2D = $BasicAttack
-@onready var hitbox: Area2D = $AttackHitbox
-@onready var hitbox_shape: CollisionShape2D = $AttackHitbox/CollisionShape2D
+@onready var sprite: AnimatedSprite2D = $pivot/BasicAttack
+@onready var hitbox: Area2D = $pivot/AttackHitbox
+@onready var hitbox_shape: CollisionShape2D = $pivot/AttackHitbox/CollisionShape2D
 
-@onready var bite_hitbox: Area2D = $BiteHitbox
-@onready var bite_sprite: AnimatedSprite2D = $BiteAttack
-@onready var bite_hitbox_shape: CollisionShape2D = $BiteHitbox/CollisionShape2D
+@onready var bite_hitbox: Area2D = $pivot/BiteHitbox
+@onready var bite_sprite: AnimatedSprite2D = $pivot/BiteAttack
+@onready var bite_hitbox_shape: CollisionShape2D = $pivot/BiteHitbox/CollisionShape2D
 
 @onready var vampire_sprite: AnimatedSprite2D = $VampireSprite
 @onready var vampire_hitbox_shape: CollisionShape2D = $CollisionShape2D
+
+@onready var pivot: Node2D = $pivot
 
 var attacking: bool = false
 var healing: bool = false
@@ -36,6 +38,7 @@ func _ready():
 	health_module.healthChanged.connect(health_changed)
 
 func _process(_delta):
+	pivot.rotation = global_position.direction_to(get_global_mouse_position()).angle() - PI
 	if Input.is_action_just_pressed("button_1") and not attacking:
 		start_attack()
 	

@@ -87,6 +87,9 @@ size = Vector2(42, 64)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ksgwu"]
 size = Vector2(52, 89)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_x3drn"]
+radius = 37.12142
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_ksgwu"]
 atlas = ExtResource("5_wh7ff")
 region = Rect2(0, 0, 32, 32)
@@ -185,9 +188,6 @@ animations = [{
 "name": &"default",
 "speed": 30.0
 }]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_x3drn"]
-radius = 37.12142
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x3drn"]
 atlas = ExtResource("2_n8m6e")
@@ -294,31 +294,8 @@ sprite_frames = SubResource("SpriteFrames_3epp1")
 position = Vector2(1, 2)
 shape = SubResource("RectangleShape2D_3epp1")
 
-[node name="AttackHitbox" type="Area2D" parent="."]
-position = Vector2(-98, -2)
-collision_layer = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackHitbox"]
-position = Vector2(36, 3)
-shape = SubResource("RectangleShape2D_ksgwu")
-
-[node name="BasicAttack" type="AnimatedSprite2D" parent="."]
-position = Vector2(-62, 2)
-scale = Vector2(1.5937501, 2.75)
-sprite_frames = SubResource("SpriteFrames_07sv4")
-
 [node name="HealthModule" parent="." instance=ExtResource("6_sguw3")]
 maxHealth = 100.0
-
-[node name="BiteHitbox" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BiteHitbox"]
-position = Vector2(-99, 1)
-shape = SubResource("CircleShape2D_x3drn")
-
-[node name="BiteAttack" type="AnimatedSprite2D" parent="."]
-position = Vector2(-98, -3)
-sprite_frames = SubResource("SpriteFrames_2ofud")
 
 [node name="death_timer" type="Timer" parent="."]
 wait_time = 3.0
@@ -333,8 +310,33 @@ wait_time = 10.0
 [node name="transform_cooldown" type="Timer" parent="."]
 wait_time = 20.0
 
-[connection signal="animation_finished" from="BasicAttack" to="." method="_on_basic_attack_animation_finished"]
+[node name="pivot" type="Node2D" parent="."]
+
+[node name="AttackHitbox" type="Area2D" parent="pivot"]
+position = Vector2(-98, -2)
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="pivot/AttackHitbox"]
+position = Vector2(36, 3)
+shape = SubResource("RectangleShape2D_ksgwu")
+
+[node name="BiteHitbox" type="Area2D" parent="pivot"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="pivot/BiteHitbox"]
+position = Vector2(-99, 1)
+shape = SubResource("CircleShape2D_x3drn")
+
+[node name="BasicAttack" type="AnimatedSprite2D" parent="pivot"]
+position = Vector2(-62, 2)
+scale = Vector2(1.5937501, 2.75)
+sprite_frames = SubResource("SpriteFrames_07sv4")
+
+[node name="BiteAttack" type="AnimatedSprite2D" parent="pivot"]
+position = Vector2(-98, -3)
+sprite_frames = SubResource("SpriteFrames_2ofud")
+
 [connection signal="timeout" from="death_timer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="bat_timer" to="." method="_on_bat_timer_timeout"]
 [connection signal="timeout" from="bite_cooldown" to="." method="_on_bite_cooldown_timeout"]
 [connection signal="timeout" from="transform_cooldown" to="." method="_on_transform_cooldown_timeout"]
+[connection signal="animation_finished" from="pivot/BasicAttack" to="." method="_on_basic_attack_animation_finished"]

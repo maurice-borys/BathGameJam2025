@@ -4,9 +4,10 @@ var speed = 300
 var damage = 50
 
 @onready var health_module: Health = $HealthModule
-@onready var sprite: AnimatedSprite2D = $BasicAttack
-@onready var hitbox: Area2D = $AttackHitbox
-@onready var hitbox_shape: CollisionShape2D = $AttackHitbox/CollisionShape2D
+@onready var sprite: AnimatedSprite2D = $pivot/BasicAttack
+@onready var hitbox: Area2D = $pivot/AttackHitbox
+@onready var hitbox_shape: CollisionShape2D = $pivot/AttackHitbox/CollisionShape2D
+@onready var pivot: Node2D = $pivot
 
 @onready var death_timer: Timer = $death_timer
 
@@ -23,6 +24,7 @@ func _ready():
 	health_module.healthChanged.connect(health_changed)
 
 func _process(_delta):
+	pivot.rotation = global_position.direction_to(get_global_mouse_position()).angle() - PI
 	if Input.is_action_just_pressed("button_1") and not attacking:
 		start_attack()
 	if Input.is_action_just_pressed("button_2") and not attacking:
