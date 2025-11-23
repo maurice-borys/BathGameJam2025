@@ -2,6 +2,7 @@ extends Node2D
 
 @export var nextScene : PackedScene
 @export var miniBoss : Node2D
+@onready var timer : Timer = $Timer
 
 var players : Array[Node2D]
 var spawners : Array[Node2D]
@@ -18,10 +19,17 @@ func _ready() -> void:
 		if player is not Cleric:
 			player.targetArray.assign(manaGenerators + [miniBoss])
 			player.completedMap.connect(nextLevel)
-
+	
+	timer.start()
 func _process(delta: float) -> void:
 	if not is_instance_valid(miniBoss):
 		nextLevel()
+	
+func increaseXp():
+	var xp : float = 0.5
+	GlobalVariables.playerXP += xp
+	for player in players:
+		player.addXp(xp)
 
 func nextLevel():
 	get_tree().change_scene_to_packed(nextScene)

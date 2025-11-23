@@ -102,7 +102,9 @@ func _physics_process(_delta):
 func health_changed(_old, new):
 	print(new)
 	if new <= 0:
-		timer.start()
+		#print("hi")
+		queue_free()
+		#timer.start()
 
 func _on_timer_timeout() -> void:
 	print("dead")
