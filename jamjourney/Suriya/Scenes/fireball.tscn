@@ -194,7 +194,7 @@ rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_1nj6c")
 
 [node name="despawn_timer" type="Timer" parent="."]
-wait_time = 20.0
+wait_time = 5.0
 autostart = true
 
 [connection signal="timeout" from="despawn_timer" to="." method="_on_despawn_timer_timeout"]

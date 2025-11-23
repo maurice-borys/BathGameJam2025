@@ -11,8 +11,6 @@ var damage = 50
 @onready var hitbox: Area2D = $pivot/AttackHitbox
 @onready var hitbox_shape: CollisionShape2D = $pivot/AttackHitbox/CollisionShape2D
 @onready var pivot: Node2D = $pivot
-
-@onready var root = get_tree().get_root().get_node("LichBody2D")
 #different timers
 @onready var death_timer: Timer = $death_timer
 @onready var teleport_cd: Timer = $teleport_cd
@@ -24,6 +22,8 @@ var damage = 50
 var click_position = Vector2()
 var target_position = Vector2()
 
+
+
 var attacking = false
 var teleport_ready = true
 var fireball_ready = true
@@ -34,12 +34,15 @@ func _ready():
 	health_module.healthChanged.connect(health_changed)
 
 func _process(_delta):
-	pivot.rotation = global_position.direction_to(get_global_mouse_position()).angle() - PI
+	
 	if Input.is_action_just_pressed("button_1") and not attacking:
+		pivot.rotation = global_position.direction_to(get_global_mouse_position()).angle() - PI
 		start_attack()
 	elif Input.is_action_just_pressed("button_2") and not attacking and teleport_ready:
+		pivot.rotation = global_position.direction_to(get_global_mouse_position()).angle() - PI
 		start_teleport()
 	elif Input.is_action_just_pressed("button_3") and not attacking and fireball_ready:
+		pivot.rotation = global_position.direction_to(get_global_mouse_position()).angle() - PI
 		start_shoot()
 	
 	
@@ -74,10 +77,10 @@ func start_shoot():
 	attacking = true
 	fireball_ready = false
 	fireball_cd.start()
-	fireball_instance.dir = global_rotation
+	fireball_instance.dir = global_position.direction_to(get_global_mouse_position()).angle() + PI/2
 	fireball_instance.spawn_pos = global_position
 	fireball_instance.spawn_rot = global_rotation
-	root.call_deferred("add_child",fireball_instance)
+	pivot.call_deferred("add_child",fireball_instance)
 	attacking = false
 	
 	
