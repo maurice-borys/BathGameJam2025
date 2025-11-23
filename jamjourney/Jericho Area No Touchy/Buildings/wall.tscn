@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://dmwsxiw4jk0bs"]
+
+[ext_resource type="Script" uid="uid://c5sos8l71u852" path="res://Jericho Area No Touchy/Buildings/Scripts/wall.gd" id="1_b0wgd"]
+
+[node name="Wall" type="StaticBody2D"]
+collision_layer = 4
+collision_mask = 15
+script = ExtResource("1_b0wgd")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 7
+collision_mask = 7
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+polygon = PackedVector2Array(45, -44, 5, -60, -11, 18, 62, -2)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]

@@ -5,7 +5,7 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w2wr8"]
 
-[node name="Mana Generator" type="StaticBody2D"]
+[node name="Mana Generator" type="StaticBody2D" groups=["manaGenerators"]]
 collision_layer = 10
 script = ExtResource("1_xc5yh")
 maxHealth = 10

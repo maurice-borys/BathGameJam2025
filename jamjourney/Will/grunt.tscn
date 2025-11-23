@@ -10,20 +10,25 @@ radius = 6.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_oejt3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vqibj"]
+radius = 13.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pc5cf"]
 radius = 13.0
 
 [node name="Grunt" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("1_dsrx1")
 speed = 75.0
 godottexture = ExtResource("2_gtcv5")
 
 [node name="HurtBox" type="Area2D" parent="."]
+visible = false
 collision_layer = 2
 collision_mask = 0
 
 [node name="HurtCollision" type="CollisionShape2D" parent="HurtBox"]
+visible = false
 shape = SubResource("CircleShape2D_qo6so")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -36,13 +41,11 @@ scale = Vector2(0.04, 0.042)
 texture = ExtResource("3_pc5cf")
 
 [node name="ClickArea" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 collision_mask = 0
 monitorable = false
 
 [node name="ClickCollision" type="CollisionShape2D" parent="ClickArea"]
-visible = false
 shape = SubResource("CircleShape2D_vqibj")
 
 [node name="NavAgent" type="NavigationAgent2D" parent="."]
@@ -50,11 +53,12 @@ path_desired_distance = 10.0
 target_desired_distance = 30.0
 navigation_layers = 2
 avoidance_enabled = true
-radius = 15.0
 neighbor_distance = 1000.0
+max_neighbors = 50
 time_horizon_obstacles = 1.0
 avoidance_layers = 2
 avoidance_mask = 2
+debug_enabled = true
 debug_path_custom_line_width = 1.0
 
 [node name="NavTimer" type="Timer" parent="."]
@@ -63,6 +67,7 @@ wait_time = 0.1
 autostart = true
 
 [node name="AttackHitbox" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 monitorable = false
 
