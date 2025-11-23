@@ -1,11 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://cy62273hng4qf"]
+[gd_scene load_steps=11 format=3 uid="uid://cy62273hng4qf"]
 
 [ext_resource type="PackedScene" uid="uid://14q8x5lk82hm" path="res://Scenes/Player/Fighter/fighter.tscn" id="5_oic03"]
 [ext_resource type="PackedScene" uid="uid://4okppg7asb2m" path="res://Scenes/Buildings/ManaGenerator/manaGenerator.tscn" id="6_oic03"]
+[ext_resource type="PackedScene" uid="uid://ca12c4jfortly" path="res://Components/HUD.tscn" id="7_oknwr"]
 [ext_resource type="PackedScene" uid="uid://7m13g1m77co8" path="res://Scenes/Buildings/Spawner/Spawner.tscn" id="7_x8v0c"]
 [ext_resource type="PackedScene" uid="uid://d1cfcnv1exgdk" path="res://Components/Cursor/Cursor.tscn" id="8_ipufh"]
 [ext_resource type="PackedScene" uid="uid://774jqjjmrbeu" path="res://Components/Selection/Selection.tscn" id="8_oknwr"]
 [ext_resource type="PackedScene" uid="uid://dkjxvs8oa8dnd" path="res://Scenes/Enemies/Bosses/Lich/bbeg.tscn" id="9_bt056"]
+[ext_resource type="PackedScene" uid="uid://d1hy7ow242yib" path="res://Components/ManaManager.tscn" id="9_ipufh"]
 [ext_resource type="PackedScene" uid="uid://bes1ttstk5flj" path="res://Scenes/Enemies/Bosses/Vampire/vampire.tscn" id="10_546d3"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_xw6e3"]
@@ -16,10 +18,11 @@ agent_radius = 25.0
 
 [node name="Node2D" type="Node2D"]
 
-[node name="Selection" parent="." node_paths=PackedStringArray("nav_mesh", "cursor") instance=ExtResource("8_oknwr")]
+[node name="Selection" parent="." node_paths=PackedStringArray("nav_mesh", "cursor", "manamanger") instance=ExtResource("8_oknwr")]
 visible = false
 nav_mesh = NodePath("../NavigationRegion2D")
-cursor = NodePath("../CanvasLayer/Cursor")
+cursor = NodePath("../HUD/Cursor")
+manamanger = NodePath("../ManaManager")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 visible = false
@@ -27,7 +30,7 @@ position = Vector2(576, 322)
 scale = Vector2(1, 3.7600012)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
-position = Vector2(0, -13)
+position = Vector2(15, 8)
 navigation_polygon = SubResource("NavigationPolygon_xw6e3")
 navigation_layers = 7
 
@@ -47,10 +50,17 @@ targetArray = [NodePath("../Mana Generator"), NodePath("../Mana Generator2")]
 visible = false
 position = Vector2(554, 85)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="LichBody2D" parent="." instance=ExtResource("9_bt056")]
 visible = false
+position = Vector2(874, 124)
 
-[node name="Cursor" parent="CanvasLayer" instance=ExtResource("8_ipufh")]
+[node name="vampire" parent="." instance=ExtResource("10_546d3")]
+position = Vector2(979, 501)
+
+[node name="HUD" parent="." node_paths=PackedStringArray("mana_manager") instance=ExtResource("7_oknwr")]
+mana_manager = NodePath("../ManaManager")
+
+[node name="Cursor" parent="HUD" instance=ExtResource("8_ipufh")]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -64,9 +74,4 @@ offset_bottom = -299.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="LichBody2D" parent="." instance=ExtResource("9_bt056")]
-visible = false
-position = Vector2(874, 124)
-
-[node name="vampire" parent="." instance=ExtResource("10_546d3")]
-position = Vector2(979, 501)
+[node name="ManaManager" parent="." instance=ExtResource("9_ipufh")]
