@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://ohjyvm53ohnf"]
+[gd_scene load_steps=6 format=3 uid="uid://ohjyvm53ohnf"]
 
 [ext_resource type="Script" uid="uid://cexu82lyqvrx2" path="res://Scenes/Player/Cleric/clericController.gd" id="1_m2chb"]
 [ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://Components/HealthModule.tscn" id="2_kcvrr"]
@@ -8,6 +8,14 @@ radius = 3.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_m2chb"]
 radius = 31.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_k86t7"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
 
 [node name="Cleric" type="CharacterBody2D" groups=["Players"]]
 collision_mask = 15
@@ -37,3 +45,8 @@ one_shot = true
 shape = SubResource("CircleShape2D_m2chb")
 
 [node name="HealthModule" parent="." instance=ExtResource("2_kcvrr")]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_k86t7")
+animation = &"Idle"
+autoplay = "Idle"

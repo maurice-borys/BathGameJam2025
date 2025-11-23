@@ -309,8 +309,8 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_gbv5x"]
-radius = 3.1622777
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_68ip0"]
+size = Vector2(14, 28)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnd4r"]
 size = Vector2(22, 48)
@@ -344,8 +344,8 @@ frame = 5
 frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -1)
-shape = SubResource("CircleShape2D_gbv5x")
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_68ip0")
 
 [node name="Pivot" type="Node2D" parent="."]
 

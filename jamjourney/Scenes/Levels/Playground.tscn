@@ -96,9 +96,9 @@ minSpeed = 70.0
 range = Vector2(70, 140)
 wallRange = 15.0
 
-[node name="Mage" parent="." node_paths=PackedStringArray("targetArray", "testEnemy") instance=ExtResource("2_rjgpw")]
+[node name="Mage" parent="." node_paths=PackedStringArray("targetArray", "testEnemy") groups=["manaGenerators"] instance=ExtResource("2_rjgpw")]
 position = Vector2(-265, 263)
-scale = Vector2(7, 7)
+scale = Vector2(2, 2)
 targetArray = [NodePath("../Mana Generator"), NodePath("../Mana Generator2"), NodePath("../TestEnemy")]
 testEnemy = NodePath("../TestEnemy")
 minSpeed = 70.0
