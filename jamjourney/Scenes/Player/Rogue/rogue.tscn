@@ -208,14 +208,10 @@ animations = [{
 "speed": 10.0
 }]
 
-[node name="Rogue" type="CharacterBody2D"]
-scale = Vector2(7, 7)
+[node name="Rogue" type="CharacterBody2D" groups=["Players"]]
 collision_mask = 15
 script = ExtResource("1_mriy4")
-
-[node name="Polygon2D" type="Polygon2D" parent="."]
-color = Color(0, 1, 1, 1)
-polygon = PackedVector2Array(-2, 2, 3, 2, 3, -2, 0, -5, -3, -2, -3, 2)
+range = Vector2(30, 30)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -1)
@@ -250,11 +246,13 @@ shape = SubResource("CircleShape2D_n5ig6")
 
 [node name="HealthModule" parent="." instance=ExtResource("2_8twqn")]
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
-collision_mask = 4
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_5vsv4")
 animation = &"Attack"
 frame = 15
 frame_progress = 1.0
+
+[node name="Pivot" type="Node2D" parent="."]
+
+[node name="RayCast2D" type="RayCast2D" parent="Pivot"]
+collision_mask = 4

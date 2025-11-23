@@ -7,7 +7,7 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_srm62"]
 
-[node name="Spawner" type="Area2D"]
+[node name="Spawner" type="Area2D" groups=["Spawners"]]
 script = ExtResource("1_j3we2")
 spawn_entity = ExtResource("2_xjnqu")
 

@@ -1,33 +1,40 @@
-[gd_scene load_steps=9 format=3 uid="uid://bmisabixoxem4"]
+[gd_scene load_steps=13 format=3 uid="uid://bmisabixoxem4"]
 
+[ext_resource type="Script" uid="uid://bcb6glt27sji8" path="res://Scenes/Levels/LevelManager.gd" id="1_ou8j6"]
 [ext_resource type="PackedScene" uid="uid://4okppg7asb2m" path="res://Scenes/Buildings/ManaGenerator/manaGenerator.tscn" id="1_ufdwi"]
+[ext_resource type="PackedScene" uid="uid://cy62273hng4qf" path="res://Scenes/Levels/Playground.tscn" id="2_vsfvf"]
 [ext_resource type="PackedScene" uid="uid://bes1ttstk5flj" path="res://Scenes/Enemies/Bosses/Vampire/vampire.tscn" id="2_w8dcx"]
 [ext_resource type="PackedScene" uid="uid://7m13g1m77co8" path="res://Scenes/Buildings/Spawner/Spawner.tscn" id="3_w8dcx"]
+[ext_resource type="PackedScene" uid="uid://d042r43unr0un" path="res://Scenes/Player/Rogue/rogue.tscn" id="4_b1hrc"]
 [ext_resource type="PackedScene" uid="uid://774jqjjmrbeu" path="res://Components/Selection/Selection.tscn" id="4_hnayu"]
 [ext_resource type="PackedScene" uid="uid://ohjyvm53ohnf" path="res://Scenes/Player/Cleric/cleric.tscn" id="4_ubj35"]
 [ext_resource type="PackedScene" uid="uid://d1cfcnv1exgdk" path="res://Components/Cursor/Cursor.tscn" id="5_b1hrc"]
-[ext_resource type="PackedScene" uid="uid://14q8x5lk82hm" path="res://Scenes/Player/Fighter/fighter.tscn" id="5_jcxtp"]
+[ext_resource type="PackedScene" uid="uid://14q8x5lk82hm" path="res://Scenes/Player/Fighter/fighter.tscn" id="6_b1hrc"]
+[ext_resource type="PackedScene" uid="uid://ohjyvm53ohnf" path="res://Scenes/Player/Cleric/cleric.tscn" id="6_jcxtp"]
+[ext_resource type="PackedScene" uid="uid://dixjgii5h8mg6" path="res://Scenes/Player/Mage/mage.tscn" id="7_gke0t"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_qlyuv"]
-vertices = PackedVector2Array(326.0703, -169.02344, 328.90625, 185.89844, -324.9375, 180.07813, -323.04688, -170.96875)
+vertices = PackedVector2Array(567.1875, -315, 579.78906, 317.90625, -573.8672, 308.07813, -566.1172, -315.9922)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-333, -181, 336, -179, 339, 196, -335, 190)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-576, -326, 577, -325, 590, 328, -584, 318)])
 
-[node name="MainWorld" type="Node2D"]
+[node name="MainWorld" type="Node2D" node_paths=PackedStringArray("miniBoss")]
+script = ExtResource("1_ou8j6")
+nextScene = ExtResource("2_vsfvf")
+miniBoss = NodePath("Forest/vampire")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(2, 2)
 
 [node name="Forest" type="Node2D" parent="."]
 
 [node name="Background" type="Polygon2D" parent="Forest"]
 z_index = -5
+position = Vector2(-240, -148)
 scale = Vector2(0.5, 0.5)
 color = Color(0, 0.57254905, 0, 1)
-polygon = PackedVector2Array(-650, -349, 648, -344, 648, 368, -656, 368)
+polygon = PackedVector2Array(-650, -349, 1634, -352, 1660, 942, -680, 936)
 
 [node name="PlayerStart" type="Node2D" parent="Forest"]
-position = Vector2(-262, 0)
 
 [node name="Cleric" parent="Forest/PlayerStart" instance=ExtResource("4_ubj35")]
 position = Vector2(253.34924, -155.92165)
@@ -39,29 +46,53 @@ targetArray = [NodePath("../../mana_gen1"), NodePath("../../mana_gen2"), NodePat
 navigation_polygon = SubResource("NavigationPolygon_qlyuv")
 navigation_layers = 255
 
+[node name="vampire" parent="Forest" instance=ExtResource("2_w8dcx")]
+position = Vector2(216, 82)
+scale = Vector2(0.5, 0.5)
+
 [node name="mana_gen1" parent="Forest" instance=ExtResource("1_ufdwi")]
-position = Vector2(126, -92)
+position = Vector2(186, -93)
 
 [node name="mana_gen2" parent="Forest" instance=ExtResource("1_ufdwi")]
-position = Vector2(40, -122)
+position = Vector2(100, -123)
 
 [node name="mana_gen3" parent="Forest" instance=ExtResource("1_ufdwi")]
-position = Vector2(214, -31)
+position = Vector2(274, -32)
 
 [node name="spawner1" parent="Forest" instance=ExtResource("3_w8dcx")]
-position = Vector2(69, 100)
+position = Vector2(129, 99)
 
 [node name="spawner2" parent="Forest" instance=ExtResource("3_w8dcx")]
-position = Vector2(219, -94)
+position = Vector2(179, -23)
 
 [node name="spawner3" parent="Forest" instance=ExtResource("3_w8dcx")]
-position = Vector2(165, 23)
+position = Vector2(225, 22)
+
+[node name="Fighter" parent="Forest" instance=ExtResource("6_b1hrc")]
+position = Vector2(-173, 9)
+minSpeed = 30.0
+
+[node name="Rogue" parent="Forest" instance=ExtResource("4_b1hrc")]
+position = Vector2(-116, 37)
+minSpeed = 30.0
+
+[node name="Cleric" parent="Forest" instance=ExtResource("6_jcxtp")]
+position = Vector2(-183, 88)
+minSpeed = 30.0
+
+[node name="Mage" parent="Forest" node_paths=PackedStringArray("targetArray") instance=ExtResource("7_gke0t")]
+position = Vector2(-116, -2)
+scale = Vector2(0.75, 0.75)
+targetArray = [NodePath("../mana_gen1"), NodePath("../mana_gen2"), NodePath("../mana_gen3")]
+minSpeed = 30.0
 
 [node name="vampire" parent="Forest" instance=ExtResource("2_w8dcx")]
 position = Vector2(676.89996, 367.5)
 
 [node name="Selection" parent="." node_paths=PackedStringArray("nav_mesh", "cursor") instance=ExtResource("4_hnayu")]
 nav_mesh = NodePath("../Forest/NavigationRegion2D")
-cursor = NodePath("../Cursor")
+cursor = NodePath("../CanvasLayer/CursorLayer")
 
-[node name="Cursor" parent="." instance=ExtResource("5_b1hrc")]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="CursorLayer" parent="CanvasLayer" instance=ExtResource("5_b1hrc")]
