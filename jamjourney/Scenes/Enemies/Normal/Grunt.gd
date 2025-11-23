@@ -29,6 +29,7 @@ func _ready():
 func _physics_process(delta: float) -> void:
 	nav_component.navigate()
 	if health_module.getHealth() <= 0.0:
+		remove_from_group("enemies")
 		queue_free()
 
 func _on_nav_component_computed_velocity(safe_velocity: Vector2) -> void:
