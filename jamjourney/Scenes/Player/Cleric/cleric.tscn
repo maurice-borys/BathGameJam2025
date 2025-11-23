@@ -138,6 +138,7 @@ animations = [{
 [node name="Cleric" type="CharacterBody2D" groups=["Players"]]
 collision_mask = 15
 script = ExtResource("1_m2chb")
+range = Vector2(25, 40)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -1)

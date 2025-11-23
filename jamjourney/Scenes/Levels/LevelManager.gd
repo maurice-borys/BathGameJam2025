@@ -12,8 +12,9 @@ func _ready() -> void:
 	spawners.assign(get_tree().get_nodes_in_group("Spawners").filter(func(item): return item is Node2D))
 	manaGenerators.assign(get_tree().get_nodes_in_group("manaGenerators").filter(func(item): return item is Node2D))
 	
-	# Will you must love my coding in this project, even I wonder how my code ended up like this
+	# Will you must love my coding in this project, even I wonder how this code ended up like this
 	for player in players:
+		player.addXp(GlobalVariables.playerXP)
 		if player is not Cleric:
 			player.targetArray.assign(manaGenerators + [miniBoss])
 			player.completedMap.connect(nextLevel)
