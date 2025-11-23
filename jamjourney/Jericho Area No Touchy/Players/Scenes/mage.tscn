@@ -34,3 +34,5 @@ one_shot = true
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 collision_mask = 4
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]

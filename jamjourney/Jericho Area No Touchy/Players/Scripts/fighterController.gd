@@ -1,5 +1,5 @@
 extends CharacterBody2D
-class_name Fighter
+class_name Rogue
 
 var target : Node2D
 var closestEnemy : Node2D
