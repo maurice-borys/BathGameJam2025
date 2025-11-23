@@ -1,8 +1,10 @@
 extends CanvasLayer
 
+class_name HUD
+
 @onready var mana_label = $Mana
 
-@export var mana_manager: ManaGer
+@export var mana_manager: ManaManager
 
 
 #func _ready() -> void:

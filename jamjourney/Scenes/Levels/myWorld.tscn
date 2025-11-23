@@ -39,37 +39,38 @@ polygon = PackedVector2Array(-650, -349, 2910, -358, 2890, 1590, -678, 1584)
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="Forest"]
 navigation_polygon = SubResource("NavigationPolygon_qlyuv")
 navigation_layers = 255
+travel_cost = 2.0
 
-[node name="vampire" parent="Forest" instance=ExtResource("2_w8dcx")]
+[node name="vampire" parent="Forest" instance=ExtResource("1_pn22q")]
 position = Vector2(216, 82)
 scale = Vector2(0.5, 0.5)
 
-[node name="mana_gen1" parent="Forest" instance=ExtResource("1_ufdwi")]
+[node name="mana_gen1" parent="Forest" instance=ExtResource("2_mpi7y")]
 position = Vector2(186, -93)
 
-[node name="mana_gen2" parent="Forest" instance=ExtResource("1_ufdwi")]
+[node name="mana_gen2" parent="Forest" instance=ExtResource("2_mpi7y")]
 position = Vector2(100, -123)
 
-[node name="mana_gen3" parent="Forest" instance=ExtResource("1_ufdwi")]
+[node name="mana_gen3" parent="Forest" instance=ExtResource("2_mpi7y")]
 position = Vector2(274, -32)
 
-[node name="spawner1" parent="Forest" instance=ExtResource("3_w8dcx")]
+[node name="spawner1" parent="Forest" instance=ExtResource("3_05bf0")]
 position = Vector2(129, 99)
 
-[node name="spawner2" parent="Forest" instance=ExtResource("3_w8dcx")]
+[node name="spawner2" parent="Forest" instance=ExtResource("3_05bf0")]
 position = Vector2(179, -23)
 
-[node name="spawner3" parent="Forest" instance=ExtResource("3_w8dcx")]
+[node name="spawner3" parent="Forest" instance=ExtResource("3_05bf0")]
 position = Vector2(225, 22)
 
-[node name="Selection" parent="." node_paths=PackedStringArray("mana_manager", "nav_mesh", "cursor") instance=ExtResource("4_hnayu")]
-mana_manager = NodePath("../ManGer")
+[node name="Selection" parent="." node_paths=PackedStringArray("nav_mesh", "cursor", "manamanger") instance=ExtResource("4_7csfo")]
 nav_mesh = NodePath("../Forest/NavigationRegion2D")
 cursor = NodePath("../HUD/CursorLayer")
+manamanger = NodePath("../ManaManager")
 
-[node name="HUD" parent="." node_paths=PackedStringArray("mana_manager") instance=ExtResource("5_ubj35")]
-mana_manager = NodePath("../ManGer")
+[node name="HUD" parent="." node_paths=PackedStringArray("mana_manager") instance=ExtResource("5_xrx7k")]
+mana_manager = NodePath("../ManaManager")
 
-[node name="CursorLayer" parent="HUD" instance=ExtResource("5_b1hrc")]
+[node name="CursorLayer" parent="HUD" instance=ExtResource("6_lpkgx")]
 
-[node name="ManGer" parent="." instance=ExtResource("7_jcxtp")]
+[node name="ManaManager" parent="." instance=ExtResource("7_j08tw")]

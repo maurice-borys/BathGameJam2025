@@ -4,15 +4,16 @@ class_name WallClass
 var built: bool
 var endPoint: Vector2
 
-@onready var poly : Polygon2D = $Polygon2D
-@onready var currentCollider : CollisionPolygon2D = $CollisionPolygon2D
-@onready var areaCollider : CollisionPolygon2D = $Area2D/CollisionPolygon2D
-@onready var navigationRegion : NavigationRegion2D = $NavigationRegion2D
-@onready var area : Area2D = $Area2D
-@onready var healthModule : Health = $HealthModule
+@onready var poly: Polygon2D = $Polygon2D
+@onready var currentCollider: CollisionPolygon2D = $CollisionPolygon2D
+@onready var areaCollider: CollisionPolygon2D = $Area2D/CollisionPolygon2D
+@onready var navigationRegion: NavigationRegion2D = $NavigationRegion2D
+@onready var area: Area2D = $Area2D
+@onready var healthModule: Health = $HealthModule
 
-@export var width : float = 3
-@export var costPerLength : int = 5
+@export var width: float = 3
+@export var wallCost: float = 0.5
+@export var costPerLength: int = 5
 
 signal rebakeMesh()
 signal deleteWall(body)
@@ -20,8 +21,9 @@ signal deleteWall(body)
 func _ready() -> void:
 	built = false
 	endPoint = Vector2.ZERO
+	area.body_entered.connect(areaEntered)
 	healthModule.healthChanged.connect(healthChanged)
-	
+
 func _process(delta: float) -> void:
 	if not built:
 		areaCollider.disabled = true
@@ -44,10 +46,16 @@ func init():
 		
 		var navPoly = NavigationPolygon.new()
 		navPoly.add_outline(getVertexPositions())
+		navPoly.make_polygons_from_outlines()	
 		navigationRegion.navigation_polygon = navPoly
 		
 		rebakeMesh.emit()
-	
+
+func areaEntered(body: Node2D):
+	print(body.name)
+	if body != self:
+		built = false
+
 func length() -> float:
 	var target = endPoint if endPoint != Vector2.ZERO else get_local_mouse_position()
 	return Vector2.ZERO.distance_to(target)
@@ -71,6 +79,9 @@ func healthChanged(old, new):
 	if new <= 0:
 		deleteWall.emit(self)
 
+func mana_cost() -> float:
+	return length() * wallCost
+
 func will_collide() -> bool:
 	var space_state = get_world_2d().direct_space_state
 	var query = PhysicsShapeQueryParameters2D.new()
@@ -81,7 +92,7 @@ func will_collide() -> bool:
 	query.shape = shape
 	query.transform = Transform2D(0, global_position)
 	query.collide_with_bodies = true
-	query.collide_with_areas = false  # Don't collide with areas
+	query.collide_with_areas = false
 	query.collision_mask = 0b1111 
 	
 	var collisions = space_state.intersect_shape(query)

@@ -5,7 +5,7 @@
 
 [node name="Wall" type="StaticBody2D" groups=["Walls"]]
 collision_layer = 4
-collision_mask = 15
+collision_mask = 0
 script = ExtResource("1_b0wgd")
 width = 10.0
 
@@ -20,7 +20,7 @@ collision_mask = 15
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
-navigation_layers = 7
+navigation_layers = 255
 travel_cost = 0.1
 
 [node name="HealthModule" parent="." instance=ExtResource("2_8sgwr")]

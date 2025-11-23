@@ -4,9 +4,10 @@ class_name Selector
 
 const DOUBLE_CLICK_TIME = 0.3
 
-@export var mana_manager: ManaGer
 @export var nav_mesh : NavigationRegion2D
 @export var cursor: Cursor
+@export var manamanger: ManaManager
+
 @onready var place_timer: Timer = $PlaceTimer
 @onready var command_path: PackedScene = preload("res://Components/Selection/CommandPath.tscn")
 @onready var spawner: PackedScene = preload("res://Scenes/Buildings/Spawner/Spawner.tscn")
@@ -20,7 +21,7 @@ var is_selecting = false
 var is_commanding = false
 var build_mode = false
 var wall_build = false
-var can_place = true
+var can_place = false
 
 var drag_start = Vector2.ZERO
 var drag_end = Vector2.ZERO
@@ -99,42 +100,19 @@ func handle_building_mode(event):
 
 
 func place_wall(point: Vector2):
-	if not new_wall or not is_instance_valid(new_wall):
-		return
-	
 	new_wall.endPoint = point
-	
-	# Wait one frame for physics to update
-	await get_tree().process_frame
-	
-	if new_wall.will_collide():
-		print("Cannot place wall - collision detected")
-		new_wall.queue_free()
+	if not new_wall.will_collide() and manamanger.can_afford(new_wall):
+		manamanger.buy(new_wall)
+		new_wall.init()
 		new_wall = null
 		can_place = false
 		place_timer.start()
-		return
-	
-	var wall_cost = new_wall.cost()
-	if not mana_manager.can_afford(wall_cost):
-		print("Cannot afford wall - costs ", wall_cost)
-		new_wall.queue_free()
-		new_wall = null
-		can_place = false
-		place_timer.start()
-		return
-	
-	# Place the wall
-	mana_manager.spend(wall_cost)
-	new_wall.init()
-	new_wall = null
-	can_place = false
-	place_timer.start()
-		
- 
+	else:
+		remove_wall()
+
 func remove_wall():
 	wall_build = false
-	if new_wall and is_instance_valid(new_wall):
+	if new_wall:
 		new_wall.queue_free()
 		new_wall = null
 	queue_redraw()
@@ -146,10 +124,14 @@ func deselect_building():
 	current_building_scene = null
 
 func build_wall(start: Vector2):
+	#print("Building wall at: ", start)
+	#print("Mouse position: ", get_viewport().get_mouse_position())
+	#print("Global mouse: ", get_global_mouse_position())r1
 	cursor.wallbuild_cursor()
 	new_wall = wall.instantiate()
 	new_wall.position = start
 	new_wall.rebakeMesh.connect(overcook)
+	#newall.loseMana.connect(boo)
 	new_wall.deleteWall.connect(delete_wall)
 	nav_mesh.add_child(new_wall)
 	can_place = false
@@ -158,18 +140,14 @@ func build_wall(start: Vector2):
 
 func overcook():
 	if nav_mesh.is_baking():
-		return
+		await nav_mesh.navigation_polygon_changed
 		
 	nav_mesh.bake_navigation_polygon()
 
-func delete_wall(body: Node2D):
-	if body and is_instance_valid(body):
-		body.get_parent().remove_child(body)
-		body.queue_free()
-		
-		# Rebake navigation mesh
-		if nav_mesh and not nav_mesh.is_baking():
-			nav_mesh.bake_navigation_polygon()
+func delete_wall(body : Node2D):
+	body.get_parent().remove_child(body)
+	body.queue_free()
+	nav_mesh.bake_navigation_polygon()
 	
 	
 func copy_collider(node) -> Variant:
@@ -210,18 +188,18 @@ func handle_build():
 	
 	var collisions = space_state.intersect_shape(query)
 	
-	if collisions.is_empty():
-		if mana_manager.can_place(preview_building):
-			var place_building = current_building_scene.instantiate()
-			place_building.position = mouse_pos
-			get_tree().current_scene.add_child(place_building)
-			can_place = false
-			place_timer.start()		
+	if collisions.is_empty() and manamanger.can_afford(preview_building):
+		manamanger.buy(preview_building)
+		var place_building = current_building_scene.instantiate()
+		place_building.position = mouse_pos
+		get_tree().current_scene.add_child(place_building)
 	
 	if preview_building and is_instance_valid(preview_building):
 		preview_building.queue_free()
 		
 	preview_building = make_dummy_instance(current_building_scene)
+	can_place = false
+	place_timer.start()
 	queue_redraw()
 
 func get_collision_shape(node: Node) -> CollisionShape2D:
