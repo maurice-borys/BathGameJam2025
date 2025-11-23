@@ -15,6 +15,7 @@ signal completedMap()
 @onready var areaRange : Area2D = $BasicRange
 @onready var areaRangeSpecial : Area2D = $SpecialRange
 @onready var healthModule : Health = $HealthModule
+@onready var rayWall : RayCast2D = $RayCast2D
 
 @export var targetArray : Array[Node2D]
 @export var testEnemy : Node2D
@@ -25,14 +26,14 @@ signal completedMap()
 @export var specialCoolDown : float = 3
 @export var damage : float = 10
 @export var damageSpecial : float = 30
+@export var wallRange : float = 10
 
 func _ready() -> void:
 	add_to_group("player")
 	areaRange.body_entered.connect(enteredRange)
 	areaRange.body_exited.connect(exitedRange)
 	
-	agent.navigation_layers = 1 | 2
-	agent.path_postprocessing = NavigationPathQueryParameters2D.PATH_POSTPROCESSING_CORRIDORFUNNEL
+	rayWall.target_position = Vector2.UP * wallRange
 	
 	areaRangeSpecial.body_entered.connect(enteredRangeSpecial)
 	areaRangeSpecial.body_exited.connect(exitedRangeSpecial)
@@ -66,6 +67,10 @@ func _physics_process(delta: float) -> void:
 		attack()
 	elif global_position.distance_to(target.global_position) > range.y:
 		move()
+		
+		if rayWall.is_colliding():
+			if rayWall.get_collider() is WallClass:
+				attack()
 	else:
 		attack()
 
@@ -95,6 +100,7 @@ func specialAttack():
 		body.dealDamage(damageSpecial)
 
 func enteredRange(body : Node2D):
+	print(body.name)
 	inRange.append(Health.findHealthModule(body))
 	
 func exitedRange(body : Node2D):
@@ -119,5 +125,5 @@ func healthChanged(old : float, new : float) -> void:
 	if new <= 0:
 		queue_free()
 		
-func safeVelocity(safeVel):
+func safeVelocity(safeVel : Vector2):
 	velocity = safeVel

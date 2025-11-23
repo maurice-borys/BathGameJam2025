@@ -91,3 +91,4 @@ targetArray = [NodePath("../Mana Generator"), NodePath("../Mana Generator2"), No
 testEnemy = NodePath("../TestEnemy")
 speed = 70.0
 range = Vector2(70, 140)
+wallRange = 15.0

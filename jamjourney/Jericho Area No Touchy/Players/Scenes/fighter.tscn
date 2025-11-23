@@ -36,16 +36,19 @@ one_shot = true
 one_shot = true
 
 [node name="BasicRange" type="Area2D" parent="."]
-collision_mask = 10
+collision_mask = 14
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BasicRange"]
 position = Vector2(0, -5.5)
 shape = SubResource("RectangleShape2D_hnd4r")
 
 [node name="SpecialRange" type="Area2D" parent="."]
-collision_mask = 10
+collision_mask = 14
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SpecialRange"]
 shape = SubResource("CircleShape2D_hnd4r")
 
 [node name="HealthModule" parent="." instance=ExtResource("2_p30ql")]
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+collision_mask = 4

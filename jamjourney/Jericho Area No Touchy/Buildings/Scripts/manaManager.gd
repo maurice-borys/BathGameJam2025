@@ -26,6 +26,7 @@ func placeWall():
 	wallObj.position = get_global_mouse_position()
 	wallObj.rebakeMesh.connect(tooMuchBake)
 	wallObj.loseMana.connect(boo)
+	wallObj.deleteWall.connect(deleteWall)
 	navMesh.add_child(wallObj)
 
 func placeSpawner():
@@ -34,6 +35,11 @@ func placeSpawner():
 	get_tree().current_scene.add_child(spawnerObj)
 
 func tooMuchBake():
+	navMesh.bake_navigation_polygon()
+	
+func deleteWall(body : Node2D):
+	body.get_parent().remove_child(body)
+	body.queue_free()
 	navMesh.bake_navigation_polygon()
 
 func moo(amount):
