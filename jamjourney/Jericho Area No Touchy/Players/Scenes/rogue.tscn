@@ -1,0 +1,56 @@
+[gd_scene load_steps=6 format=3 uid="uid://d042r43unr0un"]
+
+[ext_resource type="Script" uid="uid://y33l71d22b31" path="res://Jericho Area No Touchy/Players/Scripts/rogueController.gd" id="1_mriy4"]
+[ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://GlobalModules/HealthModule.tscn" id="2_8twqn"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oic03"]
+radius = 3.1622777
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w2wr8"]
+size = Vector2(6, 11)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mriy4"]
+size = Vector2(7.8571463, 14.714291)
+
+[node name="Rogue" type="CharacterBody2D"]
+scale = Vector2(7, 7)
+script = ExtResource("1_mriy4")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0, 1, 1, 1)
+polygon = PackedVector2Array(-2, 2, 3, 2, 3, -2, 0, -5, -3, -2, -3, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_oic03")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+avoidance_enabled = true
+radius = 5.0
+debug_enabled = true
+
+[node name="BasicCoolDown" type="Timer" parent="."]
+one_shot = true
+
+[node name="SpecialCoolDown" type="Timer" parent="."]
+one_shot = true
+
+[node name="BasicRange" type="Area2D" parent="."]
+collision_mask = 14
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BasicRange"]
+position = Vector2(0, -5.5)
+shape = SubResource("RectangleShape2D_w2wr8")
+
+[node name="SpecialRange" type="Area2D" parent="."]
+collision_mask = 14
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpecialRange"]
+position = Vector2(-0.071428396, -6.2142844)
+scale = Vector2(0.99999946, 0.99999946)
+shape = SubResource("RectangleShape2D_mriy4")
+
+[node name="HealthModule" parent="." instance=ExtResource("2_8twqn")]
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+collision_mask = 4
