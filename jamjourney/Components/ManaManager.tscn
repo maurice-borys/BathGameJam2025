@@ -7,7 +7,16 @@ layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_ep68i")
 
-[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+[node name="WinBar" type="ProgressBar" parent="."]
+z_index = 10
 layout_mode = 0
-offset_right = 185.0
-offset_bottom = 49.0
+offset_left = 1.0
+offset_top = -1.0
+offset_right = 615.0
+offset_bottom = 73.0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 615.0
+offset_bottom = 75.0
+color = Color(0.23921569, 1, 1, 1)
