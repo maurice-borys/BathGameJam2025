@@ -20,10 +20,10 @@ func _ready() -> void:
 	timer.start()
 	
 func getMoolah():
-	print("Money")
+	#print("Money")
 	manaTick.emit(amountTick)
 	
 func healthChanged(old, new):
-	print(self.name + " -> " + str(new))
+	#print(self.name + " -> " + str(new))
 	if new <= 0:
 		queue_free()

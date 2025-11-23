@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bmisabixoxem4"]
+[gd_scene load_steps=9 format=3 uid="uid://bmisabixoxem4"]
 
 [ext_resource type="Script" uid="uid://bcb6glt27sji8" path="res://Scenes/Levels/LevelManager.gd" id="1_ou8j6"]
 [ext_resource type="PackedScene" uid="uid://4okppg7asb2m" path="res://Scenes/Buildings/ManaGenerator/manaGenerator.tscn" id="1_ufdwi"]
@@ -8,14 +8,13 @@
 [ext_resource type="PackedScene" uid="uid://d042r43unr0un" path="res://Scenes/Player/Rogue/rogue.tscn" id="4_b1hrc"]
 [ext_resource type="PackedScene" uid="uid://774jqjjmrbeu" path="res://Components/Selection/Selection.tscn" id="4_hnayu"]
 [ext_resource type="PackedScene" uid="uid://d1cfcnv1exgdk" path="res://Components/Cursor/Cursor.tscn" id="5_b1hrc"]
-[ext_resource type="PackedScene" uid="uid://14q8x5lk82hm" path="res://Scenes/Player/Fighter/fighter.tscn" id="6_b1hrc"]
-[ext_resource type="PackedScene" uid="uid://ohjyvm53ohnf" path="res://Scenes/Player/Cleric/cleric.tscn" id="6_jcxtp"]
-[ext_resource type="PackedScene" uid="uid://dixjgii5h8mg6" path="res://Scenes/Player/Mage/mage.tscn" id="7_gke0t"]
+[ext_resource type="PackedScene" uid="uid://ca12c4jfortly" path="res://Components/HUD.tscn" id="5_ubj35"]
+[ext_resource type="PackedScene" uid="uid://d1hy7ow242yib" path="res://Components/ManaGer.tscn" id="7_jcxtp"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_qlyuv"]
-vertices = PackedVector2Array(567.1875, -315, 579.78906, 317.90625, -573.8672, 308.07813, -566.1172, -315.9922)
+vertices = PackedVector2Array(1203.0313, 632.02344, -572.9219, 635.96875, -566.0703, -316, 1205.9609, -316.9922)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-576, -326, 577, -325, 590, 328, -584, 318)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-576, -326, 1216, -327, 1213, 642, -583, 646)])
 
 [node name="MainWorld" type="Node2D"]
 
@@ -35,7 +34,7 @@ z_index = -5
 position = Vector2(-240, -148)
 scale = Vector2(0.5, 0.5)
 color = Color(0, 0.57254905, 0, 1)
-polygon = PackedVector2Array(-650, -349, 1634, -352, 1660, 942, -680, 936)
+polygon = PackedVector2Array(-650, -349, 2910, -358, 2890, 1590, -678, 1584)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="Forest"]
 navigation_polygon = SubResource("NavigationPolygon_qlyuv")
@@ -63,22 +62,14 @@ position = Vector2(179, -23)
 [node name="spawner3" parent="Forest" instance=ExtResource("3_w8dcx")]
 position = Vector2(225, 22)
 
-[node name="Selection" parent="." node_paths=PackedStringArray("nav_mesh", "cursor") instance=ExtResource("4_hnayu")]
+[node name="Selection" parent="." node_paths=PackedStringArray("mana_manager", "nav_mesh", "cursor") instance=ExtResource("4_hnayu")]
+mana_manager = NodePath("../ManGer")
 nav_mesh = NodePath("../Forest/NavigationRegion2D")
-cursor = NodePath("../CanvasLayer/CursorLayer")
+cursor = NodePath("../HUD/CursorLayer")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="HUD" parent="." node_paths=PackedStringArray("mana_manager") instance=ExtResource("5_ubj35")]
+mana_manager = NodePath("../ManGer")
 
-[node name="CursorLayer" parent="CanvasLayer" instance=ExtResource("5_b1hrc")]
+[node name="CursorLayer" parent="HUD" instance=ExtResource("5_b1hrc")]
 
-[node name="Fighter" parent="." instance=ExtResource("6_b1hrc")]
-position = Vector2(-191, 0)
-
-[node name="Mage" parent="." instance=ExtResource("7_gke0t")]
-position = Vector2(-139, -1)
-
-[node name="Rogue" parent="." instance=ExtResource("4_b1hrc")]
-position = Vector2(-181, -28)
-
-[node name="Cleric" parent="." instance=ExtResource("6_jcxtp")]
-position = Vector2(-158, 7)
+[node name="ManGer" parent="." instance=ExtResource("7_jcxtp")]

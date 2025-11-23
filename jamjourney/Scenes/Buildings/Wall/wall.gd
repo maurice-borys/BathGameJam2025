@@ -1,8 +1,8 @@
 extends StaticBody2D
 class_name WallClass
 
-var built : bool
-var endPoint : Vector2
+var built: bool
+var endPoint: Vector2
 
 @onready var poly : Polygon2D = $Polygon2D
 @onready var currentCollider : CollisionPolygon2D = $CollisionPolygon2D
@@ -16,12 +16,10 @@ var endPoint : Vector2
 
 signal rebakeMesh()
 signal deleteWall(body)
-signal loseMana(amount)
 
 func _ready() -> void:
 	built = false
-	
-	area.body_entered.connect(areaEntered)
+	endPoint = Vector2.ZERO
 	healthModule.healthChanged.connect(healthChanged)
 	
 func _process(delta: float) -> void:
@@ -29,8 +27,6 @@ func _process(delta: float) -> void:
 		areaCollider.disabled = true
 		poly.polygon = getVertexPositions()
 		areaCollider.set_deferred("polygon", getVertexPositions())
-		poly.color = Color()
-		areaCollider.disabled = false
 		
 		# Visual feedback for collision
 		if will_collide():
@@ -40,33 +36,35 @@ func _process(delta: float) -> void:
 			
 		areaCollider.disabled = false
 
-func init() -> bool:	
+func init():	
 	if not built:
 		built = true
 		currentCollider.set_deferred("polygon", getVertexPositions())
 		areaCollider.disabled = true
-
+		
 		var navPoly = NavigationPolygon.new()
 		navPoly.add_outline(getVertexPositions())
-		navPoly.make_polygons_from_outlines()	
 		navigationRegion.navigation_polygon = navPoly
 		
 		rebakeMesh.emit()
-		loseMana.emit(Vector2.ZERO.distance_to(get_local_mouse_position()) * costPerLength)
-	return true
-
-func areaEntered(body : Node2D):
-	print(body.name)
-	if body != self:
-		built = false
+	
+func length() -> float:
+	var target = endPoint if endPoint != Vector2.ZERO else get_local_mouse_position()
+	return Vector2.ZERO.distance_to(target)
 
 func getVertexPositions() -> Array[Vector2]:
-	var directon = get_local_mouse_position().normalized()
-	var right = Vector2(-directon.y, directon.x).normalized() * width
-	var left = Vector2(directon.y, -directon.x).normalized() * width
-	var topRight = right + get_local_mouse_position()
-	var topLeft = left + get_local_mouse_position()
-	return [left, topLeft, topRight, right]
+	var target = endPoint if endPoint != Vector2.ZERO else get_local_mouse_position()
+	var direction = target.normalized()
+	
+	var right = Vector2(-direction.y, direction.x) * width
+	var left = Vector2(direction.y, -direction.x) * width
+	
+	var bottomLeft = left
+	var topLeft = target + left
+	var topRight = target + right
+	var bottomRight = right
+	
+	return [bottomLeft, topLeft, topRight, bottomRight]
 
 func healthChanged(old, new):
 	print("Wall -> " + str(new))
@@ -83,9 +81,11 @@ func will_collide() -> bool:
 	query.shape = shape
 	query.transform = Transform2D(0, global_position)
 	query.collide_with_bodies = true
+	query.collide_with_areas = false  # Don't collide with areas
 	query.collision_mask = 0b1111 
+	
 	var collisions = space_state.intersect_shape(query)
 	for collision in collisions:
-		if collision.collider is not WallClass:
+		if collision.collider != self and collision.collider is not WallClass:
 			return true
 	return false

@@ -1,5 +1,7 @@
 extends Area2D
 
+class_name GruntSpawner
+
 @export var spawn_entity: PackedScene
 
 @onready var spawn_timer: Timer = $SpawnTimer
