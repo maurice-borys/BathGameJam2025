@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://dmwsxiw4jk0bs"]
+[gd_scene load_steps=3 format=3 uid="uid://bk6vrh7nkt5au"]
 
-[ext_resource type="Script" uid="uid://c5sos8l71u852" path="res://Scenes/Buildings/Wall/wall.gd" id="1_b0wgd"]
+[ext_resource type="Script" uid="uid://c5sos8l71u852" path="res://Scenes/Buildings/Wall/Wall.gd" id="1_b0wgd"]
 [ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://Components/HealthModule.tscn" id="2_8sgwr"]
 
 [node name="Wall" type="StaticBody2D" groups=["Walls"]]

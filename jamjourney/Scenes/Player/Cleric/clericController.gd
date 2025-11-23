@@ -112,7 +112,7 @@ func getLowestHealthAlly() -> Node2D:
 			
 	return lowestHealth
 		
-func healthChanged(old, new):
+func healthChanged(_old, new):
 	print(self.name + " -> " + str(new))
 	if new <= 0:
 		queue_free()

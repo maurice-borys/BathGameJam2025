@@ -67,17 +67,19 @@ func _ready() -> void:
 	target = targetArray.pop_front()
 	setClosestEnemy(testEnemy)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if not is_instance_valid(target):
 		if targetArray.size() <= 0:
 			completedMap.emit()
 		else:
 			target = targetArray.pop_front()
 	
-	agent.target_position = target.global_position
+	if target:
+		agent.target_position = target.global_position
 	
 	if not is_instance_valid(closestEnemy):
 		closestEnemy = null
+		return
 	
 	if global_position.distance_to(closestEnemy.global_position) < range.x && closestEnemy != null:
 		rotation = (global_position.direction_to(closestEnemy.position).angle() + PI/2) 

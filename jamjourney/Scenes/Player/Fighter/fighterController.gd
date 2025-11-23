@@ -9,7 +9,7 @@ var inRangeSpecial : Array[Health]
 signal completedMap()
 
 @onready var agent : NavigationAgent2D = $NavigationAgent2D
-@onready var sprite : Node2D = $Polygon2D
+@onready var sprite : Node2D = $AnimatedSprite2D
 @onready var basicTimer : Timer = $BasicCoolDown
 @onready var specialTimer : Timer = $SpecialCoolDown
 @onready var areaRange : Area2D = $Pivot/BasicRange
@@ -73,10 +73,16 @@ func _physics_process(delta: float) -> void:
 		else:
 			target = targetArray.pop_front()
 	
+	if not target:
+		return
 	agent.target_position = target.global_position
 	
 	if not is_instance_valid(closestEnemy):
 		closestEnemy = null
+		return
+	
+	if not target:
+		return
 	
 	if global_position.distance_to(closestEnemy.global_position) < range.x && closestEnemy != null:
 		pivot.rotation = (global_position.direction_to(closestEnemy.position).angle() + PI/2) 

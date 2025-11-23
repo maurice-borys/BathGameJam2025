@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://d1cfcnv1exgdk"]
+
+[ext_resource type="Texture2D" uid="uid://b6hh8tpfh7uwi" path="res://Sprites/unselected.png" id="1_iluld"]
+[ext_resource type="Script" uid="uid://mqvfum4r4qm0" path="res://Components/Cursor/Cursor.gd" id="2_woyn0"]
+
+[node name="Cursor" type="TextureRect"]
+modulate = Color(0.18431373, 1, 1, 1)
+offset_right = 50.0
+offset_bottom = 50.0
+mouse_filter = 2
+texture = ExtResource("1_iluld")
+script = ExtResource("2_woyn0")
