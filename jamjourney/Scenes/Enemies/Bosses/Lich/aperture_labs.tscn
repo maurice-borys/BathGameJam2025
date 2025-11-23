@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b58mo838byeab"]
 
 [ext_resource type="PackedScene" uid="uid://14q8x5lk82hm" path="res://Scenes/Player/Fighter/fighter.tscn" id="1_8d8xe"]
-[ext_resource type="PackedScene" uid="uid://dkjxvs8oa8dnd" path="res://Scenes/Enemies/Bosses/bbeg.tscn" id="1_xlfb3"]
+[ext_resource type="PackedScene" uid="uid://dkjxvs8oa8dnd" path="res://Scenes/Enemies/Bosses/Lich/bbeg.tscn" id="1_xlfb3"]
 
 [node name="Node2D" type="Node2D"]
 

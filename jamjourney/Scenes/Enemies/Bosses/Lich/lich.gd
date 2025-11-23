@@ -3,7 +3,9 @@ extends CharacterBody2D
 @export var speed = 300
 @export var damage = 200
 
-@onready var fireball = preload("res://Scenes/Enemies/Bosses/fireball.tscn")
+@onready var fireball = preload("res://Scenes/Enemies/Bosses/Lich/fireball.tscn")
+
+@onready var nav_component: NavComponent = $NavComponent
 
 @onready var health_module: Health = $HealthModule
 #variables for hitboxes and stuff
@@ -47,13 +49,14 @@ func _process(_delta):
 	
 	
 func _physics_process(_delta):
-	if Input.is_action_just_pressed("left_click"):
-		click_position = get_global_mouse_position()
-	
-	if position.distance_to(click_position) > 3:
-		target_position = (click_position - position).normalized()
-		velocity = target_position * speed
-		move_and_slide()
+	nav_component.navigate()
+	#if Input.is_action_just_pressed("left_click"):
+		#click_position = get_global_mouse_position()
+	#
+	#if position.distance_to(click_position) > 3:
+		#target_position = (click_position - position).normalized()
+		#velocity = target_position * speed
+		#move_and_slide()
 		
 func start_attack():
 	attacking = true
@@ -108,3 +111,8 @@ func _on_teleport_cd_timeout() -> void:
 
 func _on_fireball_cd_timeout() -> void:
 	fireball_ready = true
+
+
+func _on_nav_component_computed_velocity(safe_velocity: Vector2) -> void:
+	velocity = safe_velocity
+	move_and_slide()

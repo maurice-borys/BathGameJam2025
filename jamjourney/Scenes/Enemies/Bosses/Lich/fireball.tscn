@@ -1,6 +1,6 @@
 [gd_scene load_steps=26 format=3 uid="uid://dggcl73nhkyyg"]
 
-[ext_resource type="Script" uid="uid://cb5s80j61tttg" path="res://Scenes/Enemies/Bosses/fireball.gd" id="1_qo511"]
+[ext_resource type="Script" uid="uid://cb5s80j61tttg" path="res://Scenes/Enemies/Bosses/Lich/fireball.gd" id="1_qo511"]
 [ext_resource type="Texture2D" uid="uid://css22fbjbd21r" path="res://Sprites/animated sprites/Firebolt SpriteSheet.png" id="2_wj5b2"]
 [ext_resource type="Texture2D" uid="uid://bgq7ly2u65yhn" path="res://Sprites/animated sprites/Explosion 2 SpriteSheet.png" id="3_wj5b2"]
 

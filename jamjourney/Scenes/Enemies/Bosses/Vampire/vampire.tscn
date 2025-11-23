@@ -1,12 +1,13 @@
-[gd_scene load_steps=46 format=3 uid="uid://bes1ttstk5flj"]
+[gd_scene load_steps=47 format=3 uid="uid://bes1ttstk5flj"]
 
-[ext_resource type="Script" uid="uid://dxwe512yeap4o" path="res://Scenes/Enemies/Bosses/vampire.gd" id="1_umhrb"]
+[ext_resource type="Script" uid="uid://dxwe512yeap4o" path="res://Scenes/Enemies/Bosses/Vampire/vampire.gd" id="1_umhrb"]
 [ext_resource type="Texture2D" uid="uid://8egku77l87m" path="res://Sprites/animated sprites/Vampire bite.png" id="2_n8m6e"]
 [ext_resource type="Texture2D" uid="uid://lnshwxpiw05b" path="res://Sprites/bat.png" id="3_lry1f"]
 [ext_resource type="Texture2D" uid="uid://vwcterlms2dh" path="res://Sprites/RPG Maker x3 size/Pallete 2/Vampire.png" id="4_piet5"]
 [ext_resource type="Texture2D" uid="uid://deixsilqjxyq8" path="res://Sprites/animated sprites/attack.png" id="5_wh7ff"]
 [ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://Components/HealthModule.tscn" id="6_sguw3"]
 [ext_resource type="Texture2D" uid="uid://dk78hud4k0pnd" path="res://Sprites/animated sprites/FireFang.png" id="7_ly4cv"]
+[ext_resource type="PackedScene" uid="uid://djrj4w1nryb2t" path="res://Components/NavComponent.tscn" id="8_cakw2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_07sv4"]
 atlas = ExtResource("2_n8m6e")
@@ -339,8 +340,11 @@ sprite_frames = SubResource("SpriteFrames_2ofud")
 frame = 11
 frame_progress = 1.0
 
+[node name="NavComponent" parent="." instance=ExtResource("8_cakw2")]
+
 [connection signal="timeout" from="death_timer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="bat_timer" to="." method="_on_bat_timer_timeout"]
 [connection signal="timeout" from="bite_cooldown" to="." method="_on_bite_cooldown_timeout"]
 [connection signal="timeout" from="transform_cooldown" to="." method="_on_transform_cooldown_timeout"]
 [connection signal="animation_finished" from="pivot/BasicAttack" to="." method="_on_basic_attack_animation_finished"]
+[connection signal="computed_velocity" from="NavComponent" to="." method="_on_nav_component_computed_velocity"]

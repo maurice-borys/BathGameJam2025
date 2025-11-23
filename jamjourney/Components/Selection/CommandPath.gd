@@ -5,7 +5,6 @@ class_name CommandPath
 signal path_completed(command_path)
 
 @onready var command_follow: PathFollow2D = $CommandFollow
-@onready var sprite: Sprite2D = $CommandFollow/Sprite2D
 var going = false
 var finished = false
 @export var speed: float = 20.0
@@ -30,8 +29,6 @@ func _process(delta: float) -> void:
 func get_start_point() -> Vector2:
 	return curve.get_point_position(0)
 
-func remove_sprite():
-	sprite.texture = null
 
 func start():
 	going = true

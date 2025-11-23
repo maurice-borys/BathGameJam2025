@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cwjrvqo2do843"]
 
-[ext_resource type="PackedScene" uid="uid://cumebfp17yi6m" path="res://Scenes/Enemies/Bosses/Mummy/mummy.tscn" id="1_fd32x"]
+[ext_resource type="PackedScene" uid="uid://cumebfp17yi6m" path="res://Scenes/Enemies/Bosses/Mummy (DEPR)/mummy.tscn" id="1_fd32x"]
 [ext_resource type="PackedScene" uid="uid://14q8x5lk82hm" path="res://Scenes/Player/Fighter/fighter.tscn" id="2_fd32x"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_fd32x"]

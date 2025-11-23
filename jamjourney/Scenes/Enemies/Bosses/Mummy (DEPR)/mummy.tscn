@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cumebfp17yi6m"]
 
-[ext_resource type="Script" uid="uid://c7yk63ctwjjwc" path="res://Scenes/Enemies/Bosses/Mummy/Scripts/mummyController.gd" id="1_moece"]
+[ext_resource type="Script" uid="uid://c7yk63ctwjjwc" path="res://Scenes/Enemies/Bosses/Mummy (DEPR)/Scripts/mummyController.gd" id="1_moece"]
 [ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://Components/HealthModule.tscn" id="2_l48uc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r1mk7"]

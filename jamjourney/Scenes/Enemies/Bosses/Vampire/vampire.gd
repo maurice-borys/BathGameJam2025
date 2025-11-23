@@ -7,6 +7,8 @@ extends CharacterBody2D
 var click_position = Vector2()
 var target_position = Vector2()
 
+@onready var nav_component: NavComponent = $NavComponent
+
 @onready var timer: Timer = $death_timer
 @onready var bat_timer: Timer = $bat_timer
 @onready var bite_cooldown: Timer = $bite_cooldown
@@ -46,7 +48,6 @@ func _process(_delta):
 	if Input.is_action_just_pressed("button_1") and not attacking:
 		start_attack()
 		pivot.rotation = global_position.direction_to(get_global_mouse_position()).angle() - PI
-
 		
 	
 	elif Input.is_action_just_pressed("button_2") and not attacking and bite_avaliable:
@@ -84,15 +85,18 @@ func start_bat_form():
 	
 func _physics_process(_delta):
 	if bat_form:
+		nav_component.nav_agent.max_speed = 500.0
 		speed = 500
 		
-	if Input.is_action_just_pressed("left_click"):
-		click_position = get_global_mouse_position()
-	
-	if position.distance_to(click_position) > 3:
-		target_position = (click_position - position).normalized()
-		velocity = target_position * speed 
-		move_and_slide()
+	nav_component.navigate()
+		
+	#if Input.is_action_just_pressed("left_click"):
+		#click_position = get_global_mouse_position()
+	#
+	#if position.distance_to(click_position) > 3:
+		#target_position = (click_position - position).normalized()
+		#velocity = target_position * speed 
+		#move_and_slide()
 
 func health_changed(_old, new):
 	if new <= 0:
@@ -137,3 +141,8 @@ func _on_bite_cooldown_timeout() -> void:
 
 func _on_transform_cooldown_timeout() -> void:
 	bat_available = true
+
+
+func _on_nav_component_computed_velocity(safe_velocity: Vector2) -> void:
+	velocity = safe_velocity
+	move_and_slide()

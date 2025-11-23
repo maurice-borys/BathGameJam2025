@@ -1,63 +1,64 @@
-[gd_scene load_steps=21 format=3 uid="uid://dkjxvs8oa8dnd"]
+[gd_scene load_steps=22 format=3 uid="uid://dkjxvs8oa8dnd"]
 
-[ext_resource type="Script" uid="uid://2dpqtcj0rh63" path="res://Scenes/Enemies/Bosses/lich.gd" id="1_5jvye"]
-[ext_resource type="Texture2D" uid="uid://4m60mm43sipu" path="res://Sprites/RPG Maker x3 size/Pallete 2/Lich.png" id="2_dbqag"]
-[ext_resource type="Texture2D" uid="uid://deixsilqjxyq8" path="res://Sprites/animated sprites/attack.png" id="3_km84k"]
-[ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://Components/HealthModule.tscn" id="4_lfbiv"]
+[ext_resource type="Script" uid="uid://2dpqtcj0rh63" path="res://Scenes/Enemies/Bosses/Lich/lich.gd" id="1_uygkf"]
+[ext_resource type="Texture2D" uid="uid://4m60mm43sipu" path="res://Sprites/RPG Maker x3 size/Pallete 2/Lich.png" id="2_fot7s"]
+[ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://Components/HealthModule.tscn" id="3_vocty"]
+[ext_resource type="Texture2D" uid="uid://deixsilqjxyq8" path="res://Sprites/animated sprites/attack.png" id="4_lj66t"]
+[ext_resource type="PackedScene" uid="uid://djrj4w1nryb2t" path="res://Components/NavComponent.tscn" id="5_fot7s"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p1lyt"]
 size = Vector2(103.12499, 119.999985)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ksgwu"]
-atlas = ExtResource("3_km84k")
+atlas = ExtResource("4_lj66t")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_547wv"]
-atlas = ExtResource("3_km84k")
+atlas = ExtResource("4_lj66t")
 region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gnl88"]
-atlas = ExtResource("3_km84k")
+atlas = ExtResource("4_lj66t")
 region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rthyc"]
-atlas = ExtResource("3_km84k")
+atlas = ExtResource("4_lj66t")
 region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g1j2v"]
-atlas = ExtResource("3_km84k")
+atlas = ExtResource("4_lj66t")
 region = Rect2(0, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_405hl"]
-atlas = ExtResource("3_km84k")
+atlas = ExtResource("4_lj66t")
 region = Rect2(32, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7d2b1"]
-atlas = ExtResource("3_km84k")
+atlas = ExtResource("4_lj66t")
 region = Rect2(64, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a7bkc"]
-atlas = ExtResource("3_km84k")
+atlas = ExtResource("4_lj66t")
 region = Rect2(96, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_svmyt"]
-atlas = ExtResource("3_km84k")
+atlas = ExtResource("4_lj66t")
 region = Rect2(0, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w4l1i"]
-atlas = ExtResource("3_km84k")
+atlas = ExtResource("4_lj66t")
 region = Rect2(32, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oi3k6"]
-atlas = ExtResource("3_km84k")
+atlas = ExtResource("4_lj66t")
 region = Rect2(64, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x2186"]
-atlas = ExtResource("3_km84k")
+atlas = ExtResource("4_lj66t")
 region = Rect2(96, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3epp1"]
-atlas = ExtResource("3_km84k")
+atlas = ExtResource("4_lj66t")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_yy8je"]
@@ -113,12 +114,12 @@ size = Vector2(74, 101.5)
 [node name="LichBody2D" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 13
-script = ExtResource("1_5jvye")
+script = ExtResource("1_uygkf")
 teleport_range = 500.0
 
 [node name="LichSprite" type="Sprite2D" parent="."]
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_dbqag")
+texture = ExtResource("2_fot7s")
 
 [node name="LichCollision2D" type="CollisionShape2D" parent="."]
 position = Vector2(6.749997, 1.4305115e-06)
@@ -129,7 +130,7 @@ shape = SubResource("RectangleShape2D_p1lyt")
 wait_time = 3.0
 one_shot = true
 
-[node name="HealthModule" parent="." instance=ExtResource("4_lfbiv")]
+[node name="HealthModule" parent="." instance=ExtResource("3_vocty")]
 position = Vector2(-98.73566, -1.0166473)
 maxHealth = 1500.0
 
@@ -155,6 +156,9 @@ wait_time = 10.0
 wait_time = 10.0
 autostart = true
 
+[node name="NavComponent" parent="." instance=ExtResource("5_fot7s")]
+
 [connection signal="timeout" from="death_timer" to="." method="_on_death_timer_timeout"]
 [connection signal="timeout" from="teleport_cd" to="." method="_on_teleport_cd_timeout"]
 [connection signal="timeout" from="fireball_cd" to="." method="_on_fireball_cd_timeout"]
+[connection signal="computed_velocity" from="NavComponent" to="." method="_on_nav_component_computed_velocity"]
