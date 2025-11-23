@@ -1,9 +1,11 @@
 extends CharacterBody2D
 
-var speed = 300
-var damage = 10
+
+
 @onready var health_module: Health = $HealthModule 
 
+@export var speed = 300
+@export var damage = 10
 var click_position = Vector2()
 var target_position = Vector2()
 

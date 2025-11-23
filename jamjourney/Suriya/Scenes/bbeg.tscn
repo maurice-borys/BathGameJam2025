@@ -130,7 +130,7 @@ one_shot = true
 
 [node name="HealthModule" parent="." instance=ExtResource("4_lfbiv")]
 position = Vector2(-98.73566, -1.0166473)
-maxHealth = 500.0
+maxHealth = 1500.0
 
 [node name="pivot" type="Node2D" parent="."]
 
