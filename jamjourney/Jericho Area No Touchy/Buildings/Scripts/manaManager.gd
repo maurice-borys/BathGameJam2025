@@ -16,6 +16,10 @@ func _ready() -> void:
 	for raw in rawNodes:
 		if raw is Generators:
 			raw.manaTick.connect(moo)
+			
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("right_click"):
+		placeWall()
 
 func placeWall():
 	var wallObj : WallClass = wallScene.instantiate()

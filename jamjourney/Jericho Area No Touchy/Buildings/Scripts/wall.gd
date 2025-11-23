@@ -7,13 +7,14 @@ var endPoint : Vector2
 @onready var poly : Polygon2D = $Polygon2D
 @onready var currentCollider : CollisionPolygon2D = $CollisionPolygon2D
 @onready var areaCollider : CollisionPolygon2D = $Area2D/CollisionPolygon2D
+@onready var navigationRegion : NavigationRegion2D = $NavigationRegion2D
 @onready var area : Area2D = $Area2D
 
 @export var width : float = 3
 @export var costPerLength : int = 5
 
-signal loseMana(amount)
 signal rebakeMesh()
+signal loseMana(amount)
 
 func _ready() -> void:
 	built = false
@@ -27,10 +28,16 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("left_click") and not built:
 		built = true
 		currentCollider.set_deferred("polygon", getVertexPositions())
+		currentCollider.disabled = true
 		areaCollider.disabled = true
+
+		var navPoly = NavigationPolygon.new()
+		navPoly.add_outline(getVertexPositions())
+		navPoly.make_polygons_from_outlines()	
+		navigationRegion.navigation_polygon = navPoly
 		
-		loseMana.emit(Vector2.ZERO.distance_to(get_local_mouse_position()) * costPerLength)
 		rebakeMesh.emit()
+		loseMana.emit(Vector2.ZERO.distance_to(get_local_mouse_position()) * costPerLength)
 
 func showBuild():
 	areaCollider.disabled = true
