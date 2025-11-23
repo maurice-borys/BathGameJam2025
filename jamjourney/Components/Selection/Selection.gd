@@ -6,6 +6,8 @@ const DOUBLE_CLICK_TIME = 0.3
 
 @export var nav_mesh : NavigationRegion2D
 @export var cursor: Cursor
+@export var manamanger: ManaManager
+
 @onready var place_timer: Timer = $PlaceTimer
 @onready var command_path: PackedScene = preload("res://Components/Selection/CommandPath.tscn")
 @onready var spawner: PackedScene = preload("res://Scenes/Buildings/Spawner/Spawner.tscn")
@@ -99,11 +101,14 @@ func handle_building_mode(event):
 
 func place_wall(point: Vector2):
 	new_wall.endPoint = point
-	if not new_wall.will_collide():
+	if not new_wall.will_collide() and manamanger.can_afford(new_wall):
+		manamanger.buy(new_wall)
 		new_wall.init()
 		new_wall = null
-	can_place = false
-	place_timer.start()
+		can_place = false
+		place_timer.start()
+	else:
+		remove_wall()
 
 func remove_wall():
 	wall_build = false
@@ -183,7 +188,8 @@ func handle_build():
 	
 	var collisions = space_state.intersect_shape(query)
 	
-	if collisions.is_empty():
+	if collisions.is_empty() and manamanger.can_afford(preview_building):
+		manamanger.buy(preview_building)
 		var place_building = current_building_scene.instantiate()
 		place_building.position = mouse_pos
 		get_tree().current_scene.add_child(place_building)

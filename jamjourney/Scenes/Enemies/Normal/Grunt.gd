@@ -20,6 +20,8 @@ var follow: CommandPath
 var vel = Vector2.ZERO
 var is_selected = false
 
+
+
 func _ready():
 	add_to_group("enemies")
 	nav_component.target_player()

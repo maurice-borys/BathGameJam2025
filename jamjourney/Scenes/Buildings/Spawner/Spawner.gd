@@ -1,7 +1,9 @@
 extends Area2D
 
-@export var spawn_entity: PackedScene
+class_name GruntSpawner
 
+@export var spawn_entity: PackedScene
+@export var set_mana_cost: float = 50.0
 @onready var spawn_timer: Timer = $SpawnTimer
 
 func _ready() -> void:
@@ -14,5 +16,5 @@ func _on_spawn_timer_timeout():
 	enemy.global_position = global_position 
 
 
-func _process(delta: float) -> void:
-	pass
+func mana_cost():
+	return set_mana_cost

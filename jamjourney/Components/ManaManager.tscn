@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://d1hy7ow242yib"]
+
+[ext_resource type="Script" uid="uid://vyeylncg66k1" path="res://Components/ManaManager.gd" id="1_ep68i"]
+
+[node name="ManaManager" type="Node"]
+script = ExtResource("1_ep68i")
