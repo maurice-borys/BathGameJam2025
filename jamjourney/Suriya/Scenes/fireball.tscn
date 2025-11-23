@@ -162,7 +162,8 @@ script = ExtResource("1_qo511")
 position = Vector2(-15, 20)
 scale = Vector2(4.2083335, 3.8333333)
 sprite_frames = SubResource("SpriteFrames_xd545")
-frame_progress = 0.29408544
+frame = 3
+frame_progress = 1.0
 
 [node name="Explosion" type="Area2D" parent="."]
 collision_layer = 2
@@ -191,3 +192,9 @@ shape = SubResource("CapsuleShape2D_1nj6c")
 position = Vector2(-18, 1)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_1nj6c")
+
+[node name="despawn_timer" type="Timer" parent="."]
+wait_time = 20.0
+autostart = true
+
+[connection signal="timeout" from="despawn_timer" to="." method="_on_despawn_timer_timeout"]
