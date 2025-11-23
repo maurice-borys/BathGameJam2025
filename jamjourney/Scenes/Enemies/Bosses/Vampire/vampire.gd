@@ -60,12 +60,14 @@ func _process(_delta):
 		pivot.rotation = global_position.direction_to(get_global_mouse_position()).angle() - PI
 
 func start_attack():
+	print("attack")
 	attacking = true
 	hitbox_shape.disabled = false
 	sprite.play("default")
 	
 
 func start_bite_attack():
+	print("bite")
 	healing = true
 	attacking = true
 	bite_hitbox_shape.disabled = false
@@ -91,12 +93,12 @@ func _physics_process(_delta):
 	nav_component.navigate()
 		
 	#if Input.is_action_just_pressed("left_click"):
-		#click_position = get_global_mouse_position()
+	#	click_position = get_global_mouse_position()
 	#
 	#if position.distance_to(click_position) > 3:
-		#target_position = (click_position - position).normalized()
-		#velocity = target_position * speed 
-		#move_and_slide()
+	#	target_position = (click_position - position).normalized()
+	#	velocity = target_position * speed 
+	#	move_and_slide()
 
 func health_changed(_old, new):
 	if new <= 0:
@@ -122,7 +124,7 @@ func _on_basic_attack_animation_finished() -> void:
 		attacking = false
 
 func _on_bite_attack_animation_finished() -> void:
-	if sprite.animation == "default":
+	if bite_sprite.animation == "default":
 		bite_hitbox_shape.disabled = true
 		attacking = false
 	bite_cooldown.start()

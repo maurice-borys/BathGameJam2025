@@ -300,7 +300,6 @@ position = Vector2(1, 2)
 shape = SubResource("RectangleShape2D_3epp1")
 
 [node name="HealthModule" parent="." instance=ExtResource("6_sguw3")]
-visible = false
 maxHealth = 500.0
 
 [node name="death_timer" type="Timer" parent="."]
@@ -317,30 +316,24 @@ wait_time = 10.0
 wait_time = 20.0
 
 [node name="pivot" type="Node2D" parent="."]
-visible = false
 
 [node name="AttackHitbox" type="Area2D" parent="pivot"]
-visible = false
 position = Vector2(-91, 1)
 collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="pivot/AttackHitbox"]
-visible = false
 position = Vector2(36, 3)
 shape = SubResource("RectangleShape2D_ksgwu")
 
 [node name="BiteHitbox" type="Area2D" parent="pivot"]
-visible = false
 position = Vector2(42, -3)
 collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="pivot/BiteHitbox"]
-visible = false
 position = Vector2(-96, 6)
 shape = SubResource("CircleShape2D_x3drn")
 
 [node name="BasicAttack" type="AnimatedSprite2D" parent="pivot"]
-visible = false
 position = Vector2(-62, 2)
 scale = Vector2(1.5937501, 2.75)
 sprite_frames = SubResource("SpriteFrames_07sv4")
@@ -364,5 +357,4 @@ shape = SubResource("CapsuleShape2D_cakw2")
 [connection signal="timeout" from="bat_timer" to="." method="_on_bat_timer_timeout"]
 [connection signal="timeout" from="bite_cooldown" to="." method="_on_bite_cooldown_timeout"]
 [connection signal="timeout" from="transform_cooldown" to="." method="_on_transform_cooldown_timeout"]
-[connection signal="animation_finished" from="pivot/BasicAttack" to="." method="_on_basic_attack_animation_finished"]
 [connection signal="computed_velocity" from="NavComponent" to="." method="_on_nav_component_computed_velocity"]
