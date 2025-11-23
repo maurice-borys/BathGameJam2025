@@ -14,3 +14,4 @@ range = Vector2(50, 20)
 
 [node name="vampire" parent="." instance=ExtResource("2_jdbf3")]
 position = Vector2(372, 39)
+damage = 100

@@ -15,6 +15,7 @@ var target_position = Vector2()
 @onready var transform_cooldown: Timer = $transform_cooldown
 
 @onready var sprite: AnimatedSprite2D = $pivot/BasicAttack
+
 @onready var hitbox: Area2D = $pivot/AttackHitbox
 @onready var hitbox_shape: CollisionShape2D = $pivot/AttackHitbox/CollisionShape2D
 
@@ -38,6 +39,8 @@ func _ready():
 	hitbox.body_entered.connect(_on_Hitbox_body_entered)
 	bite_hitbox.body_entered.connect(_on_Hitbox_body_entered)
 	health_module.healthChanged.connect(health_changed)
+	sprite.animation_finished.connect(_on_basic_attack_animation_finished)
+	bite_sprite.animation_finished.connect(_on_bite_attack_animation_finished)
 
 func _process(_delta):
 
@@ -45,6 +48,8 @@ func _process(_delta):
 	if Input.is_action_just_pressed("button_1") and not attacking:
 		start_attack()
 		pivot.rotation = global_position.direction_to(get_global_mouse_position()).angle() - PI
+
+		
 	
 	elif Input.is_action_just_pressed("button_2") and not attacking and bite_avaliable:
 		start_bite_attack()
@@ -59,7 +64,7 @@ func start_attack():
 	attacking = true
 	hitbox_shape.disabled = false
 	sprite.play("default")
-	_on_basic_attack_animation_finished()
+	
 
 func start_bite_attack():
 	healing = true
@@ -68,7 +73,6 @@ func start_bite_attack():
 	bite_avaliable = false
 	vampire_sprite.play("Bite")
 	bite_sprite.play("default")
-	_on_bite_attack_animation_finished()
 
 func start_bat_form():
 	bat_form = true
@@ -103,11 +107,11 @@ func _on_timer_timeout() -> void:
 func _on_Hitbox_body_entered(body):
 	if attacking:
 		Health.findHealthModule(body).dealDamage(damage)
-		print("dealt: " + damage + "damage")
+		print("dealt: " + str(damage) + "damage")
 	if healing:
 		health_module.healHealth(damage)
 		healing = false
-		print("healed: " + damage + " health, health: " + health_module.getHealth())
+		print("healed: " + str(damage) + " health, health: " + str(health_module.getHealth()))
 
 
 func _on_basic_attack_animation_finished() -> void:
