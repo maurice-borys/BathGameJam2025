@@ -67,7 +67,10 @@ func _physics_process(delta: float) -> void:
 			completedMap.emit()
 			return
 		else:
-			target = targetArray.pop_front()
+			var newTarget = targetArray.pop_front()
+			while not is_instance_valid(newTarget):
+				newTarget = targetArray.pop_front()
+			target = newTarget
 			
 	if target:
 		agent.target_position = target.global_position
