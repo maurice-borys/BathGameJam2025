@@ -77,9 +77,7 @@ func start_shoot():
 	attacking = true
 	fireball_ready = false
 	fireball_cd.start()
-	fireball_instance.dir = global_position.direction_to(get_global_mouse_position()).angle() + PI/2
-	fireball_instance.spawn_pos = global_position
-	fireball_instance.spawn_rot = global_rotation
+	
 	pivot.call_deferred("add_child",fireball_instance)
 	attacking = false
 	

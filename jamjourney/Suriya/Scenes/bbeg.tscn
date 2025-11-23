@@ -151,6 +151,8 @@ shape = SubResource("RectangleShape2D_lfbiv")
 wait_time = 10.0
 
 [node name="fireball_cd" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
 
 [connection signal="timeout" from="death_timer" to="." method="_on_death_timer_timeout"]
 [connection signal="timeout" from="teleport_cd" to="." method="_on_teleport_cd_timeout"]

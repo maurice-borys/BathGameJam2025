@@ -1,12 +1,11 @@
 extends CharacterBody2D
 
-var dir : float
-var spawn_pos : Vector2
-var spawn_rot : float
+var dir : Vector2
 @export var damage = 100
 @export var speed = 600
 @onready var hitbox : Area2D = $Hitbox
 @onready var body : CollisionShape2D = $Hitbox/CollisionShape2D
+@onready var moving_anim : AnimatedSprite2D = $moving
 @onready var explode_anim : AnimatedSprite2D = $Explosion/ExplosionAnimation
 @onready var explode_body : CollisionShape2D = $Explosion/CollisionShape2D
 @onready var explode_area : Area2D = $Explosion
@@ -15,18 +14,23 @@ var spawn_rot : float
 
 
 func _ready() -> void:
-	global_position = spawn_pos
-	global_rotation = spawn_rot
 	hitbox.body_entered.connect(_on_Hitbox_body_entered)
 	explode_body.disabled = true
 	despawn_timer.start()
+
+	look_at(get_global_mouse_position())
+	dir = global_position.direction_to(get_global_mouse_position())
 	
 func _physics_process(_delta: float) -> void:
-	velocity = Vector2(0,-speed).rotated(dir)
+	velocity = dir * speed 
+	moving_anim.play("default")
+	
 	move_and_slide()
+	
 
 func _on_Hitbox_body_entered(body):
 	speed = 0
+	moving_anim.stop()
 	explode(body)
 	
 	
