@@ -30,6 +30,7 @@ var teleport_ready = true
 var fireball_ready = true
 
 func _ready():
+	add_to_group("enemies")
 	click_position = position
 	hitbox.body_entered.connect(_on_Hitbox_body_entered)
 	health_module.healthChanged.connect(health_changed)

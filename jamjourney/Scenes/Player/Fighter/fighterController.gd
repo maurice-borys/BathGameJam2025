@@ -151,9 +151,8 @@ func setClosestEnemy() -> Node2D:
 	closestEnemy = enemies[0]
 
 	for enemy in enemies:
-		if enemy is Node2D:
-			if global_position.distance_to(closestEnemy.global_position) > global_position.distance_to(enemy.global_position):
-				closestEnemy = enemy
+		if global_position.distance_to(closestEnemy.global_position) > global_position.distance_to(enemy.global_position):
+			closestEnemy = enemy
 	return closestEnemy
 
 func healthChanged(old : float, new : float) -> void:

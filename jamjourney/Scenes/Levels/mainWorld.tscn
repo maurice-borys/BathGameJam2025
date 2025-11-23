@@ -1,9 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://bmisabixoxem4"]
+[gd_scene load_steps=7 format=3 uid="uid://bmisabixoxem4"]
+
+[ext_resource type="PackedScene" uid="uid://4okppg7asb2m" path="res://Scenes/Buildings/ManaGenerator/manaGenerator.tscn" id="1_ufdwi"]
+[ext_resource type="PackedScene" uid="uid://bes1ttstk5flj" path="res://Scenes/Enemies/Bosses/Vampire/vampire.tscn" id="2_w8dcx"]
+[ext_resource type="PackedScene" uid="uid://7m13g1m77co8" path="res://Scenes/Buildings/Spawner/Spawner.tscn" id="3_w8dcx"]
+[ext_resource type="PackedScene" uid="uid://774jqjjmrbeu" path="res://Components/Selection/Selection.tscn" id="4_hnayu"]
+[ext_resource type="PackedScene" uid="uid://d1cfcnv1exgdk" path="res://Components/Cursor/Cursor.tscn" id="5_b1hrc"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_qlyuv"]
-vertices = PackedVector2Array(280.96094, 156.00781, -280.89844, 156.97656, -278.09375, -156, 280.03125, -156)
+vertices = PackedVector2Array(326.0703, -169.02344, 328.90625, 185.89844, -324.9375, 180.07813, -323.04688, -170.96875)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-288, -166, 290, -166, 291, 166, -291, 167)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-333, -181, 336, -179, 339, 196, -335, 190)])
 
 [node name="MainWorld" type="Node2D"]
 
@@ -23,3 +29,32 @@ position = Vector2(-262, 0)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="Forest"]
 navigation_polygon = SubResource("NavigationPolygon_qlyuv")
+navigation_layers = 255
+
+[node name="vampire" parent="Forest" instance=ExtResource("2_w8dcx")]
+position = Vector2(245, 107.5)
+scale = Vector2(0.5, 0.5)
+
+[node name="mana_gen1" parent="Forest" instance=ExtResource("1_ufdwi")]
+position = Vector2(126, -92)
+
+[node name="mana_gen2" parent="Forest" instance=ExtResource("1_ufdwi")]
+position = Vector2(40, -122)
+
+[node name="mana_gen3" parent="Forest" instance=ExtResource("1_ufdwi")]
+position = Vector2(214, -31)
+
+[node name="spawner1" parent="Forest" instance=ExtResource("3_w8dcx")]
+position = Vector2(69, 100)
+
+[node name="spawner2" parent="Forest" instance=ExtResource("3_w8dcx")]
+position = Vector2(219, -94)
+
+[node name="spawner3" parent="Forest" instance=ExtResource("3_w8dcx")]
+position = Vector2(165, 23)
+
+[node name="Selection" parent="." node_paths=PackedStringArray("nav_mesh", "cursor") instance=ExtResource("4_hnayu")]
+nav_mesh = NodePath("../Forest/NavigationRegion2D")
+cursor = NodePath("../Cursor")
+
+[node name="Cursor" parent="." instance=ExtResource("5_b1hrc")]

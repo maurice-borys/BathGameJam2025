@@ -35,6 +35,7 @@ var bite_avaliable: bool = true
 var bat_available: bool = true
 
 func _ready():
+	add_to_group("enemies")
 	click_position = position
 	hitbox.body_entered.connect(_on_Hitbox_body_entered)
 	bite_hitbox.body_entered.connect(_on_Hitbox_body_entered)
@@ -44,7 +45,6 @@ func _ready():
 
 func _process(_delta):
 
-	print("current Health: ", health_module.health)
 	if Input.is_action_just_pressed("button_1") and not attacking:
 		start_attack()
 		pivot.rotation = global_position.direction_to(get_global_mouse_position()).angle() - PI

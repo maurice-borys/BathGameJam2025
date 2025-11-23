@@ -23,7 +23,7 @@ var wall_build = false
 var drag_start = Vector2.ZERO
 var drag_end = Vector2.ZERO
 var wall_start = Vector2.ZERO
-var selected_units: Array[Grunt] = []
+var selected_units: Array[Variant] = []
 
 var last_empty_click_time = 0
 
