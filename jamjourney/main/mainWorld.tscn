@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://bmisabixoxem4"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_qlyuv"]
+vertices = PackedVector2Array(280.96094, 156.00781, -280.89844, 156.97656, -278.09375, -156, 280.03125, -156)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-288, -166, 290, -166, 291, 166, -291, 167)])
+
+[node name="MainWorld" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+
+[node name="Forest" type="Node2D" parent="."]
+
+[node name="Background" type="Polygon2D" parent="Forest"]
+z_index = -5
+scale = Vector2(0.5, 0.5)
+color = Color(0, 0.57254905, 0, 1)
+polygon = PackedVector2Array(-650, -349, 648, -344, 648, 368, -656, 368)
+
+[node name="PlayerStart" type="Node2D" parent="Forest"]
+position = Vector2(-262, 0)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="Forest"]
+navigation_polygon = SubResource("NavigationPolygon_qlyuv")

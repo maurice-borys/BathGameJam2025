@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 Players=""
 manaGenerators=""
+Walls=""
 
 [input]
 
@@ -59,3 +60,7 @@ button_4={
 2d_physics/layer_2="Enemy"
 2d_physics/layer_3="Obstacle"
 2d_physics/layer_4="Building"
+
+[navigation]
+
+2d/default_edge_connection_margin=50.0

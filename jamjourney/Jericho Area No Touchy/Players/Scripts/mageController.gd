@@ -10,7 +10,7 @@ var closestEnemy : Node2D
 @onready var specialTimer : Timer = $SpecialCoolDown
 @onready var healthModule : Health = $HealthModule
 
-var homingSpellScene : PackedScene = preload("res://Jericho Area No Touchy/Players/Scenes/mageBulletHoming.tscn")
+var homingSpellScene : PackedScene = preload("res://Jericho Area No Touchy/Players/Scenes/HomingSpell.tscn")
 var piercingSpellScene : PackedScene = preload("res://Jericho Area No Touchy/Players/Scenes/PiercingSpell.tscn")
 
 signal completedMap()

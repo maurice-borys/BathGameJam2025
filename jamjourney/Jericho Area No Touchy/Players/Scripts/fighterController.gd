@@ -31,6 +31,9 @@ func _ready() -> void:
 	areaRange.body_entered.connect(enteredRange)
 	areaRange.body_exited.connect(exitedRange)
 	
+	agent.navigation_layers = 1 | 2
+	agent.path_postprocessing = NavigationPathQueryParameters2D.PATH_POSTPROCESSING_CORRIDORFUNNEL
+	
 	areaRangeSpecial.body_entered.connect(enteredRangeSpecial)
 	areaRangeSpecial.body_exited.connect(exitedRangeSpecial)
 	
