@@ -1,6 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://ymppe0fju62a"]
+[gd_scene load_steps=8 format=3 uid="uid://b323c518coe4j"]
 
-[ext_resource type="Script" uid="uid://ctvvqfohxcmda" path="res://Will/Grunt.gd" id="1_5n50w"]
+[ext_resource type="Script" uid="uid://cks58y784hlbw" path="res://Will/Grunt/Grunt.gd" id="1_5n50w"]
 [ext_resource type="Texture2D" uid="uid://bvxbe0wqihhwo" path="res://Sprites/icon.svg" id="2_qc06k"]
 [ext_resource type="Texture2D" uid="uid://d2wfnbehbka05" path="res://Will/skeleton left.png" id="3_gcfdp"]
 [ext_resource type="PackedScene" uid="uid://djrj4w1nryb2t" path="res://Will/Components/NavComponent.tscn" id="4_b6nki"]

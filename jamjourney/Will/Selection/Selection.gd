@@ -5,8 +5,8 @@ class_name Selector
 const DOUBLE_CLICK_TIME = 0.3
 @onready var cursor: Cursor = $CursorContainer
 
-@onready var command_path: PackedScene = preload("res://Will/CommandPath.tscn")
-@onready var spawner: PackedScene = preload("res://Will/Spawner.tscn")
+@onready var command_path: PackedScene = preload("res://Will/Selection/CommandPath.tscn")
+@onready var spawner: PackedScene = preload("res://Will/Spawner/Spawner.tscn")
 
 @onready var keymap: Dictionary = {
 	KEY_1 : spawner

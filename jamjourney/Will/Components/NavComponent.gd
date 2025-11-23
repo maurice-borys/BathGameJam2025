@@ -2,7 +2,6 @@ extends Node2D
 
 class_name NavComponent 
 
-signal goto_command_path_start(path: CommandPath)
 signal computed_velocity(safe_velocity: Vector2)
 
 @export var speed: float = 100.0

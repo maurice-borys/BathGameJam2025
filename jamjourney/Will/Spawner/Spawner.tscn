@@ -1,9 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://bgs04cxt2g5m6"]
+[gd_scene load_steps=6 format=3 uid="uid://7m13g1m77co8"]
 
-[ext_resource type="Script" uid="uid://iwdhahmn150y" path="res://Will/Spawner.gd" id="1_j3we2"]
-[ext_resource type="PackedScene" uid="uid://ymppe0fju62a" path="res://Will/Grunt.tscn" id="2_xjnqu"]
+[ext_resource type="Script" uid="uid://iwdhahmn150y" path="res://Will/Spawner/Spawner.gd" id="1_j3we2"]
+[ext_resource type="PackedScene" uid="uid://b323c518coe4j" path="res://Will/Grunt/Grunt.tscn" id="2_xjnqu"]
 [ext_resource type="Texture2D" uid="uid://bvxbe0wqihhwo" path="res://Sprites/icon.svg" id="3_b5mqe"]
-[ext_resource type="Script" uid="uid://ngfm6idxuc32" path="res://Will/SpawnTimer.gd" id="3_ocyob"]
+[ext_resource type="Script" uid="uid://ngfm6idxuc32" path="res://Will/Spawner/SpawnTimer.gd" id="3_ocyob"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_srm62"]
 
