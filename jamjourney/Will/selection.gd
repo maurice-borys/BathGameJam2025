@@ -3,7 +3,7 @@ extends Control
 class_name Selector
 
 const DOUBLE_CLICK_TIME = 0.3
-@onready var building_cursor: TextureRect = $BuildingCursor
+@onready var cursor: Cursor = $CursorContainer
 
 @onready var command_path: PackedScene = preload("res://Will/command_path.tscn")
 @onready var spawner: PackedScene = preload("res://Will/spawner.tscn")
@@ -28,8 +28,6 @@ var new_path: CommandPath
 
 var build_mode = false
 var current_building: Node
-
-@onready var base_thumbnail = building_cursor.texture
 
 func _ready():
 	add_to_group("selection")
@@ -59,24 +57,28 @@ func handle_building_mode(event):
 		match event.keycode:
 			KEY_R: 
 				build_mode = false
-				building_cursor.hide()
+				cursor.normal_cursor()
 			_ : 
 				select_building(event.keycode)
+
+func get_texture(node):
+	for child in current_building.get_children():
+		if child is Sprite2D:
+			return child.texture
+
 
 func select_building(keycode):
 	if keycode not in keymap:
 		return
 	
+	if current_building and is_instance_valid(current_building):
+		current_building.queue_free()
+		
 	current_building = keymap[keycode].instantiate()
-
-	for child in current_building.get_children():
-		if child is Sprite2D:
-			building_cursor.texture = child.texture
-			queue_redraw()
 	
-	if not building_cursor.texture:
-		building_cursor.texture = base_thumbnail
-		queue_redraw()
+	var child_texture = get_texture(current_building)
+	cursor.set_build_outline(child_texture)
+	queue_redraw()
 
 func handle_build():
 	if current_building:
@@ -98,7 +100,7 @@ func handle_normal(event):
 				handle_hold()
 			KEY_R: 
 				build_mode = true
-				building_cursor.show()
+				cursor.build_cursor()
 
 func handle_drag(event):
 	drag_end = get_global_mouse_position()
