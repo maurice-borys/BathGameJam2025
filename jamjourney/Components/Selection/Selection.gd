@@ -38,24 +38,12 @@ var preview_building: Node
 var new_wall: WallClass
 
 func _ready():
-	print("Script path: ", get_stack())
-	print("Tree", get_tree_string_pretty())
 
 	line = Line2D.new()
 	line.width = 3
 	line.default_color = Color.WHITE
 	add_child(line)
-	if cursor:
-		cursor.tree_exiting.connect(_on_cursor_freed)
 	
-	#line = Line2D.new()
-	#line.width = 3
-	#line.default_color = Color.WHITE
-	#add_child(line)
-
-func _on_cursor_freed():
-	push_error("CURSOR WAS FREED/DELETED!")
-	cursor = null
 
 func _process(_delta: float) -> void:
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and is_commanding and not build_mode:
