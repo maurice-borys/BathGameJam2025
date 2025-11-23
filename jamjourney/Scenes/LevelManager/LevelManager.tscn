@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://bvbv7ang14qgn"]
+
+[ext_resource type="Script" uid="uid://bcb6glt27sji8" path="res://Scenes/LevelManager/LevelManager.gd" id="1_q3spm"]
+[ext_resource type="PackedScene" uid="uid://cy62273hng4qf" path="res://Scenes/Levels/Playground.tscn" id="2_ii07q"]
+
+[node name="LevelManager" type="Node2D" node_paths=PackedStringArray("miniBoss")]
+script = ExtResource("1_q3spm")
+nextScene = ExtResource("2_ii07q")
+miniBoss = NodePath("")

@@ -1,8 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://bmisabixoxem4"]
+[gd_scene load_steps=12 format=3 uid="uid://bmisabixoxem4"]
 
-[ext_resource type="Script" uid="uid://bcb6glt27sji8" path="res://Scenes/Levels/LevelManager.gd" id="1_ou8j6"]
+[ext_resource type="PackedScene" uid="uid://bvbv7ang14qgn" path="res://Scenes/LevelManager/LevelManager.tscn" id="1_ou8j6"]
 [ext_resource type="PackedScene" uid="uid://4okppg7asb2m" path="res://Scenes/Buildings/ManaGenerator/manaGenerator.tscn" id="1_ufdwi"]
-[ext_resource type="PackedScene" uid="uid://cy62273hng4qf" path="res://Scenes/Levels/Playground.tscn" id="2_vsfvf"]
 [ext_resource type="PackedScene" uid="uid://bes1ttstk5flj" path="res://Scenes/Enemies/Bosses/Vampire/vampire.tscn" id="2_w8dcx"]
 [ext_resource type="PackedScene" uid="uid://7m13g1m77co8" path="res://Scenes/Buildings/Spawner/Spawner.tscn" id="3_w8dcx"]
 [ext_resource type="PackedScene" uid="uid://d042r43unr0un" path="res://Scenes/Player/Rogue/rogue.tscn" id="4_b1hrc"]
@@ -19,11 +18,8 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-576, -326, 577, -325, 
 
 [node name="MainWorld" type="Node2D"]
 
-[node name="LevelManager" type="Node2D" parent="." node_paths=PackedStringArray("miniBoss")]
+[node name="LevelManager" parent="." instance=ExtResource("1_ou8j6")]
 position = Vector2(1, 4)
-script = ExtResource("1_ou8j6")
-nextScene = ExtResource("2_vsfvf")
-miniBoss = NodePath("../Forest/vampire")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
