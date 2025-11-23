@@ -32,9 +32,10 @@ func _ready():
 	click_position = position
 	hitbox.body_entered.connect(_on_Hitbox_body_entered)
 	health_module.healthChanged.connect(health_changed)
-
-func _process(_delta):
+	sprite.animation_finished.connect(_on_basic_attack_animation_finished)
 	
+func _process(_delta):
+	print("current Health: ", health_module.health)
 	if Input.is_action_just_pressed("button_1") and not attacking:
 		pivot.rotation = global_position.direction_to(get_global_mouse_position()).angle() - PI
 		start_attack()
@@ -60,7 +61,7 @@ func start_attack():
 	attacking = true
 	hitbox_shape.disabled = false
 	sprite.play("default")
-	_on_basic_attack_animation_finished()
+
 
 func start_teleport():
 	attacking = true

@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://GlobalModules/HealthModule.tscn" id="4_lfbiv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p1lyt"]
-size = Vector2(86.25, 98.75)
+size = Vector2(103.12499, 119.999985)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ksgwu"]
 atlas = ExtResource("3_km84k")
@@ -121,6 +121,7 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_dbqag")
 
 [node name="LichCollision2D" type="CollisionShape2D" parent="."]
+position = Vector2(6.749997, 1.4305115e-06)
 scale = Vector2(0.8, 0.8)
 shape = SubResource("RectangleShape2D_p1lyt")
 
