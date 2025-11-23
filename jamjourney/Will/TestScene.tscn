@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://m6u5jmahtm35"]
 
 [ext_resource type="PackedScene" uid="uid://4okppg7asb2m" path="res://Jericho Area No Touchy/Buildings/manaGenerator.tscn" id="1_cabux"]
-[ext_resource type="PackedScene" uid="uid://dw4p333ts2dby" path="res://Will/selection.tscn" id="1_jxpkh"]
-[ext_resource type="PackedScene" uid="uid://bgs04cxt2g5m6" path="res://Will/spawner.tscn" id="2_2jvrn"]
-[ext_resource type="PackedScene" uid="uid://c4ndeharsidfr" path="res://Will/test_character.tscn" id="4_rhqoi"]
-[ext_resource type="PackedScene" uid="uid://efjnpdvfo662" path="res://Will/baked_wall.tscn" id="6_nhs50"]
+[ext_resource type="PackedScene" uid="uid://dw4p333ts2dby" path="res://Will/Selection.tscn" id="1_jxpkh"]
+[ext_resource type="PackedScene" uid="uid://bgs04cxt2g5m6" path="res://Will/Spawner.tscn" id="2_2jvrn"]
+[ext_resource type="PackedScene" uid="uid://c4ndeharsidfr" path="res://Will/TestCharacter.tscn" id="4_rhqoi"]
+[ext_resource type="PackedScene" uid="uid://efjnpdvfo662" path="res://Will/BakedWall.tscn" id="6_nhs50"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_cabux"]
 vertices = PackedVector2Array(483, 555, 1149.8672, 632.09375, 9.9609375, 642.89844, 443, 555, 8.03125, 9, 443, 67, 1142.1172, 9, 483, 67)

@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://djrj4w1nryb2t"]
+
+[ext_resource type="Script" uid="uid://dtjawihmbkki0" path="res://Will/Components/NavComponent.gd" id="1_sahj4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vqibj"]
+radius = 13.0
+
+[node name="NavComponent" type="Node2D"]
+script = ExtResource("1_sahj4")
+
+[node name="ClickArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+monitorable = false
+
+[node name="ClickCollision" type="CollisionShape2D" parent="ClickArea"]
+shape = SubResource("CircleShape2D_vqibj")
+
+[node name="NavAgent" type="NavigationAgent2D" parent="."]
+path_desired_distance = 10.0
+target_desired_distance = 30.0
+navigation_layers = 2
+avoidance_enabled = true
+neighbor_distance = 1000.0
+max_neighbors = 50
+time_horizon_obstacles = 1.0
+avoidance_layers = 2
+avoidance_mask = 2
+debug_enabled = true
+debug_path_custom_line_width = 1.0
+
+[node name="NavTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.1
+autostart = true
+
+[connection signal="velocity_computed" from="NavAgent" to="." method="_on_nav_agent_velocity_computed"]
+[connection signal="timeout" from="NavTimer" to="." method="_on_nav_timer_timeout"]

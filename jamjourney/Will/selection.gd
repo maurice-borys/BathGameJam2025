@@ -5,8 +5,8 @@ class_name Selector
 const DOUBLE_CLICK_TIME = 0.3
 @onready var cursor: Cursor = $CursorContainer
 
-@onready var command_path: PackedScene = preload("res://Will/command_path.tscn")
-@onready var spawner: PackedScene = preload("res://Will/spawner.tscn")
+@onready var command_path: PackedScene = preload("res://Will/CommandPath.tscn")
+@onready var spawner: PackedScene = preload("res://Will/Spawner.tscn")
 
 @onready var keymap: Dictionary = {
 	KEY_1 : spawner
@@ -36,8 +36,8 @@ func _ready():
 	line.default_color = Color.WHITE
 	add_child(line)
 
-func _process(delta: float) -> void:
-	if Input.is_mouse_button_pressed(2):
+func _process(_delta: float) -> void:
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
 		add_point(get_global_mouse_position())
 		queue_redraw()
 
@@ -46,7 +46,6 @@ func _input(event):
 		handle_building_mode(event)
 	else:
 		handle_normal(event)
-
 
 func make_dummy_instance(scene: PackedScene) -> Node:
 	var dummy = scene.instantiate()
@@ -133,7 +132,6 @@ func get_collision_shape(node: Node) -> CollisionShape2D:
 			return found
 	return null
 	
-
 func handle_normal(event):
 	if event is InputEventMouseButton:
 		handle_click(event)
@@ -149,7 +147,7 @@ func handle_normal(event):
 				build_mode = true
 				cursor.build_cursor()
 
-func handle_drag(event):
+func handle_drag(_event):
 	drag_end = get_global_mouse_position()
 	queue_redraw()
 	
@@ -159,7 +157,7 @@ func handle_hold():
 		
 	var common = 0 
 	for unit in selected_units:
-		if unit.holding:
+		if unit.nav_component.holding:
 			common += 1
 		else:
 			common -= 1
@@ -168,7 +166,7 @@ func handle_hold():
 	elif common < 0:
 		hold_all()
 	else:
-		if selected_units[0].holding:
+		if selected_units[0].nav_component.holding:
 			move_all()
 		else:
 			hold_all()
@@ -176,11 +174,11 @@ func handle_hold():
 
 func hold_all():
 	for unit in selected_units:
-		unit.hold_position()
+		unit.nav_component.hold_position()
 
 func move_all():
 	for unit in selected_units:
-		unit.target_player()
+		unit.nav_component.target_player()
 
 func handle_click(event):
 	if event.button_index == MOUSE_BUTTON_LEFT:
@@ -222,7 +220,6 @@ func select_single(pos: Vector2) -> bool:
 
 func command(event):
 	var mouse_pos = get_global_mouse_position()
-	print(new_path, drag_start, drag_end)
 	if event.pressed:
 		is_commanding = true
 		drag_start = mouse_pos
@@ -232,10 +229,10 @@ func command(event):
 		is_commanding = false
 		line.clear_points()
 		if new_path.curve.get_point_count() == 1:
-			register_goto(new_path.get_start_point(), selected_units)
+			register_goto()
 		else:
-			register_path(new_path, selected_units)
-			queue_redraw()
+			register_path()
+		queue_redraw()
 
 func free_path():
 	remove_child(new_path)
@@ -244,21 +241,20 @@ func free_path():
 	drag_start = Vector2.ZERO
 	drag_end = Vector2.ZERO
 	
-func register_path(command_path: CommandPath, selected_units: Array[Grunt]):
+func register_path():
 	for unit in selected_units:
-		var unit_command_path = command_path.deepcopy()
+		var unit_command_path = new_path.deepcopy()
 		add_child(unit_command_path)
-		unit.set_command_follow(unit_command_path)
+		unit.nav_component.set_command_follow(unit_command_path)
 	deselect_all()
 	free_path()
 
-func register_goto(point: Vector2, selected_units: Array[Grunt]):
+func register_goto():
+	var point = new_path.get_start_point()
 	for unit in selected_units:
-		unit.goto(point)
+		unit.nav_component.goto(point)
 	deselect_all()
 	free_path()
-
-
 
 func start_path(pos: Vector2):
 	if new_path and is_instance_valid(new_path):
@@ -327,17 +323,17 @@ func handle_enemy_click(enemy):
 func select_unit(unit):
 	if unit not in selected_units:
 		selected_units.append(unit)
-		unit.set_selected(true)
+		unit.nav_component.set_selected(true)
 		print("Selected: ", unit.name)
 
 func deselect_unit(unit):
 	if unit in selected_units:
 		selected_units.erase(unit)
-		unit.set_selected(false)
+		unit.nav_component.set_selected(false)
 
 func deselect_all():
 	for unit in selected_units:
-		unit.set_selected(false)
+		unit.nav_component.set_selected(false)
 	selected_units.clear()
 
 func get_selected_units():
