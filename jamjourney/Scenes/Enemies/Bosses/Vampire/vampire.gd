@@ -33,6 +33,7 @@ var healing: bool = false
 var bat_form: bool = false
 var bite_avaliable: bool = true
 var bat_available: bool = true
+var looking_left = true
 
 func _ready():
 	add_to_group("enemies")
@@ -44,7 +45,7 @@ func _ready():
 	bite_sprite.animation_finished.connect(_on_bite_attack_animation_finished)
 
 func _process(_delta):
-
+	turn_model()
 	if Input.is_action_just_pressed("button_1") and not attacking:
 		start_attack()
 		pivot.rotation = global_position.direction_to(get_global_mouse_position()).angle() - PI
@@ -58,6 +59,15 @@ func _process(_delta):
 		bat_form = true
 		start_bat_form()
 		pivot.rotation = global_position.direction_to(get_global_mouse_position()).angle() - PI
+
+func turn_model():
+	var mouse_pos = get_global_mouse_position()
+	if global_position.x > mouse_pos.x and looking_left:
+		looking_left = false
+		vampire_sprite.flip_h = false
+	elif global_position.x < mouse_pos.x and not looking_left:
+		looking_left = true
+		vampire_sprite.flip_h = true
 
 func start_attack():
 	print("attack")

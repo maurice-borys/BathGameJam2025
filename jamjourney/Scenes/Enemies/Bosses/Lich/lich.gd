@@ -13,7 +13,7 @@ extends CharacterBody2D
 @onready var sprite: AnimatedSprite2D = $pivot/BasicAttack
 @onready var hitbox: Area2D = $pivot/AttackHitbox
 @onready var hitbox_shape: CollisionShape2D = $pivot/AttackHitbox/CollisionShape2D
-
+@onready var lich_sprite: Sprite2D = $"LichSprite"
 @onready var stun_hitbox: Area2D = $Stun_area
 @onready var stun_hitbox_shape: CollisionShape2D = $Stun_area/stun_collision
 @onready var stun_anim: AnimatedSprite2D = $stun_anim
@@ -32,13 +32,12 @@ extends CharacterBody2D
 var click_position = Vector2()
 var target_position = Vector2()
 
-
-
 var attacking = false
 var teleport_ready = true
 var fireball_ready = true
 var stun_ready = true
 var summon_ready = true
+var looking_left = true
 var char_speed : float
 var char_changed : CharacterBody2D
 
@@ -53,6 +52,7 @@ func _ready():
 	stun_anim.animation_finished.connect(_on_stun_attack_animation_finished)
 	
 func _process(_delta):
+	turn_model()
 	if Input.is_action_just_pressed("button_1") and not attacking:
 		pivot.rotation = global_position.direction_to(get_global_mouse_position()).angle() - PI
 		start_attack()
@@ -66,8 +66,17 @@ func _process(_delta):
 		start_stun()
 	elif Input.is_action_just_pressed("button_5") and not attacking and summon_ready:
 		start_summon()
-	
-	
+
+
+func turn_model():
+	var mouse_pos = get_global_mouse_position()
+	if global_position.x > mouse_pos.x and looking_left:
+		looking_left = false
+		lich_sprite.flip_h = false
+	elif global_position.x < mouse_pos.x and not looking_left:
+		looking_left = true
+		lich_sprite.flip_h = true
+
 	
 func _physics_process(_delta):
 	nav_component.navigate()
