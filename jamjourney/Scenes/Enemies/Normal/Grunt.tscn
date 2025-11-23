@@ -62,7 +62,7 @@ click_area = NodePath("ClickBox")
 shape = SubResource("CapsuleShape2D_dkke2")
 
 [node name="HealthModule" parent="." instance=ExtResource("4_dkke2")]
-maxHealth = 10.0
+maxHealth = 50.0
 
 [connection signal="body_entered" from="AttackHitbox" to="." method="_on_attack_hitbox_body_entered"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
