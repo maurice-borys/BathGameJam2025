@@ -12,10 +12,15 @@ func _ready() -> void:
 	spawners.assign(get_tree().get_nodes_in_group("Spawners").filter(func(item): return item is Node2D))
 	manaGenerators.assign(get_tree().get_nodes_in_group("manaGenerators").filter(func(item): return item is Node2D))
 	
-	# Will I'm sorry about this I just can't be bothered to do anything else 
+	# Will you must love my coding in this project, even I wonder how my code ended up like this
 	for player in players:
 		if player is not Cleric:
 			player.targetArray.assign(manaGenerators + [miniBoss])
-		
+			player.completedMap.connect(nextLevel)
+
+func _process(delta: float) -> void:
+	if not is_instance_valid(miniBoss):
+		nextLevel()
+
 func nextLevel():
 	get_tree().change_scene_to_packed(nextScene)
