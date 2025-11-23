@@ -2,9 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://bvbv7ang14qgn" path="res://Scenes/LevelManager/LevelManager.tscn" id="1_ou8j6"]
 [ext_resource type="PackedScene" uid="uid://4okppg7asb2m" path="res://Scenes/Buildings/ManaGenerator/manaGenerator.tscn" id="1_ufdwi"]
-[ext_resource type="PackedScene" uid="uid://dnd8h12qbwjn3" path="res://Scenes/Levels/crypt.tscn" id="2_i16fy"]
 [ext_resource type="PackedScene" uid="uid://bes1ttstk5flj" path="res://Scenes/Enemies/Bosses/Vampire/vampire.tscn" id="2_w8dcx"]
-[ext_resource type="PackedScene" path="res://Scenes/Levels/crypt.tscn" id="3_i16fy"]
+[ext_resource type="PackedScene" uid="uid://wccnsp6vddge" path="res://Scenes/Levels/crypt.tscn" id="3_i16fy"]
 [ext_resource type="PackedScene" uid="uid://7m13g1m77co8" path="res://Scenes/Buildings/Spawner/Spawner.tscn" id="3_w8dcx"]
 [ext_resource type="PackedScene" uid="uid://d042r43unr0un" path="res://Scenes/Player/Rogue/rogue.tscn" id="4_b1hrc"]
 [ext_resource type="PackedScene" uid="uid://774jqjjmrbeu" path="res://Components/Selection/Selection.tscn" id="4_hnayu"]
@@ -71,10 +70,10 @@ position = Vector2(225, 22)
 collision_layer = 8
 collision_mask = 15
 
-[node name="Selection" parent="." node_paths=PackedStringArray("nav_mesh", "cursor") instance=ExtResource("4_hnayu")]
+[node name="Selection" parent="." node_paths=PackedStringArray("nav_mesh", "cursor", "manamanger") instance=ExtResource("4_hnayu")]
 nav_mesh = NodePath("../Forest/NavigationRegion2D")
 cursor = NodePath("../HUD/Cursor")
-manamanger = NodePath("../ManaManager")
+manamanger = NodePath("../HUD/ManaManager")
 
 [node name="Fighter" parent="." instance=ExtResource("6_b1hrc")]
 position = Vector2(-191, 0)
@@ -91,3 +90,9 @@ position = Vector2(-158, 7)
 [node name="HUD" parent="." instance=ExtResource("5_ubj35")]
 
 [node name="Cursor" parent="HUD" instance=ExtResource("5_b1hrc")]
+
+[node name="ManaManager" parent="HUD" instance=ExtResource("7_jcxtp")]
+offset_left = -289.0
+offset_top = -162.0
+offset_right = -137.0
+offset_bottom = -132.0
