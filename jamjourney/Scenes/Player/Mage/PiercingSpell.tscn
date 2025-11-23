@@ -1,0 +1,52 @@
+[gd_scene load_steps=3 format=3 uid="uid://bptot8lfc04y2"]
+
+[ext_resource type="Script" uid="uid://dxyvnyaydkmef" path="res://Scenes/Player/Mage/PiercingSpell.gd" id="1_2b7ew"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4xjm6"]
+size = Vector2(6, 6)
+
+[node name="PiercingSpell" type="Area2D"]
+scale = Vector2(7, 7)
+collision_mask = 10
+script = ExtResource("1_2b7ew")
+speed = 210
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+scale = Vector2(3, 3)
+color = Color(2.4065375e-06, 0, 0.75384223, 1)
+polygon = PackedVector2Array(-1, -1, 1, -1, 1, 1, -1, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_4xjm6")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+z_index = -1
+amount = 100
+lifetime = 0.5
+emission_shape = 1
+emission_sphere_radius = 3.64
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_max = 3.0
+scale_amount_min = 0.1
+scale_amount_max = 0.75
+color = Color(0.4117098, 0.59714514, 1, 1)
+
+[node name="CPUParticles2D2" type="CPUParticles2D" parent="."]
+z_index = -1
+emitting = false
+amount = 100
+one_shot = true
+explosiveness = 1.0
+emission_shape = 1
+emission_sphere_radius = 3.64
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 5.0
+initial_velocity_max = 8.0
+scale_amount_min = 0.1
+scale_amount_max = 0.75
+color = Color(0.4117098, 0.59714514, 1, 1)

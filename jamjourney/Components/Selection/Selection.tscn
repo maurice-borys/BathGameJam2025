@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://774jqjjmrbeu"]
+
+[ext_resource type="Script" uid="uid://bbphmv13ydlrj" path="res://Components/Selection/Selection.gd" id="1_erxlh"]
+[ext_resource type="Script" uid="uid://mqvfum4r4qm0" path="res://Components/Selection/CursorContainer.gd" id="2_vssng"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_k8po7"]
+size = Vector2(64, 64)
+
+[node name="Selection" type="Control"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_erxlh")
+
+[node name="CursorContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_vssng")
+
+[node name="BuildingCursor" type="TextureRect" parent="CursorContainer"]
+modulate = Color(0.18431373, 1, 1, 1)
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("PlaceholderTexture2D_k8po7")
+stretch_mode = 3

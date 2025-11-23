@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=3 uid="uid://7m13g1m77co8"]
+
+[ext_resource type="Script" uid="uid://iwdhahmn150y" path="res://Scenes/Enemies/Spawner/Spawner.gd" id="1_j3we2"]
+[ext_resource type="PackedScene" uid="uid://b323c518coe4j" path="res://Scenes/Enemies/Normal/Grunt.tscn" id="2_xjnqu"]
+[ext_resource type="Texture2D" uid="uid://bvxbe0wqihhwo" path="res://Sprites/icon.svg" id="3_b5mqe"]
+[ext_resource type="Script" uid="uid://ngfm6idxuc32" path="res://Scenes/Enemies/Spawner/SpawnTimer.gd" id="3_ocyob"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_srm62"]
+
+[node name="Spawner" type="Area2D"]
+script = ExtResource("1_j3we2")
+spawn_entity = ExtResource("2_xjnqu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_srm62")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-4.7683716e-07, -4.7683716e-07)
+scale = Vector2(0.15625001, 0.15625)
+texture = ExtResource("3_b5mqe")
+
+[node name="SpawnTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 5.0
+script = ExtResource("3_ocyob")

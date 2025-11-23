@@ -1,0 +1,118 @@
+[gd_scene load_steps=11 format=3 uid="uid://cy62273hng4qf"]
+
+[ext_resource type="Script" uid="uid://vyeylncg66k1" path="res://Scenes/Buildings/Scripts/manaManager.gd" id="1_w2wr8"]
+[ext_resource type="PackedScene" uid="uid://dixjgii5h8mg6" path="res://Scenes/Player/Mage/mage.tscn" id="2_rjgpw"]
+[ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://Components/HealthModule.tscn" id="3_wnsvo"]
+[ext_resource type="PackedScene" uid="uid://14q8x5lk82hm" path="res://Scenes/Player/Fighter/fighter.tscn" id="5_oic03"]
+[ext_resource type="PackedScene" uid="uid://4okppg7asb2m" path="res://Scenes/Buildings/manaGenerator.tscn" id="6_oic03"]
+[ext_resource type="PackedScene" uid="uid://ohjyvm53ohnf" path="res://Scenes/Player/Cleric/cleric.tscn" id="6_w2wr8"]
+[ext_resource type="PackedScene" uid="uid://d042r43unr0un" path="res://Scenes/Player/Rogue/rogue.tscn" id="7_w2wr8"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_xw6e3"]
+vertices = PackedVector2Array(696.10156, -396.0078, 704.8828, 400.96875, -712.85156, 398.02344, -701.1406, -397.97656)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-711, -408, 706, -406, 715, 411, -723, 408)])
+agent_radius = 25.0
+
+[sub_resource type="GDScript" id="GDScript_od5hr"]
+script/source = "extends CharacterBody2D
+
+@onready var healthModule : Health = $HealthModule
+
+@export var maxHealth = 100
+@export var speed = 35
+
+func _ready() -> void:
+	healthModule.maxHealth = maxHealth
+	healthModule.health = maxHealth
+	healthModule.healthChanged.connect(healthChanged)
+
+func _physics_process(delta: float) -> void:
+	var hori = 0
+	var vert = 0
+	
+	if Input.is_key_pressed(KEY_W):
+		vert = -1
+	elif Input.is_key_pressed(KEY_S):
+		vert = 1
+		
+	if Input.is_key_pressed(KEY_A):
+		hori = -1
+	elif Input.is_key_pressed(KEY_D):
+		hori = 1
+
+	velocity = Vector2(hori,vert).normalized() * speed
+	move_and_slide()
+
+func healthChanged(old, new):
+	print(\"Health changed to \" + str(new))
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4xjm6"]
+radius = 3.0
+
+[node name="Node2D" type="Node2D" node_paths=PackedStringArray("navMesh")]
+script = ExtResource("1_w2wr8")
+navMesh = NodePath("NavigationRegion2D")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.8, 0.8)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_xw6e3")
+
+[node name="TestEnemy" type="CharacterBody2D" parent="."]
+position = Vector2(157, 231.99998)
+scale = Vector2(7, 7)
+collision_layer = 2
+collision_mask = 15
+script = SubResource("GDScript_od5hr")
+speed = 245
+
+[node name="Polygon2D" type="Polygon2D" parent="TestEnemy"]
+color = Color(1, 0, 0, 1)
+polygon = PackedVector2Array(-2, 2, 3, 2, 3, -2, 0, -5, -3, -2, -3, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TestEnemy"]
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_4xjm6")
+
+[node name="HealthModule" parent="TestEnemy" instance=ExtResource("3_wnsvo")]
+
+[node name="Mana Generator" parent="." instance=ExtResource("6_oic03")]
+position = Vector2(449, 2)
+scale = Vector2(7, 7)
+
+[node name="Mana Generator2" parent="." instance=ExtResource("6_oic03")]
+position = Vector2(-489, -7)
+scale = Vector2(7, 7)
+
+[node name="Fighter" parent="." node_paths=PackedStringArray("targetArray", "testEnemy") instance=ExtResource("5_oic03")]
+position = Vector2(-406.00006, 220.00002)
+scale = Vector2(7, 7)
+targetArray = [NodePath("../Mana Generator"), NodePath("../Mana Generator2"), NodePath("../TestEnemy")]
+testEnemy = NodePath("../TestEnemy")
+minSpeed = 70.0
+range = Vector2(70, 140)
+wallRange = 15.0
+
+[node name="Mage" parent="." node_paths=PackedStringArray("targetArray", "testEnemy") instance=ExtResource("2_rjgpw")]
+position = Vector2(-265, 263)
+scale = Vector2(7, 7)
+targetArray = [NodePath("../Mana Generator"), NodePath("../Mana Generator2")]
+testEnemy = NodePath("../TestEnemy")
+minSpeed = 70.0
+range = 210.0
+rangeWall = 30.0
+
+[node name="Cleric" parent="." instance=ExtResource("6_w2wr8")]
+position = Vector2(-345, 291)
+scale = Vector2(7, 7)
+minSpeed = 70.0
+range = Vector2(70, 210)
+
+[node name="Rogue" parent="." node_paths=PackedStringArray("targetArray", "testEnemy") instance=ExtResource("7_w2wr8")]
+position = Vector2(-193.99998, 262.99997)
+targetArray = [NodePath("../Mana Generator"), NodePath("../Mana Generator2")]
+testEnemy = NodePath("../TestEnemy")
+minSpeed = 70.0

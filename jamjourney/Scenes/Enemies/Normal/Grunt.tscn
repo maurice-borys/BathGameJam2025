@@ -1,0 +1,59 @@
+[gd_scene load_steps=8 format=3 uid="uid://b323c518coe4j"]
+
+[ext_resource type="Script" uid="uid://cks58y784hlbw" path="res://Scenes/Enemies/Normal/Grunt.gd" id="1_wh1fe"]
+[ext_resource type="Texture2D" uid="uid://bvxbe0wqihhwo" path="res://Sprites/icon.svg" id="2_d81xp"]
+[ext_resource type="PackedScene" uid="uid://djrj4w1nryb2t" path="res://Components/NavComponent.tscn" id="3_drosd"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qo6so"]
+radius = 6.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oejt3"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_6ekbs"]
+load_path = "res://.godot/imported/skeleton left.png-7f2d1180f4c1a7d06e42e259091dd104.ctex"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pc5cf"]
+radius = 13.0
+
+[node name="Grunt" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_wh1fe")
+speed = 75.0
+godottexture = ExtResource("2_d81xp")
+
+[node name="HurtBox" type="Area2D" parent="."]
+visible = false
+collision_layer = 2
+collision_mask = 0
+
+[node name="HurtCollision" type="CollisionShape2D" parent="HurtBox"]
+visible = false
+shape = SubResource("CircleShape2D_qo6so")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_oejt3")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, 6.3108872e-30)
+scale = Vector2(0.04, 0.042)
+texture = SubResource("CompressedTexture2D_6ekbs")
+
+[node name="AttackHitbox" type="Area2D" parent="."]
+visible = false
+collision_layer = 0
+monitorable = false
+
+[node name="AttackCollision" type="CollisionShape2D" parent="AttackHitbox"]
+shape = SubResource("CircleShape2D_pc5cf")
+
+[node name="AttackTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 2.0
+
+[node name="NavComponent" parent="." instance=ExtResource("3_drosd")]
+
+[connection signal="body_entered" from="AttackHitbox" to="." method="_on_attack_hitbox_body_entered"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
+[connection signal="computed_velocity" from="NavComponent" to="." method="_on_nav_component_computed_velocity"]

@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://yf4gurlk7rlv"]
+
+[ext_resource type="Script" uid="uid://bsuoje486bmvn" path="res://Components/Selection/CommandPath.gd" id="1_2akbg"]
+[ext_resource type="Texture2D" uid="uid://cgc350wuuvy56" path="res://Sprites/Original Size 1х/Pallete 2/Ghoul.png" id="2_vuplr"]
+
+[sub_resource type="Curve2D" id="Curve2D_gr2du"]
+
+[node name="CommandPath" type="Path2D"]
+curve = SubResource("Curve2D_gr2du")
+script = ExtResource("1_2akbg")
+speed = 100.0
+
+[node name="CommandFollow" type="PathFollow2D" parent="."]
+loop = false
+
+[node name="Sprite2D" type="Sprite2D" parent="CommandFollow"]
+texture = ExtResource("2_vuplr")

@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=3 uid="uid://dixjgii5h8mg6"]
+
+[ext_resource type="Script" uid="uid://toc8c1jxav84" path="res://Scenes/Player/Mage/mageController.gd" id="1_6845g"]
+[ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://Components/HealthModule.tscn" id="2_wv4do"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4xjm6"]
+radius = 3.0
+
+[node name="Mage" type="CharacterBody2D" groups=["Players"]]
+collision_mask = 15
+script = ExtResource("1_6845g")
+range = 30.0
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0.6043658, 0.0042320406, 0.98827714, 1)
+polygon = PackedVector2Array(-2, 2, 3, 2, 3, -2, 0, -5, -3, -2, -3, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_4xjm6")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+avoidance_enabled = true
+radius = 5.0
+debug_enabled = true
+
+[node name="BasicCoolDown" type="Timer" parent="."]
+one_shot = true
+
+[node name="SpecialCoolDown" type="Timer" parent="."]
+one_shot = true
+
+[node name="HealthModule" parent="." instance=ExtResource("2_wv4do")]
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+collision_mask = 4

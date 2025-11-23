@@ -1,0 +1,160 @@
+[gd_scene load_steps=21 format=3 uid="uid://dkjxvs8oa8dnd"]
+
+[ext_resource type="Script" uid="uid://2dpqtcj0rh63" path="res://Scenes/Enemies/Bosses/lich.gd" id="1_5jvye"]
+[ext_resource type="Texture2D" uid="uid://4m60mm43sipu" path="res://Sprites/RPG Maker x3 size/Pallete 2/Lich.png" id="2_dbqag"]
+[ext_resource type="Texture2D" uid="uid://deixsilqjxyq8" path="res://Sprites/animated sprites/attack.png" id="3_km84k"]
+[ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://Components/HealthModule.tscn" id="4_lfbiv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p1lyt"]
+size = Vector2(103.12499, 119.999985)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ksgwu"]
+atlas = ExtResource("3_km84k")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_547wv"]
+atlas = ExtResource("3_km84k")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gnl88"]
+atlas = ExtResource("3_km84k")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rthyc"]
+atlas = ExtResource("3_km84k")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g1j2v"]
+atlas = ExtResource("3_km84k")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_405hl"]
+atlas = ExtResource("3_km84k")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7d2b1"]
+atlas = ExtResource("3_km84k")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a7bkc"]
+atlas = ExtResource("3_km84k")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_svmyt"]
+atlas = ExtResource("3_km84k")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w4l1i"]
+atlas = ExtResource("3_km84k")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oi3k6"]
+atlas = ExtResource("3_km84k")
+region = Rect2(64, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x2186"]
+atlas = ExtResource("3_km84k")
+region = Rect2(96, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3epp1"]
+atlas = ExtResource("3_km84k")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yy8je"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ksgwu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_547wv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gnl88")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rthyc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g1j2v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_405hl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7d2b1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a7bkc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_svmyt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w4l1i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oi3k6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x2186")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3epp1")
+}],
+"loop": false,
+"name": &"default",
+"speed": 30.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lfbiv"]
+size = Vector2(74, 101.5)
+
+[node name="LichBody2D" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 13
+script = ExtResource("1_5jvye")
+teleport_range = 500.0
+
+[node name="LichSprite" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_dbqag")
+
+[node name="LichCollision2D" type="CollisionShape2D" parent="."]
+position = Vector2(6.749997, 1.4305115e-06)
+scale = Vector2(0.8, 0.8)
+shape = SubResource("RectangleShape2D_p1lyt")
+
+[node name="death_timer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="HealthModule" parent="." instance=ExtResource("4_lfbiv")]
+position = Vector2(-98.73566, -1.0166473)
+maxHealth = 1500.0
+
+[node name="pivot" type="Node2D" parent="."]
+
+[node name="BasicAttack" type="AnimatedSprite2D" parent="pivot"]
+position = Vector2(-74.75, -3.9999928)
+scale = Vector2(2.4531255, 3.5625)
+sprite_frames = SubResource("SpriteFrames_yy8je")
+
+[node name="AttackHitbox" type="Area2D" parent="pivot"]
+position = Vector2(-50, 7)
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="pivot/AttackHitbox"]
+position = Vector2(-22, -14.25)
+shape = SubResource("RectangleShape2D_lfbiv")
+
+[node name="teleport_cd" type="Timer" parent="."]
+wait_time = 10.0
+
+[node name="fireball_cd" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+
+[connection signal="timeout" from="death_timer" to="." method="_on_death_timer_timeout"]
+[connection signal="timeout" from="teleport_cd" to="." method="_on_teleport_cd_timeout"]
+[connection signal="timeout" from="fireball_cd" to="." method="_on_fireball_cd_timeout"]
