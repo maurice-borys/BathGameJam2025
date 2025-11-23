@@ -18,7 +18,6 @@ signal completedMap()
 @onready var rayWall : RayCast2D = $RayCast2D
 
 @export var targetArray : Array[Node2D]
-@export var testEnemy : Node2D
 @export var minMaxHealth : float = 1000
 @export var minSpeed : float = 10
 @export var range : Vector2 = Vector2(10,20)
@@ -65,7 +64,6 @@ func _ready() -> void:
 	addXp(0)
 	
 	target = targetArray.pop_front()
-	setClosestEnemy(testEnemy)
 
 func _physics_process(_delta: float) -> void:
 	if not is_instance_valid(target):
@@ -79,6 +77,17 @@ func _physics_process(_delta: float) -> void:
 	
 	if not is_instance_valid(closestEnemy):
 		closestEnemy = null
+		
+		if global_position.distance_to(target.global_position) > range.y:
+			move()
+			if rayWall.is_colliding():
+				if rayWall.get_collider() is WallClass:
+					attack()
+		else:
+			attack()
+		return
+	
+	if not target:
 		return
 	
 	if global_position.distance_to(closestEnemy.global_position) < range.x && closestEnemy != null:
@@ -132,13 +141,18 @@ func enteredRangeSpecial(body : Node2D):
 func exitedRangeSpecial(body : Node2D):
 	inRangeSpecial.erase(Health.findHealthModule(body))
 
-func setClosestEnemy(enemy : Node2D) -> void:
-	if closestEnemy == null:
-		closestEnemy = enemy
-		return
+func setClosestEnemy() -> Node2D:
+	var enemies = get_tree().get_nodes_in_group("enemies")
+	if enemies.size() <= 0:
+		return null
 	
-	if global_position.distance_to(enemy.global_position) < global_position.distance_to(closestEnemy.global_position):
-		closestEnemy = enemy
+	closestEnemy = enemies[0]
+
+	for enemy in enemies:
+		if enemy is Node2D:
+			if global_position.distance_to(closestEnemy.global_position) > global_position.distance_to(enemy.global_position):
+				closestEnemy = enemy
+	return closestEnemy
 
 func healthChanged(old : float, new : float) -> void:
 	print(self.name + " -> " + str(new))

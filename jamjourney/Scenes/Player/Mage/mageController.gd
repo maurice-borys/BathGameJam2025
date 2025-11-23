@@ -18,7 +18,6 @@ var piercingSpellScene : PackedScene = preload("res://Scenes/Player/Mage/Piercin
 signal completedMap()
 
 @export var targetArray : Array[Node2D]
-@export var testEnemy : Node2D
 @export var minMaxHealth : float = 1000
 @export var minSpeed : float = 10
 @export var range : float = 40
@@ -56,7 +55,6 @@ func _ready() -> void:
 	addXp(0)
 	
 	target = targetArray.pop_front()
-	setClosestEnemy(testEnemy)
 
 func _physics_process(delta: float) -> void:
 	if not is_instance_valid(target):
@@ -71,6 +69,17 @@ func _physics_process(delta: float) -> void:
 	
 	if not is_instance_valid(closestEnemy):
 		closestEnemy = null
+		
+		if global_position.distance_to(target.global_position) > range:
+			move()
+			if rayWall.is_colliding():
+				if rayWall.get_collider() is WallClass:
+					attack(rayWall.get_collider())
+		else:
+			attack(target)
+		return
+	
+	if not target:
 		return
 	
 
@@ -119,13 +128,18 @@ func specialAttack():
 	
 	get_tree().current_scene.add_child(spell)
 
-func setClosestEnemy(enemy : Node2D) -> void:
-	if closestEnemy == null:
-		closestEnemy = enemy
-		return
+func setClosestEnemy() -> Node2D:
+	var enemies = get_tree().get_nodes_in_group("enemies")
+	if enemies.size() <= 0:
+		return null
 	
-	if global_position.distance_to(enemy.global_position) < global_position.distance_to(closestEnemy.global_position):
-		closestEnemy = enemy
+	closestEnemy = enemies[0]
+
+	for enemy in enemies:
+		if enemy is Node2D:
+			if global_position.distance_to(closestEnemy.global_position) > global_position.distance_to(enemy.global_position):
+				closestEnemy = enemy
+	return closestEnemy
 
 func healthChanged(old, new):
 	print(self.name + " -> " + str(new))

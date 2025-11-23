@@ -80,12 +80,20 @@ func _physics_process(delta: float) -> void:
 	
 	if not is_instance_valid(closestEnemy):
 		closestEnemy = null
+		
+		if global_position.distance_to(target.global_position) > range.y:
+			move()
+			if rayWall.is_colliding():
+				if rayWall.get_collider() is WallClass:
+					attack()
+		else:
+			attack()
 		return
 	
 	if not target:
 		return
 	
-	if global_position.distance_to(closestEnemy.global_position) < range.x && closestEnemy != null:
+	if global_position.distance_to(closestEnemy.global_position) < range.x:
 		pivot.rotation = (global_position.direction_to(closestEnemy.position).angle() + PI/2) 
 		attack()
 	elif global_position.distance_to(target.global_position) > range.y:
@@ -137,14 +145,15 @@ func exitedRangeSpecial(body : Node2D):
 
 func setClosestEnemy() -> Node2D:
 	var enemies = get_tree().get_nodes_in_group("enemies")
-	
 	if enemies.size() <= 0:
 		return null
 	
 	closestEnemy = enemies[0]
+
 	for enemy in enemies:
-		if global_position.distance_to(closestEnemy.global_postion) > global_position.distance_to(enemy.global_postion):
-			closestEnemy = enemy
+		if enemy is Node2D:
+			if global_position.distance_to(closestEnemy.global_position) > global_position.distance_to(enemy.global_position):
+				closestEnemy = enemy
 	return closestEnemy
 
 func healthChanged(old : float, new : float) -> void:
