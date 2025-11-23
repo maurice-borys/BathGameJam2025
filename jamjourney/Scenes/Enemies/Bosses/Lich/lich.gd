@@ -12,18 +12,12 @@ extends CharacterBody2D
 @onready var sprite: AnimatedSprite2D = $pivot/BasicAttack
 @onready var hitbox: Area2D = $pivot/AttackHitbox
 @onready var hitbox_shape: CollisionShape2D = $pivot/AttackHitbox/CollisionShape2D
-
-@onready var stun_hitbox: Area2D = $Stun_area
-@onready var stun_hitbox_shape: CollisionShape2D = $Stun_area/stun_collision
-@onready var stun_anim: AnimatedSprite2D = $stun_anim
 @onready var pivot: Node2D = $pivot
 #different timers
 @onready var death_timer: Timer = $death_timer
-@onready var stun_timer: Timer = $stun_timer
 @onready var teleport_cd: Timer = $teleport_cd
 @onready var fireball_cd: Timer = $fireball_cd
-@onready var stun_cd: Timer = $stun_cd
- 
+
 @export var teleport_range : float = 300
 
 var click_position = Vector2()
@@ -34,19 +28,13 @@ var target_position = Vector2()
 var attacking = false
 var teleport_ready = true
 var fireball_ready = true
-var stun_ready = true
-var char_speed : float
-var char_changed : CharacterBody2D
-
 
 func _ready():
 	add_to_group("enemies")
 	click_position = position
 	hitbox.body_entered.connect(_on_Hitbox_body_entered)
-	stun_hitbox.body_entered.connect(_on_stun_Hitbox_body_entered)
 	health_module.healthChanged.connect(health_changed)
 	sprite.animation_finished.connect(_on_basic_attack_animation_finished)
-	stun_anim.animation_finished.connect(_on_stun_attack_animation_finished)
 	
 func _process(_delta):
 	if Input.is_action_just_pressed("button_1") and not attacking:
@@ -58,8 +46,6 @@ func _process(_delta):
 	elif Input.is_action_just_pressed("button_3") and not attacking and fireball_ready:
 		pivot.rotation = global_position.direction_to(get_global_mouse_position()).angle() - PI
 		start_shoot()
-	elif Input.is_action_just_pressed("button_4") and not attacking and stun_ready:
-		start_stun()
 	
 	
 	
@@ -98,13 +84,7 @@ func start_shoot():
 	pivot.call_deferred("add_child",fireball_instance)
 	attacking = false
 	
-func start_stun():
-	attacking = true
-	stun_ready = false
-	stun_hitbox_shape.disabled = false
 	
-	stun_anim.play("default")
-
 
 func health_changed(_old, new):
 	if new <= 0:
@@ -117,29 +97,14 @@ func _on_basic_attack_animation_finished() -> void:
 	if sprite.animation == "default":
 		hitbox_shape.disabled = true
 		attacking = false
-
-func _on_stun_attack_animation_finished() -> void:
-	if stun_anim.animation == "default":
-		stun_hitbox_shape.disabled = true
-		attacking = false
-		stun_cd.start()
-
+		
 func _on_Hitbox_body_entered(body):
 	if attacking:
 		Health.findHealthModule(body).dealDamage(damage)
 
-func _on_stun_Hitbox_body_entered(body):
-	if attacking:
-		char_changed = body
-		char_speed = body.speed
-		body.speed = 0
-		stun_timer.start()
-		
-
-func reset_speed(body,org_speed):
-	body.speed = org_speed
 
 func _on_death_timer_timeout() -> void:
+	print("dead")
 	queue_free()
 	
 func _on_teleport_cd_timeout() -> void:
@@ -152,11 +117,3 @@ func _on_fireball_cd_timeout() -> void:
 func _on_nav_component_computed_velocity(safe_velocity: Vector2) -> void:
 	velocity = safe_velocity
 	move_and_slide()
-
-
-func _on_stun_cd_timeout() -> void:
-	stun_ready = true
-
-
-func _on_stun_timer_timeout() -> void:
-	reset_speed(char_changed,char_speed)

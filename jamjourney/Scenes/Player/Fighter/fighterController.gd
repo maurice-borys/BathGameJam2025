@@ -64,7 +64,6 @@ func _ready() -> void:
 	target = targetArray.pop_front()
 
 func _physics_process(delta: float) -> void:
-		
 	closestEnemy = setClosestEnemy()
 	
 	if not is_instance_valid(target):

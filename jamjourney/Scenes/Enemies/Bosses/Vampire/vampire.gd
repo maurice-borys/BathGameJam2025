@@ -67,6 +67,7 @@ func start_attack():
 	
 
 func start_bite_attack():
+	print("bite")
 	healing = true
 	attacking = true
 	bite_hitbox_shape.disabled = false

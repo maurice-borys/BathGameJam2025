@@ -1,11 +1,10 @@
-[gd_scene load_steps=32 format=3 uid="uid://dkjxvs8oa8dnd"]
+[gd_scene load_steps=22 format=3 uid="uid://dkjxvs8oa8dnd"]
 
 [ext_resource type="Script" uid="uid://2dpqtcj0rh63" path="res://Scenes/Enemies/Bosses/Lich/lich.gd" id="1_uygkf"]
 [ext_resource type="Texture2D" uid="uid://4m60mm43sipu" path="res://Sprites/RPG Maker x3 size/Pallete 2/Lich.png" id="2_fot7s"]
 [ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://Components/HealthModule.tscn" id="3_vocty"]
 [ext_resource type="Texture2D" uid="uid://deixsilqjxyq8" path="res://Sprites/animated sprites/attack.png" id="4_lj66t"]
 [ext_resource type="PackedScene" uid="uid://djrj4w1nryb2t" path="res://Components/NavComponent.tscn" id="5_fot7s"]
-[ext_resource type="Texture2D" uid="uid://b87177a4sahjc" path="res://Sprites/animated sprites/Stun.png" id="6_vocty"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p1lyt"]
 size = Vector2(103.12499, 119.999985)
@@ -112,66 +111,6 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lfbiv"]
 size = Vector2(74, 101.5)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_lj66t"]
-radius = 243.61446
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vixj3"]
-atlas = ExtResource("6_vocty")
-region = Rect2(0, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_a5esm"]
-atlas = ExtResource("6_vocty")
-region = Rect2(64, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_e4s8t"]
-atlas = ExtResource("6_vocty")
-region = Rect2(128, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_a0f74"]
-atlas = ExtResource("6_vocty")
-region = Rect2(0, 64, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_88tay"]
-atlas = ExtResource("6_vocty")
-region = Rect2(64, 64, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_q8770"]
-atlas = ExtResource("6_vocty")
-region = Rect2(128, 64, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_cy5ij"]
-atlas = ExtResource("6_vocty")
-region = Rect2(0, 128, 64, 64)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_kar1b"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vixj3")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_a5esm")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_e4s8t")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_a0f74")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_88tay")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_q8770")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_cy5ij")
-}],
-"loop": false,
-"name": &"default",
-"speed": 10.0
-}]
-
 [node name="LichBody2D" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 13
@@ -217,29 +156,9 @@ wait_time = 10.0
 wait_time = 10.0
 autostart = true
 
-[node name="stun_cd" type="Timer" parent="."]
-wait_time = 10.0
-
-[node name="stun_timer" type="Timer" parent="."]
-wait_time = 5.0
-
 [node name="NavComponent" parent="." instance=ExtResource("5_fot7s")]
-
-[node name="Stun_area" type="Area2D" parent="."]
-collision_layer = 2
-
-[node name="stun_collision" type="CollisionShape2D" parent="Stun_area"]
-shape = SubResource("CircleShape2D_lj66t")
-disabled = true
-
-[node name="stun_anim" type="AnimatedSprite2D" parent="."]
-position = Vector2(-12.000001, -31)
-scale = Vector2(8.03125, 7.8125)
-sprite_frames = SubResource("SpriteFrames_kar1b")
 
 [connection signal="timeout" from="death_timer" to="." method="_on_death_timer_timeout"]
 [connection signal="timeout" from="teleport_cd" to="." method="_on_teleport_cd_timeout"]
 [connection signal="timeout" from="fireball_cd" to="." method="_on_fireball_cd_timeout"]
-[connection signal="timeout" from="stun_cd" to="." method="_on_stun_cd_timeout"]
-[connection signal="timeout" from="stun_timer" to="." method="_on_stun_timer_timeout"]
 [connection signal="computed_velocity" from="NavComponent" to="." method="_on_nav_component_computed_velocity"]

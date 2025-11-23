@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b58mo838byeab"]
 
 [ext_resource type="PackedScene" uid="uid://14q8x5lk82hm" path="res://Scenes/Player/Fighter/fighter.tscn" id="1_8d8xe"]
-[ext_resource type="PackedScene" uid="uid://dkjxvs8oa8dnd" path="res://Scenes/Enemies/Bosses/Lich/bbeg.tscn" id="1_xlfb3"]
+[ext_resource type="PackedScene" uid="uid://bes1ttstk5flj" path="res://Scenes/Enemies/Bosses/Vampire/vampire.tscn" id="2_8ct0l"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -11,7 +11,5 @@ scale = Vector2(5, 5)
 targetArray = [null]
 range = Vector2(60, 20)
 
-[node name="LichBody2D" parent="." instance=ExtResource("1_xlfb3")]
-position = Vector2(639, 162)
-speed = null
-damage = null
+[node name="vampire" parent="." instance=ExtResource("2_8ct0l")]
+damage = 100
