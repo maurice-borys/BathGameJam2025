@@ -10,7 +10,7 @@ position = Vector2(304, 129)
 scale = Vector2(5, 5)
 targetArray = [NodePath("../LichBody2D")]
 testEnemy = NodePath("../LichBody2D")
-range = Vector2(50, 20)
+range = Vector2(60, 20)
 
 [node name="LichBody2D" parent="." instance=ExtResource("1_xlfb3")]
 position = Vector2(464, 123)

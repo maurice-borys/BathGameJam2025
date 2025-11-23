@@ -17,7 +17,6 @@ extends CharacterBody2D
 @onready var fireball_cd: Timer = $fireball_cd
 
 @export var teleport_range : float = 300
-@export var fireball_range : float = 1000
 
 var click_position = Vector2()
 var target_position = Vector2()
@@ -35,7 +34,6 @@ func _ready():
 	sprite.animation_finished.connect(_on_basic_attack_animation_finished)
 	
 func _process(_delta):
-	print("current Health: ", health_module.health)
 	if Input.is_action_just_pressed("button_1") and not attacking:
 		pivot.rotation = global_position.direction_to(get_global_mouse_position()).angle() - PI
 		start_attack()

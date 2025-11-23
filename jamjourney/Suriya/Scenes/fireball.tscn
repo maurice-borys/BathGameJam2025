@@ -1,6 +1,6 @@
 [gd_scene load_steps=26 format=3 uid="uid://dggcl73nhkyyg"]
 
-[ext_resource type="Script" uid="uid://cb5s80j61tttg" path="res://fireball.gd" id="1_qo511"]
+[ext_resource type="Script" uid="uid://cb5s80j61tttg" path="res://Suriya/scripts/fireball.gd" id="1_qo511"]
 [ext_resource type="Texture2D" uid="uid://css22fbjbd21r" path="res://Sprites/animated sprites/Firebolt SpriteSheet.png" id="2_wj5b2"]
 [ext_resource type="Texture2D" uid="uid://bgq7ly2u65yhn" path="res://Sprites/animated sprites/Explosion 2 SpriteSheet.png" id="3_wj5b2"]
 
@@ -43,65 +43,68 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_1eax4"]
 radius = 225.73657
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_xd545"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_wj5b2"]
 atlas = ExtResource("3_wj5b2")
 region = Rect2(240, 0, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1nj6c"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_xd545"]
 atlas = ExtResource("3_wj5b2")
 region = Rect2(288, 0, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_miho7"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_1nj6c"]
 atlas = ExtResource("3_wj5b2")
 region = Rect2(336, 0, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_oy0mb"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_miho7"]
 atlas = ExtResource("3_wj5b2")
 region = Rect2(384, 0, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ioq8j"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_oy0mb"]
 atlas = ExtResource("3_wj5b2")
 region = Rect2(432, 0, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0wqa7"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ioq8j"]
 atlas = ExtResource("3_wj5b2")
 region = Rect2(480, 0, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0fony"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_0wqa7"]
 atlas = ExtResource("3_wj5b2")
 region = Rect2(528, 0, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_tx3c0"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_0fony"]
 atlas = ExtResource("3_wj5b2")
 region = Rect2(576, 0, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_110od"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_tx3c0"]
 atlas = ExtResource("3_wj5b2")
 region = Rect2(624, 0, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fr6gr"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_110od"]
 atlas = ExtResource("3_wj5b2")
 region = Rect2(672, 0, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_wpteh"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_fr6gr"]
 atlas = ExtResource("3_wj5b2")
 region = Rect2(720, 0, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_t1j6v"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_wpteh"]
 atlas = ExtResource("3_wj5b2")
 region = Rect2(768, 0, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fsq2d"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_t1j6v"]
 atlas = ExtResource("3_wj5b2")
 region = Rect2(816, 0, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_wj5b2"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_fsq2d"]
 atlas = ExtResource("3_wj5b2")
 region = Rect2(240, 0, 48, 48)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_hfsx4"]
 animations = [{
 "frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wj5b2")
+}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_xd545")
 }, {
@@ -140,13 +143,10 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_fsq2d")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wj5b2")
 }],
 "loop": false,
 "name": &"default",
-"speed": 7.0
+"speed": 15.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1nj6c"]
@@ -162,8 +162,6 @@ script = ExtResource("1_qo511")
 position = Vector2(-15, 20)
 scale = Vector2(4.2083335, 3.8333333)
 sprite_frames = SubResource("SpriteFrames_xd545")
-frame = 3
-frame_progress = 1.0
 
 [node name="Explosion" type="Area2D" parent="."]
 collision_layer = 2
@@ -174,9 +172,11 @@ position = Vector2(-4, -6)
 shape = SubResource("CircleShape2D_1eax4")
 
 [node name="ExplosionAnimation" type="AnimatedSprite2D" parent="Explosion"]
-position = Vector2(-20, -76)
-scale = Vector2(8.75, 13.812501)
+position = Vector2(13.624981, -19.499985)
+scale = Vector2(8.640626, 10.354167)
 sprite_frames = SubResource("SpriteFrames_hfsx4")
+frame = 13
+frame_progress = 1.0
 
 [node name="Hitbox" type="Area2D" parent="."]
 position = Vector2(16, 4)
