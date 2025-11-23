@@ -1,10 +1,17 @@
-extends Node2D
+extends Control
 
 class_name Selector
 
 const DOUBLE_CLICK_TIME = 0.3
+@onready var building_cursor: TextureRect = $BuildingCursor
 
 @onready var command_path: PackedScene = preload("res://Will/command_path.tscn")
+@onready var spawner: PackedScene = preload("res://Will/spawner.tscn")
+
+@onready var keymap: Dictionary = {
+	KEY_1 : spawner
+}
+
 
 var is_selecting = false
 var is_commanding = false
@@ -19,25 +26,80 @@ var click_was_handled = false
 var line: Line2D
 var new_path: CommandPath
 
+var build_mode = false
+var current_building: Node
+
+@onready var base_thumbnail = building_cursor.texture
 
 func _ready():
 	add_to_group("selection")
-	
 	
 	line = Line2D.new()
 	line.width = 3
 	line.default_color = Color.WHITE
 	add_child(line)
 
-func _unhandled_input(event):
+func _process(delta: float) -> void:
+	if Input.is_mouse_button_pressed(2):
+		add_point(get_global_mouse_position())
+		queue_redraw()
+
+
+func _input(event):
+	if build_mode:
+		handle_building_mode(event)
+	else:
+		handle_normal(event)
+	
+func handle_building_mode(event):
+	if event is InputEventMouseButton:
+		handle_build()
+		
+	if event is InputEventKey and event.pressed:
+		match event.keycode:
+			KEY_R: 
+				build_mode = false
+				building_cursor.hide()
+			_ : 
+				select_building(event.keycode)
+
+func select_building(keycode):
+	if keycode not in keymap:
+		return
+	
+	current_building = keymap[keycode].instantiate()
+
+	for child in current_building.get_children():
+		if child is Sprite2D:
+			building_cursor.texture = child.texture
+			queue_redraw()
+	
+	if not building_cursor.texture:
+		building_cursor.texture = base_thumbnail
+		queue_redraw()
+
+func handle_build():
+	if current_building:
+		current_building.position = get_global_mouse_position()
+		get_tree().current_scene.add_child(current_building)
+		current_building = null
+		queue_redraw()
+
+func handle_normal(event):
 	if event is InputEventMouseButton:
 		handle_click(event)
 	elif event is InputEventMouseMotion and is_selecting:
 		handle_drag(event)
-	elif event is InputEventKey:
-		if event.keycode == KEY_SPACE:
-			handle_hold()
 	
+	### mouse eats all input if considered together
+	if event is InputEventKey and event.pressed:
+		match event.keycode:
+			KEY_SPACE:
+				handle_hold()
+			KEY_R: 
+				build_mode = true
+				building_cursor.show()
+
 func handle_drag(event):
 	drag_end = get_global_mouse_position()
 	queue_redraw()
@@ -70,7 +132,6 @@ func hold_all():
 func move_all():
 	for unit in selected_units:
 		unit.target_player()
-
 
 func handle_click(event):
 	if event.button_index == MOUSE_BUTTON_LEFT:
@@ -150,10 +211,7 @@ func register_goto(point: Vector2, selected_units: Array[Grunt]):
 	deselect_all()
 	free_path()
 
-func _process(delta: float) -> void:
-	if Input.is_mouse_button_pressed(2):
-		add_point(get_global_mouse_position())
-		queue_redraw()
+
 
 func start_path(pos: Vector2):
 	if new_path and is_instance_valid(new_path):
