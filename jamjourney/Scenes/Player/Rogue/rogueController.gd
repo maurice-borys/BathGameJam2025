@@ -1,5 +1,5 @@
 extends CharacterBody2D
-class_name Fighter
+class_name Rogue
 
 var target : Node2D
 var closestEnemy : Node2D
@@ -9,13 +9,14 @@ var inRangeSpecial : Array[Health]
 signal completedMap()
 
 @onready var agent : NavigationAgent2D = $NavigationAgent2D
-@onready var sprite : Node2D = $Polygon2D
+@onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
 @onready var basicTimer : Timer = $BasicCoolDown
 @onready var specialTimer : Timer = $SpecialCoolDown
 @onready var areaRange : Area2D = $BasicRange
 @onready var areaRangeSpecial : Area2D = $SpecialRange
 @onready var healthModule : Health = $HealthModule
-@onready var rayWall : RayCast2D = $RayCast2D
+@onready var rayWall : RayCast2D = $Pivot/RayCast2D
+@onready var pivot : Node2D = $Pivot
 
 @export var targetArray : Array[Node2D]
 @export var minMaxHealth : float = 1000
@@ -63,9 +64,14 @@ func _ready() -> void:
 	
 	addXp(0)
 	
+	sprite.play("Run")
+	sprite.animation_finished.connect(killMe)
+	
 	target = targetArray.pop_front()
 
 func _physics_process(_delta: float) -> void:
+	closestEnemy = setClosestEnemy()
+	
 	if not is_instance_valid(target):
 		if targetArray.size() <= 0:
 			completedMap.emit()
@@ -74,6 +80,8 @@ func _physics_process(_delta: float) -> void:
 	
 	if target:
 		agent.target_position = target.global_position
+	else:
+		return
 	
 	if not is_instance_valid(closestEnemy):
 		closestEnemy = null
@@ -89,9 +97,8 @@ func _physics_process(_delta: float) -> void:
 	
 	if not target:
 		return
-	
 	if global_position.distance_to(closestEnemy.global_position) < range.x && closestEnemy != null:
-		rotation = (global_position.direction_to(closestEnemy.position).angle() + PI/2) 
+		pivot.rotation = (global_position.direction_to(closestEnemy.position).angle() + PI/2) 
 		attack()
 	elif global_position.distance_to(target.global_position) > range.y:
 		move()
@@ -103,16 +110,20 @@ func _physics_process(_delta: float) -> void:
 		attack()
 		stealingMana.emit(manaSteal)
 
+func killMe():
+	sprite.play("Run")
+
 func move() -> void:
 	var pathPos = agent.get_next_path_position()
 	var newVelocity = Vector2 (global_position.direction_to(pathPos) * speed)
 	agent.velocity = newVelocity
-	rotation = velocity.angle() + PI/2
+	pivot.rotation  = velocity.angle() + PI/2
 	
 	move_and_slide()
 
 func attack() -> void:
 	if specialTimer.time_left == 0 && basicTimer.time_left == 0:
+		
 		specialAttack()
 		specialTimer.start()
 		basicTimer.start()
@@ -121,20 +132,21 @@ func attack() -> void:
 		basicTimer.start()
 
 func basicAttack():
+	sprite.play("Attack")
 	for body in inRange:
 		body.dealDamage(damage)
 		
 func specialAttack():
+	sprite.play("Attack")
 	for body in inRangeSpecial:
 		body.dealDamage(damageSpecial)
 
 func enteredRange(body : Node2D):
-	print(body.name)
 	inRange.append(Health.findHealthModule(body))
 	
 func exitedRange(body : Node2D):
 	inRange.erase(Health.findHealthModule(body))
-	
+
 func enteredRangeSpecial(body : Node2D):
 	inRangeSpecial.append(Health.findHealthModule(body))
 	

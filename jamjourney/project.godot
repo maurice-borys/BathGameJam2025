@@ -15,11 +15,16 @@ run/main_scene="uid://bmisabixoxem4"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GlobalVariables="*res://Scenes/Globals/GlobalVariables.tscn"
+
 [global_group]
 
 Players=""
 manaGenerators=""
 Walls=""
+Spawners=""
 
 [input]
 
