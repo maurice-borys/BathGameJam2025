@@ -16,13 +16,25 @@ var homingSpellScene : PackedScene = preload("res://Jericho Area No Touchy/Playe
 var piercingSpellScene : PackedScene = preload("res://Jericho Area No Touchy/Players/Scenes/PiercingSpell.tscn")
 
 var allies : Array[Node2D]
-@export var maxHealth : float = 1000
-@export var speed : float = 10
+@export var minMaxHealth : float = 1000
+@export var minSpeed : float = 10
 @export var range : Vector2 = Vector2(10,30)
 @export var basicCoolDown : float = 1
 @export var specialCoolDown : float = 3
-@export var basicHeal : float = 10
-@export var specialHeal : float = 25
+@export var minBasicHeal : float = 10
+@export var minSpecialHeal : float = 25
+
+@export var healthMultiplier : float = 2
+@export var speedMultiplier : float = 2
+@export var healMultiplier : float = 2
+@export var maxXp : float = 100
+
+var xp : float
+
+var maxHealth : float = 1000
+var speed : float = 10
+var basicHeal : float = 10
+var specialHeal  : float = 25
 
 func _ready() -> void:
 	add_to_group("player")
@@ -36,6 +48,8 @@ func _ready() -> void:
 	healthModule.healthChanged.connect(healthChanged)
 	
 	agent.velocity_computed.connect(safeVelocity)
+	
+	addXp(0)
 	
 	allies = []
 	var rawPlayer = get_tree().get_nodes_in_group("Players")
@@ -108,3 +122,10 @@ func healthChanged(old, new):
 
 func safeVelocity(safeVel):
 	velocity = safeVel
+
+func addXp(amount : float):
+	xp = clamp(xp + amount,0 , maxXp)
+	maxHealth = lerp(minMaxHealth, minMaxHealth * healthMultiplier, xp/maxXp)
+	speed = lerp(minSpeed, minSpeed * speedMultiplier, xp/maxXp)
+	basicHeal = lerp(minBasicHeal, minBasicHeal * healMultiplier, xp/maxXp)
+	specialHeal = lerp(specialHeal, specialHeal * healMultiplier, xp/maxXp)

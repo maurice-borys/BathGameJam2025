@@ -1,9 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://cy62273hng4qf"]
+[gd_scene load_steps=10 format=3 uid="uid://cy62273hng4qf"]
 
 [ext_resource type="Script" uid="uid://vyeylncg66k1" path="res://Jericho Area No Touchy/Buildings/Scripts/manaManager.gd" id="1_w2wr8"]
+[ext_resource type="PackedScene" uid="uid://dixjgii5h8mg6" path="res://Jericho Area No Touchy/Players/Scenes/mage.tscn" id="2_rjgpw"]
 [ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://GlobalModules/HealthModule.tscn" id="3_wnsvo"]
 [ext_resource type="PackedScene" uid="uid://14q8x5lk82hm" path="res://Jericho Area No Touchy/Players/Scenes/fighter.tscn" id="5_oic03"]
 [ext_resource type="PackedScene" uid="uid://4okppg7asb2m" path="res://Jericho Area No Touchy/Buildings/manaGenerator.tscn" id="6_oic03"]
+[ext_resource type="PackedScene" uid="uid://ohjyvm53ohnf" path="res://Jericho Area No Touchy/Players/Scenes/cleric.tscn" id="6_w2wr8"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_xw6e3"]
 vertices = PackedVector2Array(696.10156, -396.0078, 704.8828, 400.96875, -712.85156, 398.02344, -701.1406, -397.97656)
@@ -85,10 +87,22 @@ position = Vector2(-489, -7)
 scale = Vector2(7, 7)
 
 [node name="Fighter" parent="." node_paths=PackedStringArray("targetArray", "testEnemy") instance=ExtResource("5_oic03")]
-position = Vector2(-519, 198)
+position = Vector2(-406.00006, 220.00002)
 scale = Vector2(7, 7)
 targetArray = [NodePath("../Mana Generator"), NodePath("../Mana Generator2"), NodePath("../TestEnemy")]
 testEnemy = NodePath("../TestEnemy")
-speed = 70.0
 range = Vector2(70, 140)
 wallRange = 15.0
+
+[node name="Mage" parent="." node_paths=PackedStringArray("targetArray", "testEnemy") instance=ExtResource("2_rjgpw")]
+position = Vector2(-265, 263)
+scale = Vector2(7, 7)
+targetArray = [NodePath("../Mana Generator"), NodePath("../Mana Generator2")]
+testEnemy = NodePath("../TestEnemy")
+range = 210.0
+rangeWall = 30.0
+
+[node name="Cleric" parent="." instance=ExtResource("6_w2wr8")]
+position = Vector2(-345, 291)
+scale = Vector2(7, 7)
+range = Vector2(70, 210)

@@ -9,6 +9,7 @@ var closestEnemy : Node2D
 @onready var basicTimer : Timer = $BasicCoolDown
 @onready var specialTimer : Timer = $SpecialCoolDown
 @onready var healthModule : Health = $HealthModule
+@onready var rayWall : RayCast2D = $RayCast2D
 
 var homingSpellScene : PackedScene = preload("res://Jericho Area No Touchy/Players/Scenes/HomingSpell.tscn")
 var piercingSpellScene : PackedScene = preload("res://Jericho Area No Touchy/Players/Scenes/PiercingSpell.tscn")
@@ -17,24 +18,41 @@ signal completedMap()
 
 @export var targetArray : Array[Node2D]
 @export var testEnemy : Node2D
-@export var maxHealth : float = 1000
-@export var speed : float = 10
+@export var minMaxHealth : float = 1000
+@export var minSpeed : float = 10
 @export var range : float = 40
 @export var basicCoolDown : float = 1
 @export var specialCoolDown : float = 3
-@export var damage : float = 10
-@export var damageSpecial : float = 25
+@export var minDamage : float = 10
+@export var minDamageSpecial : float = 25
+@export var rangeWall : float = 50
+
+@export var healthMultiplier : float = 2
+@export var speedMultiplier : float = 2
+@export var damageMultiplier : float = 2
+@export var maxXp : float = 100
+
+var xp : float
+
+var maxHealth : float = 1000
+var speed : float = 10
+var damage : float = 10
+var damageSpecial : float = 25
 
 func _ready() -> void:
 	add_to_group("player")
 	basicTimer.wait_time = basicCoolDown
 	specialTimer.wait_time = specialCoolDown
 	
+	rayWall.target_position = Vector2.UP * rangeWall
+	
 	healthModule.maxHealth = maxHealth
 	healthModule.health = maxHealth
 	healthModule.healthChanged.connect(healthChanged)
 	
 	agent.velocity_computed.connect(safeVelocity)
+	
+	addXp(0)
 	
 	target = targetArray.pop_front()
 	setClosestEnemy(testEnemy)
@@ -56,6 +74,10 @@ func _physics_process(delta: float) -> void:
 		attack(closestEnemy)
 	elif global_position.distance_to(target.global_position) > range:
 		move()
+		
+		if rayWall.is_colliding():
+			if rayWall.get_collider() is WallClass:
+				attack(rayWall.get_collider())
 	else:
 		attack(target)
 
@@ -107,3 +129,10 @@ func healthChanged(old, new):
 
 func safeVelocity(safeVel):
 	velocity = safeVel
+
+func addXp(amount : float):
+	xp = clamp(xp + amount,0 , maxXp)
+	maxHealth = lerp(minMaxHealth, minMaxHealth * healthMultiplier, xp/maxXp)
+	speed = lerp(minSpeed, minSpeed * speedMultiplier, xp/maxXp)
+	damage = lerp(minDamage, minDamage * damageMultiplier, xp/maxXp)
+	damageSpecial = lerp(minDamageSpecial, minDamageSpecial * damageMultiplier, xp/maxXp)

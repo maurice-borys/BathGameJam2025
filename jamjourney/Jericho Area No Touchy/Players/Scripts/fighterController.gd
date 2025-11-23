@@ -19,14 +19,26 @@ signal completedMap()
 
 @export var targetArray : Array[Node2D]
 @export var testEnemy : Node2D
-@export var maxHealth = 1000
-@export var speed : float = 10
+@export var minMaxHealth : float = 1000
+@export var minSpeed : float = 10
 @export var range : Vector2 = Vector2(10,20)
 @export var basicCoolDown : float = 1
 @export var specialCoolDown : float = 3
-@export var damage : float = 10
-@export var damageSpecial : float = 30
+@export var minDamage : float = 10
+@export var minDamageSpecial : float = 30
 @export var wallRange : float = 10
+
+@export var healthMultiplier : float = 2
+@export var speedMultiplier : float = 2
+@export var damageMultiplier : float = 2
+@export var maxXp : float = 100
+
+var xp : float
+
+var maxHealth : float = 1000
+var speed : float = 10
+var damage : float = 10
+var damageSpecial : float = 25
 
 func _ready() -> void:
 	add_to_group("player")
@@ -46,6 +58,8 @@ func _ready() -> void:
 	healthModule.healthChanged.connect(healthChanged)
 	
 	agent.velocity_computed.connect(safeVelocity)
+	
+	addXp(0)
 	
 	target = targetArray.pop_front()
 	setClosestEnemy(testEnemy)
@@ -127,3 +141,10 @@ func healthChanged(old : float, new : float) -> void:
 		
 func safeVelocity(safeVel : Vector2):
 	velocity = safeVel
+
+func addXp(amount : float):
+	xp = clamp(xp + amount,0 , maxXp)
+	maxHealth = lerp(minMaxHealth, minMaxHealth * healthMultiplier, xp/maxXp)
+	speed = lerp(minSpeed, minSpeed * speedMultiplier, xp/maxXp)
+	damage = lerp(minDamage, minDamage * damageMultiplier, xp/maxXp)
+	damageSpecial = lerp(minDamageSpecial, minDamageSpecial * damageMultiplier, xp/maxXp)
