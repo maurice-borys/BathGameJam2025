@@ -5,7 +5,7 @@ var _build = false
 @onready var wallpick_texture: Texture2D = preload("res://Sprites/skeleton left.png")
 
 func _ready() -> void:
-	show()
+	hide()
 	# Ensure cursor is always on top
 	z_index = 100
 	

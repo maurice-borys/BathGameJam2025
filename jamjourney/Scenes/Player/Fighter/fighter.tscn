@@ -321,7 +321,6 @@ size = Vector2(26, 53)
 [node name="Fighter" type="CharacterBody2D" groups=["Players"]]
 collision_mask = 15
 script = ExtResource("1_hnd4r")
-range = Vector2(30, 40)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 avoidance_enabled = true

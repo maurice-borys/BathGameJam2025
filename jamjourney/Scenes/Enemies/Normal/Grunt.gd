@@ -11,7 +11,7 @@ signal goto_command_path_start(path: CommandPath)
 @onready var attack_timer: Timer = $AttackTimer
 @onready var attack_hitbox: Area2D = $AttackHitbox
 @onready var sprite: Sprite2D = $Sprite
-@onready var health_module: Health = $HealthModule
+@export var godottexture: Texture2D
 
 var holding = false
 var pointer_node: Node2D
@@ -26,8 +26,6 @@ func _ready():
 
 func _physics_process(delta: float) -> void:
 	nav_component.navigate()
-	if health_module.getHealth() <= 0.0:
-		queue_free()
 
 func _on_nav_component_computed_velocity(safe_velocity: Vector2) -> void:
 	velocity = safe_velocity

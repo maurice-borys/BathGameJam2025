@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://b323c518coe4j"]
+[gd_scene load_steps=10 format=3 uid="uid://b323c518coe4j"]
 
 [ext_resource type="Script" uid="uid://cks58y784hlbw" path="res://Scenes/Enemies/Normal/Grunt.gd" id="1_wh1fe"]
+[ext_resource type="Texture2D" uid="uid://bvxbe0wqihhwo" path="res://Sprites/icon.svg" id="2_d81xp"]
 [ext_resource type="PackedScene" uid="uid://djrj4w1nryb2t" path="res://Components/NavComponent.tscn" id="3_drosd"]
 [ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://Components/HealthModule.tscn" id="4_dkke2"]
 
@@ -24,6 +25,7 @@ collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_wh1fe")
 speed = 75.0
+godottexture = ExtResource("2_d81xp")
 
 [node name="HurtBox" type="Area2D" parent="."]
 visible = false

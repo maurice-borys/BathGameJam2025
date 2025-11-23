@@ -100,7 +100,6 @@ func _physics_process(_delta):
 	#	move_and_slide()
 
 func health_changed(_old, new):
-	print(new)
 	if new <= 0:
 		timer.start()
 

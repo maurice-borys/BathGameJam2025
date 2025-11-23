@@ -212,7 +212,7 @@ radius = 15.132746
 [node name="Mage" type="CharacterBody2D" groups=["Players"]]
 collision_mask = 15
 script = ExtResource("1_6845g")
-range = 69.0
+range = 30.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-4, -19)

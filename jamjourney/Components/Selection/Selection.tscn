@@ -4,8 +4,3 @@
 
 [node name="Selection" type="Node2D"]
 script = ExtResource("1_erxlh")
-
-[node name="PlaceTimer" type="Timer" parent="."]
-autostart = true
-
-[connection signal="timeout" from="PlaceTimer" to="." method="_on_wall_timer_timeout"]

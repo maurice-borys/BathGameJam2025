@@ -6,7 +6,7 @@
 size = Vector2(6, 6)
 
 [node name="PiercingSpell" type="Area2D"]
-scale = Vector2(4, 4)
+scale = Vector2(7, 7)
 collision_mask = 10
 script = ExtResource("1_2b7ew")
 speed = 210

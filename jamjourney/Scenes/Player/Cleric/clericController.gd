@@ -6,7 +6,7 @@ var currentRange : float
 var healingArea : Array[Health]
 
 @onready var agent : NavigationAgent2D = $NavigationAgent2D
-@onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
+@onready var sprite : Node2D = $Polygon2D
 @onready var basicTimer : Timer = $BasicCoolDown
 @onready var specialTimer : Timer = $SpecialCoolDown
 @onready var healthModule : Health = $HealthModule
@@ -47,8 +47,6 @@ func _ready() -> void:
 	agent.velocity_computed.connect(safeVelocity)
 	
 	addXp(0)
-	sprite.play("Run")
-	sprite.animation_finished.connect(killMe)
 	
 	allies = []
 	var rawPlayer = get_tree().get_nodes_in_group("Players")
@@ -67,20 +65,17 @@ func _physics_process(delta: float) -> void:
 	
 	if global_position.distance_to(allyTarget.global_position) < currentRange:
 		currentRange = range.y
-		#rotation = (global_position.direction_to(allyTarget.position).angle() + PI/2) 
+		rotation = (global_position.direction_to(allyTarget.position).angle() + PI/2) 
 		action()
 	elif global_position.distance_to(allyTarget.global_position) > currentRange:
 		currentRange = range.x
 		move()
 
-func killMe():
-	sprite.play("Run")
-
 func move() -> void:
 	var pathPos = agent.get_next_path_position()
 	var newVelocity = Vector2 (global_position.direction_to(pathPos) * speed)
 	agent.velocity = newVelocity
-	#rotation = velocity.angle() + PI/2
+	rotation = velocity.angle() + PI/2
 	move_and_slide()
 
 func action() -> void:
@@ -93,11 +88,9 @@ func action() -> void:
 		basicTimer.start()
 
 func basicAction():
-	sprite.play("Heal")
 	Health.findHealthModule(allyTarget).healHealth(basicHeal)
 	
 func specialAction():
-	sprite.play("Heal")
 	for body in healingArea:
 		body.healHealth(specialHeal)
 

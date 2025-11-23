@@ -15,7 +15,6 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if not is_instance_valid(target):
 		queue_free()
-		return
 	
 	direction = lerp(direction, global_position.direction_to(target.global_position), rotationSpeed * delta)
 	position += direction * speed * delta

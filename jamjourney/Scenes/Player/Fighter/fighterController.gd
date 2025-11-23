@@ -1,5 +1,5 @@
 extends CharacterBody2D
-class_name Fighter
+class_name Rogue
 
 var target : Node2D
 var closestEnemy : Node2D
@@ -9,7 +9,7 @@ var inRangeSpecial : Array[Health]
 signal completedMap()
 
 @onready var agent : NavigationAgent2D = $NavigationAgent2D
-@onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
+@onready var sprite : Node2D = $AnimatedSprite2D
 @onready var basicTimer : Timer = $BasicCoolDown
 @onready var specialTimer : Timer = $SpecialCoolDown
 @onready var areaRange : Area2D = $Pivot/BasicRange
@@ -61,9 +61,6 @@ func _ready() -> void:
 	
 	addXp(0)
 	
-	sprite.animation_finished.connect(finAttack)
-	sprite.play("Run")
-	
 	target = targetArray.pop_front()
 
 func _physics_process(delta: float) -> void:
@@ -82,7 +79,7 @@ func _physics_process(delta: float) -> void:
 	
 	agent.target_position = target.global_position
 	
-	if not is_instance_valid(closestEnemy) || not closestEnemy:
+	if not is_instance_valid(closestEnemy):
 		closestEnemy = null
 		
 		if global_position.distance_to(target.global_position) > range.y:
@@ -96,7 +93,7 @@ func _physics_process(delta: float) -> void:
 	
 	if not target:
 		return
-		
+	
 	if global_position.distance_to(closestEnemy.global_position) < range.x:
 		pivot.rotation = (global_position.direction_to(closestEnemy.position).angle() + PI/2) 
 		attack()
@@ -108,9 +105,6 @@ func _physics_process(delta: float) -> void:
 				attack()
 	else:
 		attack()
-
-func finAttack():
-	sprite.play("Run")
 
 func move() -> void:
 	var pathPos = agent.get_next_path_position()
@@ -130,16 +124,15 @@ func attack() -> void:
 		basicTimer.start()
 
 func basicAttack():
-	sprite.play("AttackBasic")
 	for body in inRange:
 		body.dealDamage(damage)
 		
 func specialAttack():
-	sprite.play("AttackSpecial")
 	for body in inRangeSpecial:
 		body.dealDamage(damageSpecial)
 
 func enteredRange(body : Node2D):
+	print(body.name)
 	inRange.append(Health.findHealthModule(body))
 	
 func exitedRange(body : Node2D):
@@ -157,6 +150,7 @@ func setClosestEnemy() -> Node2D:
 		return null
 	
 	closestEnemy = enemies[0]
+
 	for enemy in enemies:
 		if global_position.distance_to(closestEnemy.global_position) > global_position.distance_to(enemy.global_position):
 			closestEnemy = enemy

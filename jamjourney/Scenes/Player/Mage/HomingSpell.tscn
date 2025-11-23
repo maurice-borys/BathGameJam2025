@@ -6,8 +6,8 @@
 radius = 1.0
 
 [node name="HomingSpell" type="Area2D"]
-scale = Vector2(5, 5)
-collision_mask = 2
+scale = Vector2(7, 7)
+collision_mask = 14
 script = ExtResource("1_1dkbp")
 speed = 210.0
 minDistance = 70.0

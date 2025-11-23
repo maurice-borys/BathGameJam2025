@@ -48,7 +48,6 @@ func init() -> bool:
 
 		var navPoly = NavigationPolygon.new()
 		navPoly.add_outline(getVertexPositions())
-		navPoly.make_polygons_from_outlines()	
 		navigationRegion.navigation_polygon = navPoly
 		
 		rebakeMesh.emit()
