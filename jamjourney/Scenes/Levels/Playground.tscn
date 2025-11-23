@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cy62273hng4qf"]
+[gd_scene load_steps=9 format=3 uid="uid://cy62273hng4qf"]
 
 [ext_resource type="PackedScene" uid="uid://14q8x5lk82hm" path="res://Scenes/Player/Fighter/fighter.tscn" id="5_oic03"]
 [ext_resource type="PackedScene" uid="uid://4okppg7asb2m" path="res://Scenes/Buildings/ManaGenerator/manaGenerator.tscn" id="6_oic03"]

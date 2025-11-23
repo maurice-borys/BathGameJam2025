@@ -6,7 +6,8 @@ signal computed_velocity(safe_velocity: Vector2)
 
 @export var speed: float = 100.0
 
-@onready var click_area: Area2D = $ClickArea
+@export var click_area: Area2D
+
 @onready var nav_agent: NavigationAgent2D = $NavAgent
 @onready var nav_timer: Timer = $NavTimer
 
@@ -17,6 +18,8 @@ var follow: CommandPath
 var is_selected = false
 
 func _ready():
+	if not click_area:
+		click_area = $ClickArea
 	nav_agent.max_speed = speed
 	nav_timer.start()
 
