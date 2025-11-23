@@ -4,6 +4,7 @@ class_name Selector
 
 const DOUBLE_CLICK_TIME = 0.3
 @onready var cursor: Cursor = $CursorContainer
+@onready var building_hitbox = $BuildingHitbox
 
 @onready var command_path: PackedScene = preload("res://Will/command_path.tscn")
 @onready var spawner: PackedScene = preload("res://Will/spawner.tscn")
@@ -65,7 +66,11 @@ func get_texture(node):
 	for child in current_building.get_children():
 		if child is Sprite2D:
 			return child.texture
-
+			
+func get_collider(node):
+	for child in current_building.get_children():
+		if child is CollisionObject2D:
+			return child.texture
 
 func select_building(keycode):
 	if keycode not in keymap:
@@ -81,11 +86,19 @@ func select_building(keycode):
 	queue_redraw()
 
 func handle_build():
-	if current_building:
-		current_building.position = get_global_mouse_position()
-		get_tree().current_scene.add_child(current_building)
-		current_building = null
-		queue_redraw()
+	if not current_building:
+		return
+	
+	var current_collider: CollisionObject2D = get_collider(current_building)
+	if not current_collider:
+		return
+		
+	if current_collider.is_coll
+	
+	current_building.position = get_global_mouse_position()
+	get_tree().current_scene.add_child(current_building)
+	current_building = null
+	queue_redraw()
 
 func handle_normal(event):
 	if event is InputEventMouseButton:
