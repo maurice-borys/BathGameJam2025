@@ -57,6 +57,10 @@ func _input(event):
 	else:
 		handle_normal(event)
 
+
+func _physics_process(delta: float) -> void:
+	var selected_units = selected_units.filter(is_instance_valid)
+
 func make_dummy_instance(scene: PackedScene) -> Node:
 	var dummy = scene.instantiate()
 	add_child(dummy)
