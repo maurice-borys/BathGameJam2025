@@ -29,6 +29,7 @@ position = Vector2(-262, 0)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="Forest"]
 navigation_polygon = SubResource("NavigationPolygon_qlyuv")
+navigation_layers = 255
 
 [node name="vampire" parent="Forest" instance=ExtResource("2_w8dcx")]
 position = Vector2(245, 107.5)

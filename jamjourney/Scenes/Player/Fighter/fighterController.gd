@@ -143,7 +143,7 @@ func setClosestEnemy() -> Node2D:
 	
 	closestEnemy = enemies[0]
 	for enemy in enemies:
-		if global_position.distance_to(closestEnemy.global_position) > global_position.distance_to(enemy.global_postion):
+		if global_position.distance_to(closestEnemy.global_position) > global_position.distance_to(enemy.global_position):
 			closestEnemy = enemy
 	return closestEnemy
 
