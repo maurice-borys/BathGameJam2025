@@ -6,7 +6,7 @@ const DOUBLE_CLICK_TIME = 0.3
 
 @export var nav_mesh : NavigationRegion2D
 @export var cursor: Cursor
-
+@onready var place_timer: Timer = $PlaceTimer
 @onready var command_path: PackedScene = preload("res://Components/Selection/CommandPath.tscn")
 @onready var spawner: PackedScene = preload("res://Scenes/Buildings/Spawner/Spawner.tscn")
 @onready var wall: PackedScene = preload("res://Scenes/Buildings/Wall/wall.tscn")
@@ -19,6 +19,7 @@ var is_selecting = false
 var is_commanding = false
 var build_mode = false
 var wall_build = false
+var can_place = false
 
 var drag_start = Vector2.ZERO
 var drag_end = Vector2.ZERO
@@ -36,6 +37,7 @@ var new_wall: WallClass
 
 func _ready():
 	add_to_group("selection")
+	print("Selector position: ", global_position)  # Debug this
 	
 	line = Line2D.new()
 	line.width = 3
@@ -43,7 +45,7 @@ func _ready():
 	add_child(line)
 
 func _process(_delta: float) -> void:
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and is_commanding and not build_mode:
 		add_point(get_global_mouse_position())
 		queue_redraw()
 
@@ -66,6 +68,9 @@ func handle_building_mode(event):
 		remove_wall()
 		deselect_building()
 		cursor.unselected_cursor()
+	
+	if not can_place:
+		return
 		
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if wall_build:
@@ -97,7 +102,8 @@ func place_wall(point: Vector2):
 	if not new_wall.will_collide():
 		new_wall.init()
 		new_wall = null
-		build_wall(point)
+	can_place = false
+	place_timer.start()
 
 func remove_wall():
 	wall_build = false
@@ -113,6 +119,9 @@ func deselect_building():
 	current_building_scene = null
 
 func build_wall(start: Vector2):
+	#print("Building wall at: ", start)
+	#print("Mouse position: ", get_viewport().get_mouse_position())
+	#print("Global mouse: ", get_global_mouse_position())r1
 	cursor.wallbuild_cursor()
 	new_wall = wall.instantiate()
 	new_wall.position = start
@@ -120,8 +129,8 @@ func build_wall(start: Vector2):
 	#newall.loseMana.connect(boo)
 	new_wall.deleteWall.connect(delete_wall)
 	nav_mesh.add_child(new_wall)
-	
-	
+	can_place = false
+	place_timer.start()
 	
 
 func overcook():
@@ -183,6 +192,8 @@ func handle_build():
 		preview_building.queue_free()
 		
 	preview_building = make_dummy_instance(current_building_scene)
+	can_place = false
+	place_timer.start()
 	queue_redraw()
 
 func get_collision_shape(node: Node) -> CollisionShape2D:
@@ -209,6 +220,8 @@ func handle_normal(event):
 			KEY_R: 
 				build_mode = true
 				cursor.unselected_cursor()
+				line.clear_points()  # ADD THIS
+				is_commanding = false 
 
 
 func handle_drag(_event):
@@ -283,6 +296,9 @@ func select_single(pos: Vector2) -> bool:
 	return false
 
 func command(event):
+	if build_mode:
+		return
+
 	var mouse_pos = get_global_mouse_position()
 	if event.pressed:
 		is_commanding = true
@@ -358,7 +374,7 @@ func handle_empty_click():
 		last_empty_click_time = current_time
 
 func _draw():
-	if is_selecting and drag_start.distance_to(drag_end) > 5:
+	if is_selecting and drag_start.distance_to(drag_end) > 5 and not build_mode:
 		var rect = Rect2(drag_start, drag_end - drag_start)
 		draw_rect(rect, Color(0, 1, 0, 0.2), true)
 		draw_rect(rect, Color(0, 1, 0, 0.8), false, 2.0)
@@ -389,7 +405,6 @@ func select_unit(unit):
 	if unit not in selected_units:
 		selected_units.append(unit)
 		unit.nav_component.set_selected(true)
-		print("Selected: ", unit.name)
 
 func deselect_unit(unit):
 	if unit in selected_units:
@@ -403,3 +418,8 @@ func deselect_all():
 
 func get_selected_units():
 	return selected_units
+
+
+func _on_wall_timer_timeout() -> void:
+	can_place = true
+	
