@@ -24,7 +24,7 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-576, -326, 577, -325, 
 
 [node name="LevelManager" parent="." instance=ExtResource("1_ou8j6")]
 position = Vector2(1, 4)
-rotation = 0.68774503
+miniBoss = NodePath("../Forest/vampire")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
@@ -57,12 +57,18 @@ position = Vector2(274, -32)
 
 [node name="spawner1" parent="Forest" instance=ExtResource("3_w8dcx")]
 position = Vector2(129, 99)
+collision_layer = 8
+collision_mask = 15
 
 [node name="spawner2" parent="Forest" instance=ExtResource("3_w8dcx")]
 position = Vector2(179, -23)
+collision_layer = 8
+collision_mask = 15
 
 [node name="spawner3" parent="Forest" instance=ExtResource("3_w8dcx")]
 position = Vector2(225, 22)
+collision_layer = 8
+collision_mask = 15
 
 [node name="Selection" parent="." node_paths=PackedStringArray("nav_mesh", "cursor", "manamanger") instance=ExtResource("4_hnayu")]
 nav_mesh = NodePath("../Forest/NavigationRegion2D")

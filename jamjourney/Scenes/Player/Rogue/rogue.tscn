@@ -211,6 +211,7 @@ animations = [{
 [node name="Rogue" type="CharacterBody2D" groups=["Players"]]
 collision_mask = 15
 script = ExtResource("1_mriy4")
+minSpeed = 25.0
 range = Vector2(30, 30)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
