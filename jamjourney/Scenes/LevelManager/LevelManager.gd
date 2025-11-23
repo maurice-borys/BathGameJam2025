@@ -26,6 +26,11 @@ func _process(delta: float) -> void:
 		nextLevel()
 	
 func increaseXp():
+	players.filter(func(item): is_instance_valid(item))
+	
+	if players.size() <= 0:
+		get_tree().reload_current_scene()
+	
 	var xp : float = 0.5
 	GlobalVariables.playerXP += xp
 	for player in players:

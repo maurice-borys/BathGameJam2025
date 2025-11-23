@@ -9,7 +9,9 @@
 collision_layer = 10
 collision_mask = 0
 script = ExtResource("1_xc5yh")
-maxHealth = 10
+maxHealth = 500
+amountTick = 5
+tickRate = 4.0
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 color = Color(1, 0.4392157, 0.4, 1)
