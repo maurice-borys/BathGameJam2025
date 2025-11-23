@@ -1,8 +1,11 @@
 extends TextureRect
+
 class_name Cursor
+
+
 var _build = false
 @onready var unselected_texture: Texture2D = preload("res://Sprites/unselected.png")
-@onready var wallpick_texture: Texture2D = preload("res://Sprites/skeleton left.png")
+@onready var wallpick_texture: Texture2D = preload("res://Sprites/bat.png")
 
 func _ready() -> void:
 	hide()

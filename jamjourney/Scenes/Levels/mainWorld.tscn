@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://4okppg7asb2m" path="res://Scenes/Buildings/ManaGenerator/manaGenerator.tscn" id="1_ufdwi"]
 [ext_resource type="PackedScene" uid="uid://dnd8h12qbwjn3" path="res://Scenes/Levels/crypt.tscn" id="2_i16fy"]
 [ext_resource type="PackedScene" uid="uid://bes1ttstk5flj" path="res://Scenes/Enemies/Bosses/Vampire/vampire.tscn" id="2_w8dcx"]
+[ext_resource type="PackedScene" path="res://Scenes/Levels/crypt.tscn" id="3_i16fy"]
 [ext_resource type="PackedScene" uid="uid://7m13g1m77co8" path="res://Scenes/Buildings/Spawner/Spawner.tscn" id="3_w8dcx"]
 [ext_resource type="PackedScene" uid="uid://d042r43unr0un" path="res://Scenes/Player/Rogue/rogue.tscn" id="4_b1hrc"]
 [ext_resource type="PackedScene" uid="uid://774jqjjmrbeu" path="res://Components/Selection/Selection.tscn" id="4_hnayu"]
@@ -23,7 +24,7 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-576, -326, 577, -325, 
 
 [node name="LevelManager" parent="." node_paths=PackedStringArray("miniBoss") instance=ExtResource("1_ou8j6")]
 position = Vector2(1, 4)
-nextScene = ExtResource("2_i16fy")
+nextScene = ExtResource("3_i16fy")
 miniBoss = NodePath("../Forest/vampire")
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -72,7 +73,8 @@ collision_mask = 15
 
 [node name="Selection" parent="." node_paths=PackedStringArray("nav_mesh", "cursor") instance=ExtResource("4_hnayu")]
 nav_mesh = NodePath("../Forest/NavigationRegion2D")
-cursor = NodePath("../HUD/CursorLayer")
+cursor = NodePath("../HUD/Cursor")
+manamanger = NodePath("../ManaManager")
 
 [node name="Fighter" parent="." instance=ExtResource("6_b1hrc")]
 position = Vector2(-191, 0)
@@ -88,7 +90,4 @@ position = Vector2(-158, 7)
 
 [node name="HUD" parent="." instance=ExtResource("5_ubj35")]
 
-[node name="CursorLayer" parent="HUD" instance=ExtResource("5_b1hrc")]
-metadata/_edit_use_anchors_ = true
-
-[node name="ManaManager" parent="." instance=ExtResource("7_jcxtp")]
+[node name="Cursor" parent="HUD" instance=ExtResource("5_b1hrc")]

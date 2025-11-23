@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dnd8h12qbwjn3"]
+[gd_scene load_steps=14 format=3 uid="uid://wccnsp6vddge"]
 
 [ext_resource type="PackedScene" uid="uid://d1hy7ow242yib" path="res://Components/ManaManager.tscn" id="1_cfblg"]
 [ext_resource type="PackedScene" uid="uid://bvbv7ang14qgn" path="res://Scenes/LevelManager/LevelManager.tscn" id="2_xl7d8"]
@@ -31,7 +31,10 @@ miniBoss = NodePath("../Crypt_interaction/LichBody2D")
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
 
-[node name="Selection" parent="." instance=ExtResource("3_mfwfs")]
+[node name="Selection" parent="." node_paths=PackedStringArray("nav_mesh", "cursor", "manamanger") instance=ExtResource("3_mfwfs")]
+nav_mesh = NodePath("../Crypt_interaction/NavigationRegion2D")
+cursor = NodePath("../HUD/CursorLayer")
+manamanger = NodePath("../ManaManager")
 
 [node name="Fighter" parent="." instance=ExtResource("4_jvdpy")]
 position = Vector2(-191, 0)

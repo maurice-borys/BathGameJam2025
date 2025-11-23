@@ -38,13 +38,24 @@ var preview_building: Node
 var new_wall: WallClass
 
 func _ready():
-	add_to_group("selection")
-	print("Selector position: ", global_position)  # Debug this
-	
+	print("Script path: ", get_stack())
+	print("Tree", get_tree_string_pretty())
+
 	line = Line2D.new()
 	line.width = 3
 	line.default_color = Color.WHITE
 	add_child(line)
+	if cursor:
+		cursor.tree_exiting.connect(_on_cursor_freed)
+	
+	#line = Line2D.new()
+	#line.width = 3
+	#line.default_color = Color.WHITE
+	#add_child(line)
+
+func _on_cursor_freed():
+	push_error("CURSOR WAS FREED/DELETED!")
+	cursor = null
 
 func _process(_delta: float) -> void:
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and is_commanding and not build_mode:
@@ -57,9 +68,10 @@ func _input(event):
 	else:
 		handle_normal(event)
 
-
 func _physics_process(delta: float) -> void:
-	var selected_units = selected_units.filter(is_instance_valid)
+	var selected_units = (selected_units
+		.filter(is_instance_valid)
+		.filter(func(x): "nav_agent" in x))
 
 func make_dummy_instance(scene: PackedScene) -> Node:
 	var dummy = scene.instantiate()
@@ -67,7 +79,7 @@ func make_dummy_instance(scene: PackedScene) -> Node:
 	dummy.set_process(false)
 	dummy.visible = false
 	return dummy
-			
+
 
 func handle_building_mode(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT:
