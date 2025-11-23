@@ -7,6 +7,7 @@
 
 [node name="Mana Generator" type="StaticBody2D" groups=["manaGenerators"]]
 collision_layer = 10
+collision_mask = 0
 script = ExtResource("1_xc5yh")
 maxHealth = 10
 

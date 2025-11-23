@@ -26,9 +26,22 @@ func _ready() -> void:
 	
 func _process(delta: float) -> void:
 	if not built:
-		showBuild()
+		areaCollider.disabled = true
+		poly.polygon = getVertexPositions()
+		areaCollider.set_deferred("polygon", getVertexPositions())
+		poly.color = Color()
+		areaCollider.disabled = false
 		
-	if Input.is_action_just_pressed("left_click") and not built:
+		# Visual feedback for collision
+		if will_collide():
+			poly.color = Color.RED
+		else:
+			poly.color = Color.GREEN
+			
+		areaCollider.disabled = false
+
+func init() -> bool:	
+	if not built:
 		built = true
 		currentCollider.set_deferred("polygon", getVertexPositions())
 		areaCollider.disabled = true
@@ -39,13 +52,7 @@ func _process(delta: float) -> void:
 		
 		rebakeMesh.emit()
 		loseMana.emit(Vector2.ZERO.distance_to(get_local_mouse_position()) * costPerLength)
-
-func showBuild():
-	areaCollider.disabled = true
-	poly.polygon = getVertexPositions()
-	areaCollider.set_deferred("polygon", getVertexPositions())
-	poly.color = Color()
-	areaCollider.disabled = false
+	return true
 
 func areaEntered(body : Node2D):
 	print(body.name)
@@ -64,3 +71,20 @@ func healthChanged(old, new):
 	print("Wall -> " + str(new))
 	if new <= 0:
 		deleteWall.emit(self)
+
+func will_collide() -> bool:
+	var space_state = get_world_2d().direct_space_state
+	var query = PhysicsShapeQueryParameters2D.new()
+	
+	var shape = ConvexPolygonShape2D.new()
+	shape.points = getVertexPositions()
+	
+	query.shape = shape
+	query.transform = Transform2D(0, global_position)
+	query.collide_with_bodies = true
+	query.collision_mask = 0b1111 
+	var collisions = space_state.intersect_shape(query)
+	for collision in collisions:
+		if collision.collider is not WallClass:
+			return true
+	return false

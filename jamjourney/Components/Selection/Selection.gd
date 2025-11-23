@@ -84,8 +84,9 @@ func handle_building_mode(event):
 				cursor.normal_cursor()
 				build_mode = false
 			KEY_1 : 
-				build_wall(get_global_mouse_position())
 				wall_build = true
+				if not new_wall:
+					build_wall(get_global_mouse_position())
 			_:
 				select_building(event.keycode)
 				wall_build = false
@@ -93,13 +94,14 @@ func handle_building_mode(event):
 
 func place_wall(point: Vector2):
 	new_wall.endPoint = point
-	new_wall = null
-	build_wall(point)
+	if not new_wall.will_collide():
+		new_wall.init()
+		new_wall = null
+		build_wall(point)
 
 func remove_wall():
 	wall_build = false
 	if new_wall:
-		nav_mesh.remove_child(new_wall)
 		new_wall.queue_free()
 		new_wall = null
 	queue_redraw()
@@ -118,6 +120,8 @@ func build_wall(start: Vector2):
 	#newall.loseMana.connect(boo)
 	new_wall.deleteWall.connect(delete_wall)
 	nav_mesh.add_child(new_wall)
+	
+	
 	
 
 func overcook():
