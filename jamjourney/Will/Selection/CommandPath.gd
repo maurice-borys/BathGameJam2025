@@ -11,7 +11,7 @@ var finished = false
 @export var speed: float = 20.0
 
 func deepcopy() -> CommandPath:
-	var copy = load("res://Will/CommandPath.tscn").instantiate()
+	var copy = load("res://Will/Selection/CommandPath.tscn").instantiate()
 	copy.curve = curve.duplicate_deep(Resource.DEEP_DUPLICATE_ALL)
 	
 	return copy

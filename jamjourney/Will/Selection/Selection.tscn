@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dw4p333ts2dby"]
+[gd_scene load_steps=4 format=3 uid="uid://774jqjjmrbeu"]
 
-[ext_resource type="Script" uid="uid://moau1bacjd5o" path="res://Will/Selection.gd" id="1_erxlh"]
-[ext_resource type="Script" uid="uid://mqvfum4r4qm0" path="res://Will/CursorContainer.gd" id="2_vssng"]
+[ext_resource type="Script" uid="uid://bbphmv13ydlrj" path="res://Will/Selection/Selection.gd" id="1_erxlh"]
+[ext_resource type="Script" uid="uid://mqvfum4r4qm0" path="res://Will/Selection/CursorContainer.gd" id="2_vssng"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_k8po7"]
 size = Vector2(64, 64)
