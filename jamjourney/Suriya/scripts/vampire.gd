@@ -41,6 +41,7 @@ func _ready():
 
 func _process(_delta):
 
+	print("current Health: ", health_module.health)
 	if Input.is_action_just_pressed("button_1") and not attacking:
 		start_attack()
 		pivot.rotation = global_position.direction_to(get_global_mouse_position()).angle() - PI
@@ -102,9 +103,11 @@ func _on_timer_timeout() -> void:
 func _on_Hitbox_body_entered(body):
 	if attacking:
 		Health.findHealthModule(body).dealDamage(damage)
+		print("dealt: " + damage + "damage")
 	if healing:
 		health_module.healHealth(damage)
 		healing = false
+		print("healed: " + damage + " health, health: " + health_module.getHealth())
 
 
 func _on_basic_attack_animation_finished() -> void:

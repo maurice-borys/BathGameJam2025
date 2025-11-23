@@ -6,10 +6,11 @@
 [node name="Node2D" type="Node2D"]
 
 [node name="Fighter" parent="." node_paths=PackedStringArray("targetArray", "testEnemy") instance=ExtResource("1_8d8xe")]
-position = Vector2(165, 3.000002)
+position = Vector2(304, 129)
 scale = Vector2(5, 5)
 targetArray = [NodePath("../vampire")]
 testEnemy = NodePath("../vampire")
+range = Vector2(50, 20)
 
 [node name="vampire" parent="." instance=ExtResource("2_jdbf3")]
-position = Vector2(23, -16)
+position = Vector2(372, 39)

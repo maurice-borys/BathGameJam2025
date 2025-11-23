@@ -322,6 +322,7 @@ shape = SubResource("RectangleShape2D_ksgwu")
 
 [node name="BiteHitbox" type="Area2D" parent="pivot"]
 position = Vector2(42, -3)
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="pivot/BiteHitbox"]
 position = Vector2(-96, 6)
@@ -333,8 +334,10 @@ scale = Vector2(1.5937501, 2.75)
 sprite_frames = SubResource("SpriteFrames_07sv4")
 
 [node name="BiteAttack" type="AnimatedSprite2D" parent="pivot"]
-position = Vector2(114, -6)
+position = Vector2(-54, 4)
 sprite_frames = SubResource("SpriteFrames_2ofud")
+frame = 11
+frame_progress = 1.0
 
 [connection signal="timeout" from="death_timer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="bat_timer" to="." method="_on_bat_timer_timeout"]
