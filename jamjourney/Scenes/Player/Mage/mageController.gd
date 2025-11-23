@@ -11,8 +11,8 @@ var closestEnemy : Node2D
 @onready var healthModule : Health = $HealthModule
 @onready var rayWall : RayCast2D = $RayCast2D
 
-var homingSpellScene : PackedScene = preload("res://Jericho Area No Touchy/Players/Scenes/HomingSpell.tscn")
-var piercingSpellScene : PackedScene = preload("res://Jericho Area No Touchy/Players/Scenes/PiercingSpell.tscn")
+var homingSpellScene : PackedScene = preload("res://Scenes/Player/Mage/HomingSpell.tscn")
+var piercingSpellScene : PackedScene = preload("res://Scenes/Player/Mage/PiercingSpell.tscn")
 
 signal completedMap()
 

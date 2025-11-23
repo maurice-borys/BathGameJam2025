@@ -12,9 +12,6 @@ var healingArea : Array[Health]
 @onready var healthModule : Health = $HealthModule
 @onready var specialHitbox : Area2D = $Area2D
 
-var homingSpellScene : PackedScene = preload("res://Jericho Area No Touchy/Players/Scenes/HomingSpell.tscn")
-var piercingSpellScene : PackedScene = preload("res://Jericho Area No Touchy/Players/Scenes/PiercingSpell.tscn")
-
 var allies : Array[Node2D]
 @export var minMaxHealth : float = 1000
 @export var minSpeed : float = 10

@@ -2,8 +2,8 @@ extends Node2D
 
 var mana : int
 
-@onready var wallScene : PackedScene = preload("res://Jericho Area No Touchy/Buildings/wall.tscn")
-@onready var spawnerScene : PackedScene = preload("res://Will/spawner.tscn")
+@onready var wallScene : PackedScene = preload("res://Scenes/Buildings/Wall/wall.tscn")
+@onready var spawnerScene : PackedScene = preload("res://Scenes/Buildings/Spawner/Spawner.tscn")
 
 @export var navMesh : NavigationRegion2D
 @export var baseMana : int = 100

@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://4okppg7asb2m"]
 
-[ext_resource type="Script" uid="uid://w62egih3i2e2" path="res://Scenes/Buildings/Scripts/manaGenerator.gd" id="1_xc5yh"]
+[ext_resource type="Script" uid="uid://w62egih3i2e2" path="res://Scenes/Buildings/ManaGenerator/manaGenerator.gd" id="1_xc5yh"]
 [ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://Components/HealthModule.tscn" id="2_jq4f4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w2wr8"]

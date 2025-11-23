@@ -1,7 +1,5 @@
 extends CharacterBody2D
 
-
-
 @onready var health_module: Health = $HealthModule 
 
 @export var speed = 300

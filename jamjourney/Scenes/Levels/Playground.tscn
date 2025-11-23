@@ -1,10 +1,10 @@
 [gd_scene load_steps=11 format=3 uid="uid://cy62273hng4qf"]
 
-[ext_resource type="Script" uid="uid://vyeylncg66k1" path="res://Scenes/Buildings/Scripts/manaManager.gd" id="1_w2wr8"]
+[ext_resource type="Script" uid="uid://vyeylncg66k1" path="res://Scenes/Buildings/ManaGenerator/manaManager.gd" id="1_w2wr8"]
 [ext_resource type="PackedScene" uid="uid://dixjgii5h8mg6" path="res://Scenes/Player/Mage/mage.tscn" id="2_rjgpw"]
 [ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://Components/HealthModule.tscn" id="3_wnsvo"]
 [ext_resource type="PackedScene" uid="uid://14q8x5lk82hm" path="res://Scenes/Player/Fighter/fighter.tscn" id="5_oic03"]
-[ext_resource type="PackedScene" uid="uid://4okppg7asb2m" path="res://Scenes/Buildings/manaGenerator.tscn" id="6_oic03"]
+[ext_resource type="PackedScene" uid="uid://4okppg7asb2m" path="res://Scenes/Buildings/ManaGenerator/manaGenerator.tscn" id="6_oic03"]
 [ext_resource type="PackedScene" uid="uid://ohjyvm53ohnf" path="res://Scenes/Player/Cleric/cleric.tscn" id="6_w2wr8"]
 [ext_resource type="PackedScene" uid="uid://d042r43unr0un" path="res://Scenes/Player/Rogue/rogue.tscn" id="7_w2wr8"]
 
@@ -96,14 +96,13 @@ minSpeed = 70.0
 range = Vector2(70, 140)
 wallRange = 15.0
 
-[node name="Mage" parent="." node_paths=PackedStringArray("targetArray", "testEnemy") instance=ExtResource("2_rjgpw")]
+[node name="Mage" parent="." node_paths=PackedStringArray("testEnemy") instance=ExtResource("2_rjgpw")]
 position = Vector2(-265, 263)
 scale = Vector2(7, 7)
-targetArray = [NodePath("../Mana Generator"), NodePath("../Mana Generator2")]
-testEnemy = NodePath("../TestEnemy")
-minSpeed = 70.0
 range = 210.0
+minSpeed = 70.0
 rangeWall = 30.0
+testEnemy = NodePath("../TestEnemy")
 
 [node name="Cleric" parent="." instance=ExtResource("6_w2wr8")]
 position = Vector2(-345, 291)

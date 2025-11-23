@@ -3,7 +3,7 @@ extends CharacterBody2D
 @export var speed = 300
 @export var damage = 200
 
-@onready var fireball = load("res://Suriya/Scenes/fireball.tscn")
+@onready var fireball = preload("res://Scenes/Enemies/Bosses/fireball.tscn")
 
 @onready var health_module: Health = $HealthModule
 #variables for hitboxes and stuff
