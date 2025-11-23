@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bk6vrh7nkt5au"]
 
-[ext_resource type="Script" uid="uid://k0om1r2dj5ax" path="res://Scenes/Buildings/Wall/Wall.gd" id="1_b0wgd"]
+[ext_resource type="Script" uid="uid://k0om1r2dj5ax" path="res://Scenes/Buildings/Wall/wall.gd" id="1_b0wgd"]
 [ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://Components/HealthModule.tscn" id="2_8sgwr"]
 
 [node name="Wall" type="StaticBody2D" groups=["Walls"]]
@@ -20,7 +20,8 @@ collision_mask = 15
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
-travel_cost = 1.2
+navigation_layers = 7
+travel_cost = 0.1
 
 [node name="HealthModule" parent="." instance=ExtResource("2_8sgwr")]
 maxHealth = 100.0
