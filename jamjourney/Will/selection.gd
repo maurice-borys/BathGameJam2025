@@ -93,7 +93,7 @@ func handle_build():
 	if not current_collider:
 		return
 		
-	if current_collider.is_coll
+	#if current_collider.is_coll
 	
 	current_building.position = get_global_mouse_position()
 	get_tree().current_scene.add_child(current_building)
