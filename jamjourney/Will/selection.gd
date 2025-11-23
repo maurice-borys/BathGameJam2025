@@ -4,7 +4,6 @@ class_name Selector
 
 const DOUBLE_CLICK_TIME = 0.3
 @onready var cursor: Cursor = $CursorContainer
-@onready var building_hitbox = $BuildingHitbox
 
 @onready var command_path: PackedScene = preload("res://Will/command_path.tscn")
 @onready var spawner: PackedScene = preload("res://Will/spawner.tscn")
@@ -12,7 +11,6 @@ const DOUBLE_CLICK_TIME = 0.3
 @onready var keymap: Dictionary = {
 	KEY_1 : spawner
 }
-
 
 var is_selecting = false
 var is_commanding = false
@@ -22,13 +20,13 @@ var drag_end = Vector2.ZERO
 var selected_units: Array[Grunt] = []
 
 var last_empty_click_time = 0
-var click_was_handled = false
 
 var line: Line2D
 var new_path: CommandPath
 
 var build_mode = false
-var current_building: Node
+var current_building_scene: PackedScene
+var preview_building: Node
 
 func _ready():
 	add_to_group("selection")
@@ -43,13 +41,20 @@ func _process(delta: float) -> void:
 		add_point(get_global_mouse_position())
 		queue_redraw()
 
-
 func _input(event):
 	if build_mode:
 		handle_building_mode(event)
 	else:
 		handle_normal(event)
-	
+
+
+func make_dummy_instance(scene: PackedScene) -> Node:
+	var dummy = scene.instantiate()
+	add_child(dummy)
+	dummy.set_process(false)
+	dummy.visible = false
+	return dummy
+
 func handle_building_mode(event):
 	if event is InputEventMouseButton:
 		handle_build()
@@ -62,43 +67,72 @@ func handle_building_mode(event):
 			_ : 
 				select_building(event.keycode)
 
-func get_texture(node):
-	for child in current_building.get_children():
+func copy_texture(node):
+	for child in node.get_children():
 		if child is Sprite2D:
-			return child.texture
+			return child.texture.duplicate()
 			
-func get_collider(node):
-	for child in current_building.get_children():
-		if child is CollisionObject2D:
-			return child.texture
+func copy_collider(node) -> Variant:
+	for child in node.get_children():
+		if child is CollisionShape2D or child is CollisionPolygon2D:
+			return child.duplicate()
+	return null
 
 func select_building(keycode):
 	if keycode not in keymap:
 		return
 	
-	if current_building and is_instance_valid(current_building):
-		current_building.queue_free()
+	if preview_building and is_instance_valid(preview_building):
+		preview_building.queue_free()
 		
-	current_building = keymap[keycode].instantiate()
+	current_building_scene = keymap[keycode]
+	preview_building = make_dummy_instance(current_building_scene)
 	
-	var child_texture = get_texture(current_building)
+	var child_texture = copy_texture(preview_building)
 	cursor.set_build_outline(child_texture)
+	
 	queue_redraw()
 
 func handle_build():
-	if not current_building:
+	var mouse_pos = get_global_mouse_position()
+	if not preview_building:
 		return
 	
-	var current_collider: CollisionObject2D = get_collider(current_building)
-	if not current_collider:
+	var collision_shape = get_collision_shape(preview_building)
+	if not collision_shape or not collision_shape.shape:
 		return
+	
+	var space_state = get_world_2d().direct_space_state
+	var query = PhysicsShapeQueryParameters2D.new()
+	query.shape = collision_shape.shape
+	query.transform = Transform2D(0, mouse_pos)
+	query.collide_with_areas = true
+	query.collide_with_bodies = true
+	query.collision_mask = 0b1111
+	
+	var collisions = space_state.intersect_shape(query)
+	
+	if collisions.is_empty():
+		var place_building = current_building_scene.instantiate()
+		place_building.position = mouse_pos
+		get_tree().current_scene.add_child(place_building)
+	
+	if preview_building and is_instance_valid(preview_building):
+		preview_building.queue_free()
 		
-	#if current_collider.is_coll
-	
-	current_building.position = get_global_mouse_position()
-	get_tree().current_scene.add_child(current_building)
-	current_building = null
+	preview_building = make_dummy_instance(current_building_scene)
 	queue_redraw()
+
+func get_collision_shape(node: Node) -> CollisionShape2D:
+	for child in node.get_children():
+		if child is CollisionShape2D:
+			return child
+		# Search recursively in children
+		var found = get_collision_shape(child)
+		if found:
+			return found
+	return null
+	
 
 func handle_normal(event):
 	if event is InputEventMouseButton:
@@ -160,7 +194,6 @@ func select(event):
 		is_selecting = true
 		drag_start = mouse_pos
 		drag_end = drag_start
-		click_was_handled = false
 	else:
 		var notDrag = drag_start.distance_to(drag_end) <= 15.0
 		if notDrag:
@@ -175,7 +208,7 @@ func select_single(pos: Vector2) -> bool:
 	var space_state = get_world_2d().direct_space_state
 	var query = PhysicsPointQueryParameters2D.new()
 	query.position = pos
-	query.collision_mask = 2  # Adjust based on your collision layers
+	query.collision_mask = 2 
 	query.collide_with_areas = true
 	var result = space_state.intersect_point(query)
 	
@@ -184,7 +217,6 @@ func select_single(pos: Vector2) -> bool:
 			var enemy = collision.collider
 			if enemy.is_in_group("enemies"):
 				handle_enemy_click(enemy)
-				click_was_handled = true
 				return true
 	return false
 
