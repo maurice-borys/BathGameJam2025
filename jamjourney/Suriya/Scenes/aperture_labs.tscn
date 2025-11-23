@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://b58mo838byeab"]
+
+[ext_resource type="PackedScene" uid="uid://14q8x5lk82hm" path="res://Jericho Area No Touchy/Players/Scenes/fighter.tscn" id="1_8d8xe"]
+[ext_resource type="PackedScene" uid="uid://bes1ttstk5flj" path="res://Suriya/Scenes/vampire.tscn" id="2_jdbf3"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Fighter" parent="." node_paths=PackedStringArray("targetArray", "testEnemy") instance=ExtResource("1_8d8xe")]
+position = Vector2(165, 3.000002)
+scale = Vector2(5, 5)
+targetArray = [NodePath("../vampire")]
+testEnemy = NodePath("../vampire")
+
+[node name="vampire" parent="." instance=ExtResource("2_jdbf3")]
+position = Vector2(23, -16)

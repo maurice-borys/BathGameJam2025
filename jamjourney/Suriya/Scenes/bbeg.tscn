@@ -110,42 +110,50 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lfbiv"]
 size = Vector2(74, 101.5)
 
-[node name="Node2D" type="Node2D"]
-metadata/_edit_horizontal_guides_ = [65.0, 47.0, 41.0]
-
-[node name="LichBody2D" type="CharacterBody2D" parent="."]
+[node name="LichBody2D" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 13
 script = ExtResource("1_5jvye")
 teleport_range = 500.0
 
-[node name="LichSprite" type="Sprite2D" parent="LichBody2D"]
+[node name="LichSprite" type="Sprite2D" parent="."]
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_dbqag")
 
-[node name="LichCollision2D" type="CollisionShape2D" parent="LichBody2D"]
+[node name="LichCollision2D" type="CollisionShape2D" parent="."]
 scale = Vector2(0.8, 0.8)
 shape = SubResource("RectangleShape2D_p1lyt")
 
-[node name="death_timer" type="Timer" parent="LichBody2D"]
+[node name="death_timer" type="Timer" parent="."]
 wait_time = 3.0
 one_shot = true
 
-[node name="HealthModule" parent="LichBody2D" instance=ExtResource("4_lfbiv")]
+[node name="HealthModule" parent="." instance=ExtResource("4_lfbiv")]
 position = Vector2(-98.73566, -1.0166473)
-maxHealth = 500.0
+maxHealth = 1500.0
 
-[node name="pivot" type="Node2D" parent="LichBody2D"]
+[node name="pivot" type="Node2D" parent="."]
 
-[node name="BasicAttack" type="AnimatedSprite2D" parent="LichBody2D/pivot"]
+[node name="BasicAttack" type="AnimatedSprite2D" parent="pivot"]
 position = Vector2(-74.75, -3.9999928)
 scale = Vector2(2.4531255, 3.5625)
 sprite_frames = SubResource("SpriteFrames_yy8je")
 
-[node name="AttackHitbox" type="Area2D" parent="LichBody2D/pivot"]
+[node name="AttackHitbox" type="Area2D" parent="pivot"]
 position = Vector2(-50, 7)
 collision_layer = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LichBody2D/pivot/AttackHitbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="pivot/AttackHitbox"]
 position = Vector2(-22, -14.25)
 shape = SubResource("RectangleShape2D_lfbiv")
 
-[connection signal="timeout" from="LichBody2D/death_timer" to="LichBody2D" method="_on_death_timer_timeout"]
+[node name="teleport_cd" type="Timer" parent="."]
+wait_time = 10.0
+
+[node name="fireball_cd" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+
+[connection signal="timeout" from="death_timer" to="." method="_on_death_timer_timeout"]
+[connection signal="timeout" from="teleport_cd" to="." method="_on_teleport_cd_timeout"]
+[connection signal="timeout" from="fireball_cd" to="." method="_on_fireball_cd_timeout"]

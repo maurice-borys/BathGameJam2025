@@ -1,9 +1,11 @@
 extends CharacterBody2D
 
-var speed = 300
-var damage = 10
+
+
 @onready var health_module: Health = $HealthModule 
 
+@export var speed = 300
+@export var damage = 10
 var click_position = Vector2()
 var target_position = Vector2()
 
@@ -38,16 +40,19 @@ func _ready():
 	health_module.healthChanged.connect(health_changed)
 
 func _process(_delta):
-	pivot.rotation = global_position.direction_to(get_global_mouse_position()).angle() - PI
+
 	if Input.is_action_just_pressed("button_1") and not attacking:
 		start_attack()
+		pivot.rotation = global_position.direction_to(get_global_mouse_position()).angle() - PI
 	
 	elif Input.is_action_just_pressed("button_2") and not attacking and bite_avaliable:
 		start_bite_attack()
-	
+		pivot.rotation = global_position.direction_to(get_global_mouse_position()).angle() - PI
+		
 	elif Input.is_action_just_pressed("button_3") and not attacking and bat_available:
 		bat_form = true
 		start_bat_form()
+		pivot.rotation = global_position.direction_to(get_global_mouse_position()).angle() - PI
 
 func start_attack():
 	attacking = true

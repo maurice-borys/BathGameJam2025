@@ -1,6 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://dw4p333ts2dby"]
+[gd_scene load_steps=4 format=3 uid="uid://dw4p333ts2dby"]
 
 [ext_resource type="Script" uid="uid://moau1bacjd5o" path="res://Will/selection.gd" id="1_erxlh"]
+[ext_resource type="Script" uid="uid://dh50g4t2a5rmb" path="res://Will/building_cursor.gd" id="2_k8po7"]
 
-[node name="Selection" type="Node2D"]
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_pcnkk"]
+
+[node name="Selection" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_erxlh")
+
+[node name="BuildingCursor" type="TextureRect" parent="."]
+layout_mode = 0
+scale = Vector2(3.96, 3.879999)
+texture = SubResource("PlaceholderTexture2D_pcnkk")
+script = ExtResource("2_k8po7")

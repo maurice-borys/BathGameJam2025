@@ -295,7 +295,7 @@ position = Vector2(1, 2)
 shape = SubResource("RectangleShape2D_3epp1")
 
 [node name="HealthModule" parent="." instance=ExtResource("6_sguw3")]
-maxHealth = 100.0
+maxHealth = 500.0
 
 [node name="death_timer" type="Timer" parent="."]
 wait_time = 3.0
@@ -313,7 +313,7 @@ wait_time = 20.0
 [node name="pivot" type="Node2D" parent="."]
 
 [node name="AttackHitbox" type="Area2D" parent="pivot"]
-position = Vector2(-98, -2)
+position = Vector2(-91, 1)
 collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="pivot/AttackHitbox"]
@@ -321,9 +321,10 @@ position = Vector2(36, 3)
 shape = SubResource("RectangleShape2D_ksgwu")
 
 [node name="BiteHitbox" type="Area2D" parent="pivot"]
+position = Vector2(42, -3)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="pivot/BiteHitbox"]
-position = Vector2(-99, 1)
+position = Vector2(-96, 6)
 shape = SubResource("CircleShape2D_x3drn")
 
 [node name="BasicAttack" type="AnimatedSprite2D" parent="pivot"]
@@ -332,7 +333,7 @@ scale = Vector2(1.5937501, 2.75)
 sprite_frames = SubResource("SpriteFrames_07sv4")
 
 [node name="BiteAttack" type="AnimatedSprite2D" parent="pivot"]
-position = Vector2(-98, -3)
+position = Vector2(114, -6)
 sprite_frames = SubResource("SpriteFrames_2ofud")
 
 [connection signal="timeout" from="death_timer" to="." method="_on_timer_timeout"]

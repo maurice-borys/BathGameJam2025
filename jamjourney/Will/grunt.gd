@@ -15,7 +15,7 @@ signal goto_command_path_start(path: CommandPath)
 @onready var sprite: Sprite2D = $Sprite
 @export var godottexture: Texture2D
 
-var holding = true
+var holding = false
 var pointer_node: Node2D
 var target: Node2D
 var follow: CommandPath
@@ -28,6 +28,7 @@ func _ready():
 	nav_agent.max_speed = speed
 
 func target_player():
+	holding = false
 	### target player by default
 	target = get_tree().get_first_node_in_group("player")
 	if target:
@@ -50,24 +51,19 @@ func set_selected(selected: bool):
 	is_selected = selected
 	queue_redraw()
 
-func toggle_hold():
-	if holding:
-		holding = false
-		target_player()
-	else:
-		holding = true
-		hold_position()
 	
 func hold_position():
 	free_all()
-	holding = true
 	velocity = Vector2.ZERO
 	pointer_node = Node2D.new()
 	get_parent().add_child(pointer_node)
 	pointer_node.global_position = global_position
 	set_target(pointer_node)
+	### after set target as target sets to travel
+	holding = true
 
 func goto(end: Vector2):
+	holding = false
 	free_all()
 	pointer_node = Node2D.new()
 	get_parent().add_child(pointer_node)
@@ -75,6 +71,7 @@ func goto(end: Vector2):
 	set_target(pointer_node)
 	
 func set_target(new_target: Node2D):
+	holding = false
 	if new_target:
 		target = new_target
 		nav_agent.target_position = new_target.global_position
@@ -83,6 +80,7 @@ func set_command_follow(new_follow: CommandPath):
 	free_all()
 	holding = false
 	follow = new_follow
+	follow.speed = speed
 	target = follow.command_follow
 	nav_agent.target_position = follow.command_follow.global_position
 
@@ -107,7 +105,6 @@ func free_all():
 	free_follow()
 	free_pointer_node()
 	target = null
-
 
 func _on_nav_agent_velocity_computed(safe_velocity: Vector2) -> void:
 	velocity = safe_velocity
