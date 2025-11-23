@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://b323c518coe4j"]
+[gd_scene load_steps=9 format=3 uid="uid://b323c518coe4j"]
 
 [ext_resource type="Script" uid="uid://cks58y784hlbw" path="res://Scenes/Enemies/Normal/Grunt.gd" id="1_wh1fe"]
 [ext_resource type="Texture2D" uid="uid://bvxbe0wqihhwo" path="res://Sprites/icon.svg" id="2_d81xp"]
 [ext_resource type="PackedScene" uid="uid://djrj4w1nryb2t" path="res://Components/NavComponent.tscn" id="3_drosd"]
+[ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://Components/HealthModule.tscn" id="4_dkke2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qo6so"]
 radius = 6.0
@@ -53,6 +54,9 @@ process_callback = 0
 wait_time = 2.0
 
 [node name="NavComponent" parent="." instance=ExtResource("3_drosd")]
+
+[node name="HealthModule" parent="." instance=ExtResource("4_dkke2")]
+maxHealth = 10.0
 
 [connection signal="body_entered" from="AttackHitbox" to="." method="_on_attack_hitbox_body_entered"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]

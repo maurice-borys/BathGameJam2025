@@ -1,22 +1,28 @@
-extends Control
+extends Node2D
 
 class_name Selector
 
 const DOUBLE_CLICK_TIME = 0.3
-@onready var cursor: Cursor = $CursorContainer
+
+@export var nav_mesh : NavigationRegion2D
+@export var cursor: Cursor
 
 @onready var command_path: PackedScene = preload("res://Components/Selection/CommandPath.tscn")
-@onready var spawner: PackedScene = preload("res://Scenes/Enemies/Spawner/Spawner.tscn")
+@onready var spawner: PackedScene = preload("res://Scenes/Buildings/Spawner/Spawner.tscn")
+@onready var wall: PackedScene = preload("res://Scenes/Buildings/Wall/wall.tscn")
 
 @onready var keymap: Dictionary = {
-	KEY_1 : spawner
+	KEY_2 : spawner,
 }
 
 var is_selecting = false
 var is_commanding = false
+var build_mode = false
+var wall_build = false
 
 var drag_start = Vector2.ZERO
 var drag_end = Vector2.ZERO
+var wall_start = Vector2.ZERO
 var selected_units: Array[Grunt] = []
 
 var last_empty_click_time = 0
@@ -24,9 +30,9 @@ var last_empty_click_time = 0
 var line: Line2D
 var new_path: CommandPath
 
-var build_mode = false
 var current_building_scene: PackedScene
 var preview_building: Node
+var new_wall: WallClass
 
 func _ready():
 	add_to_group("selection")
@@ -53,24 +59,79 @@ func make_dummy_instance(scene: PackedScene) -> Node:
 	dummy.set_process(false)
 	dummy.visible = false
 	return dummy
+			
 
 func handle_building_mode(event):
-	if event is InputEventMouseButton:
-		handle_build()
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT:
+		remove_wall()
+		deselect_building()
+		cursor.unselected_cursor()
+		
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if wall_build:
+			if new_wall:
+				place_wall(get_global_mouse_position())
+			else:
+				build_wall(get_global_mouse_position())
+		else:
+			handle_build()
 		
 	if event is InputEventKey and event.pressed:
 		match event.keycode:
 			KEY_R: 
-				build_mode = false
+				remove_wall()
+				deselect_building()
 				cursor.normal_cursor()
-			_ : 
+				build_mode = false
+			KEY_1 : 
+				build_wall(get_global_mouse_position())
+				wall_build = true
+			_:
 				select_building(event.keycode)
+				wall_build = false
 
-func copy_texture(node):
-	for child in node.get_children():
-		if child is Sprite2D:
-			return child.texture.duplicate()
-			
+
+func place_wall(point: Vector2):
+	new_wall.endPoint = point
+	new_wall = null
+	build_wall(point)
+
+func remove_wall():
+	wall_build = false
+	if new_wall:
+		nav_mesh.remove_child(new_wall)
+		new_wall.queue_free()
+		new_wall = null
+	queue_redraw()
+
+func deselect_building():
+	if preview_building and is_instance_valid(preview_building):
+		preview_building.queue_free()
+	preview_building = null
+	current_building_scene = null
+
+func build_wall(start: Vector2):
+	cursor.wallbuild_cursor()
+	new_wall = wall.instantiate()
+	new_wall.position = start
+	new_wall.rebakeMesh.connect(overcook)
+	#newall.loseMana.connect(boo)
+	new_wall.deleteWall.connect(delete_wall)
+	nav_mesh.add_child(new_wall)
+	
+
+func overcook():
+	if nav_mesh.is_baking():
+		await nav_mesh.navigation_polygon_changed
+		
+	nav_mesh.bake_navigation_polygon()
+
+func delete_wall(body : Node2D):
+	body.get_parent().remove_child(body)
+	body.queue_free()
+	nav_mesh.bake_navigation_polygon()
+	
+	
 func copy_collider(node) -> Variant:
 	for child in node.get_children():
 		if child is CollisionShape2D or child is CollisionPolygon2D:
@@ -87,9 +148,7 @@ func select_building(keycode):
 	current_building_scene = keymap[keycode]
 	preview_building = make_dummy_instance(current_building_scene)
 	
-	var child_texture = copy_texture(preview_building)
-	cursor.set_build_outline(child_texture)
-	
+	cursor.building_cursor(preview_building)
 	queue_redraw()
 
 func handle_build():
@@ -145,7 +204,8 @@ func handle_normal(event):
 				handle_hold()
 			KEY_R: 
 				build_mode = true
-				cursor.build_cursor()
+				cursor.unselected_cursor()
+
 
 func handle_drag(_event):
 	drag_end = get_global_mouse_position()
@@ -298,6 +358,7 @@ func _draw():
 		var rect = Rect2(drag_start, drag_end - drag_start)
 		draw_rect(rect, Color(0, 1, 0, 0.2), true)
 		draw_rect(rect, Color(0, 1, 0, 0.8), false, 2.0)
+		
 
 func select_units_in_box():
 	if not Input.is_key_pressed(KEY_SHIFT):
