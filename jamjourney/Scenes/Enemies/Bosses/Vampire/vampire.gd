@@ -35,6 +35,7 @@ var bite_avaliable: bool = true
 var bat_available: bool = true
 
 func _ready():
+	add_to_group("enemies")
 	click_position = position
 	hitbox.body_entered.connect(_on_Hitbox_body_entered)
 	bite_hitbox.body_entered.connect(_on_Hitbox_body_entered)
