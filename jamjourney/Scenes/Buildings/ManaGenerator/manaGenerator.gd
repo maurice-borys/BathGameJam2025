@@ -2,7 +2,7 @@ extends StaticBody2D
 class_name Generators
 
 @onready var timer = $Timer
-@onready var healthModule = $HealthModule
+@onready var healthModule : Health = $HealthModule
 
 @export var maxHealth = 1000
 @export var amountTick : int = 10

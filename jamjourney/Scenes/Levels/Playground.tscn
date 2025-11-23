@@ -1,10 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://cy62273hng4qf"]
+[gd_scene load_steps=7 format=3 uid="uid://cy62273hng4qf"]
 
-[ext_resource type="PackedScene" uid="uid://dixjgii5h8mg6" path="res://Scenes/Player/Mage/mage.tscn" id="2_rjgpw"]
 [ext_resource type="PackedScene" uid="uid://14q8x5lk82hm" path="res://Scenes/Player/Fighter/fighter.tscn" id="5_oic03"]
 [ext_resource type="PackedScene" uid="uid://4okppg7asb2m" path="res://Scenes/Buildings/ManaGenerator/manaGenerator.tscn" id="6_oic03"]
-[ext_resource type="PackedScene" uid="uid://ohjyvm53ohnf" path="res://Scenes/Player/Cleric/cleric.tscn" id="6_w2wr8"]
-[ext_resource type="PackedScene" uid="uid://d042r43unr0un" path="res://Scenes/Player/Rogue/rogue.tscn" id="7_w2wr8"]
 [ext_resource type="PackedScene" uid="uid://7m13g1m77co8" path="res://Scenes/Buildings/Spawner/Spawner.tscn" id="7_x8v0c"]
 [ext_resource type="PackedScene" uid="uid://d1cfcnv1exgdk" path="res://Components/Cursor/Cursor.tscn" id="8_ipufh"]
 [ext_resource type="PackedScene" uid="uid://774jqjjmrbeu" path="res://Components/Selection/Selection.tscn" id="8_oknwr"]
@@ -30,28 +27,16 @@ navigation_polygon = SubResource("NavigationPolygon_xw6e3")
 navigation_layers = 7
 
 [node name="Mana Generator" parent="." instance=ExtResource("6_oic03")]
-position = Vector2(324.99997, 87)
-scale = Vector2(7, 7)
+position = Vector2(129, 149)
+scale = Vector2(2, 2)
 
-[node name="Fighter" parent="." instance=ExtResource("5_oic03")]
-position = Vector2(155.99988, 297)
-scale = Vector2(7, 7)
+[node name="Mana Generator2" parent="." instance=ExtResource("6_oic03")]
+position = Vector2(668, 254)
+scale = Vector2(2, 2)
 
-[node name="Mage" parent="." node_paths=PackedStringArray("targetArray") instance=ExtResource("2_rjgpw")]
-position = Vector2(-265, 263)
-scale = Vector2(7, 7)
-targetArray = [NodePath("../Mana Generator"), null, null]
-
-[node name="Cleric" parent="." instance=ExtResource("6_w2wr8")]
-position = Vector2(216.99994, 368)
-scale = Vector2(7, 7)
-minSpeed = 70.0
-range = Vector2(70, 210)
-
-[node name="Rogue" parent="." node_paths=PackedStringArray("targetArray") instance=ExtResource("7_w2wr8")]
-position = Vector2(367.99994, 339.99997)
-targetArray = [NodePath("../Mana Generator"), null]
-minSpeed = 70.0
+[node name="Fighter" parent="." node_paths=PackedStringArray("targetArray") instance=ExtResource("5_oic03")]
+position = Vector2(563, 343)
+targetArray = [NodePath("../Mana Generator"), NodePath("../Mana Generator2")]
 
 [node name="Spawner" parent="." instance=ExtResource("7_x8v0c")]
 position = Vector2(554, 85)

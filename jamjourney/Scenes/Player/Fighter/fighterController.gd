@@ -19,7 +19,6 @@ signal completedMap()
 @onready var pivot : Node2D = $Pivot
 
 @export var targetArray : Array[Node2D]
-@export var testEnemy : Node2D
 @export var minMaxHealth : float = 1000
 @export var minSpeed : float = 10
 @export var range : Vector2 = Vector2(10,20)
@@ -63,9 +62,10 @@ func _ready() -> void:
 	addXp(0)
 	
 	target = targetArray.pop_front()
-	setClosestEnemy(testEnemy)
 
 func _physics_process(delta: float) -> void:
+	closestEnemy = setClosestEnemy()
+	
 	if not is_instance_valid(target):
 		if targetArray.size() <= 0:
 			completedMap.emit()
@@ -75,6 +75,7 @@ func _physics_process(delta: float) -> void:
 	
 	if not target:
 		return
+	
 	agent.target_position = target.global_position
 	
 	if not is_instance_valid(closestEnemy):
@@ -134,13 +135,17 @@ func enteredRangeSpecial(body : Node2D):
 func exitedRangeSpecial(body : Node2D):
 	inRangeSpecial.erase(Health.findHealthModule(body))
 
-func setClosestEnemy(enemy : Node2D) -> void:
-	if closestEnemy == null:
-		closestEnemy = enemy
-		return
+func setClosestEnemy() -> Node2D:
+	var enemies = get_tree().get_nodes_in_group("enemies")
 	
-	if global_position.distance_to(enemy.global_position) < global_position.distance_to(closestEnemy.global_position):
-		closestEnemy = enemy
+	if enemies.size() <= 0:
+		return null
+	
+	closestEnemy = enemies[0]
+	for enemy in enemies:
+		if global_position.distance_to(closestEnemy.global_postion) > global_position.distance_to(enemy.global_postion):
+			closestEnemy = enemy
+	return closestEnemy
 
 func healthChanged(old : float, new : float) -> void:
 	print(self.name + " -> " + str(new))
