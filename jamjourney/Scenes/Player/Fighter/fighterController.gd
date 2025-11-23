@@ -12,10 +12,11 @@ signal completedMap()
 @onready var sprite : Node2D = $Polygon2D
 @onready var basicTimer : Timer = $BasicCoolDown
 @onready var specialTimer : Timer = $SpecialCoolDown
-@onready var areaRange : Area2D = $BasicRange
-@onready var areaRangeSpecial : Area2D = $SpecialRange
+@onready var areaRange : Area2D = $Pivot/BasicRange
+@onready var areaRangeSpecial : Area2D = $Pivot/SpecialRange
 @onready var healthModule : Health = $HealthModule
-@onready var rayWall : RayCast2D = $RayCast2D
+@onready var rayWall : RayCast2D = $Pivot/RayCast2D
+@onready var pivot : Node2D = $Pivot
 
 @export var targetArray : Array[Node2D]
 @export var testEnemy : Node2D
@@ -68,6 +69,7 @@ func _physics_process(delta: float) -> void:
 	if not is_instance_valid(target):
 		if targetArray.size() <= 0:
 			completedMap.emit()
+			return
 		else:
 			target = targetArray.pop_front()
 	
@@ -77,7 +79,7 @@ func _physics_process(delta: float) -> void:
 		closestEnemy = null
 	
 	if global_position.distance_to(closestEnemy.global_position) < range.x && closestEnemy != null:
-		rotation = (global_position.direction_to(closestEnemy.position).angle() + PI/2) 
+		pivot.rotation = (global_position.direction_to(closestEnemy.position).angle() + PI/2) 
 		attack()
 	elif global_position.distance_to(target.global_position) > range.y:
 		move()
@@ -92,7 +94,7 @@ func move() -> void:
 	var pathPos = agent.get_next_path_position()
 	var newVelocity = Vector2 (global_position.direction_to(pathPos) * speed)
 	agent.velocity = newVelocity
-	rotation = velocity.angle() + PI/2
+	pivot.rotation = velocity.angle() + PI/2
 	
 	move_and_slide()
 

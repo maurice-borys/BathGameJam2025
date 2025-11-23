@@ -32,5 +32,7 @@ one_shot = true
 
 [node name="HealthModule" parent="." instance=ExtResource("2_wv4do")]
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
+[node name="Pivot" type="Node2D" parent="."]
+
+[node name="RayCast2D" type="RayCast2D" parent="Pivot"]
 collision_mask = 4

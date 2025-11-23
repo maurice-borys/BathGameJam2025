@@ -9,7 +9,8 @@ var closestEnemy : Node2D
 @onready var basicTimer : Timer = $BasicCoolDown
 @onready var specialTimer : Timer = $SpecialCoolDown
 @onready var healthModule : Health = $HealthModule
-@onready var rayWall : RayCast2D = $RayCast2D
+@onready var rayWall : RayCast2D = $Pivot/RayCast2D
+@onready var pivot : Node2D = $Pivot
 
 var homingSpellScene : PackedScene = preload("res://Scenes/Player/Mage/HomingSpell.tscn")
 var piercingSpellScene : PackedScene = preload("res://Scenes/Player/Mage/PiercingSpell.tscn")
@@ -61,6 +62,7 @@ func _physics_process(delta: float) -> void:
 	if not is_instance_valid(target):
 		if targetArray.size() <= 0:
 			completedMap.emit()
+			return
 		else:
 			target = targetArray.pop_front()
 	
@@ -70,7 +72,7 @@ func _physics_process(delta: float) -> void:
 		closestEnemy = null
 
 	if global_position.distance_to(closestEnemy.global_position) < range && closestEnemy != null:
-		rotation = (global_position.direction_to(closestEnemy.position).angle() + PI/2) 
+		pivot.rotation = (global_position.direction_to(closestEnemy.position).angle() + PI/2) 
 		attack(closestEnemy)
 	elif global_position.distance_to(target.global_position) > range:
 		move()
@@ -85,7 +87,7 @@ func move() -> void:
 	var pathPos = agent.get_next_path_position()
 	var newVelocity = Vector2 (global_position.direction_to(pathPos) * speed)
 	agent.velocity = newVelocity
-	rotation = velocity.angle() + PI/2
+	pivot.rotation = velocity.angle() + PI/2
 	move_and_slide()
 
 func attack(targ : Node2D) -> void:
@@ -100,7 +102,7 @@ func attack(targ : Node2D) -> void:
 func basicAtack(targ : Node2D):
 	var spell : HomingSpell = homingSpellScene.instantiate()
 	spell.global_position = global_position
-	spell.direction = Vector2.RIGHT.rotated(rotation - PI/2)
+	spell.direction = Vector2.RIGHT.rotated(pivot.rotation - PI/2)
 	spell.target = targ
 	spell.damage = damage
 	
@@ -109,7 +111,7 @@ func basicAtack(targ : Node2D):
 func specialAttack():
 	var spell : PiercingSpell = piercingSpellScene.instantiate()
 	spell.global_position = global_position
-	spell.direction = Vector2.RIGHT.rotated(rotation - PI/2)
+	spell.direction = Vector2.RIGHT.rotated(pivot.rotation - PI/2)
 	spell.damage = damageSpecial
 	
 	get_tree().current_scene.add_child(spell)

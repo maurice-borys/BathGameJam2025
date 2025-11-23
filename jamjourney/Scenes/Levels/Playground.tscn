@@ -89,20 +89,21 @@ scale = Vector2(7, 7)
 
 [node name="Fighter" parent="." node_paths=PackedStringArray("targetArray", "testEnemy") instance=ExtResource("5_oic03")]
 position = Vector2(-406.00006, 220.00002)
-scale = Vector2(7, 7)
+scale = Vector2(2, 2)
 targetArray = [NodePath("../Mana Generator"), NodePath("../Mana Generator2"), NodePath("../TestEnemy")]
 testEnemy = NodePath("../TestEnemy")
 minSpeed = 70.0
 range = Vector2(70, 140)
 wallRange = 15.0
 
-[node name="Mage" parent="." node_paths=PackedStringArray("testEnemy") instance=ExtResource("2_rjgpw")]
+[node name="Mage" parent="." node_paths=PackedStringArray("targetArray", "testEnemy") instance=ExtResource("2_rjgpw")]
 position = Vector2(-265, 263)
 scale = Vector2(7, 7)
-range = 210.0
-minSpeed = 70.0
-rangeWall = 30.0
+targetArray = [NodePath("../Mana Generator"), NodePath("../Mana Generator2"), NodePath("../TestEnemy")]
 testEnemy = NodePath("../TestEnemy")
+minSpeed = 70.0
+range = 210.0
+rangeWall = 30.0
 
 [node name="Cleric" parent="." instance=ExtResource("6_w2wr8")]
 position = Vector2(-345, 291)
@@ -112,6 +113,6 @@ range = Vector2(70, 210)
 
 [node name="Rogue" parent="." node_paths=PackedStringArray("targetArray", "testEnemy") instance=ExtResource("7_w2wr8")]
 position = Vector2(-193.99998, 262.99997)
-targetArray = [NodePath("../Mana Generator"), NodePath("../Mana Generator2")]
+targetArray = [NodePath("../Mana Generator"), NodePath("../Mana Generator2"), NodePath("../TestEnemy")]
 testEnemy = NodePath("../TestEnemy")
 minSpeed = 70.0

@@ -1,23 +1,12 @@
 [gd_scene load_steps=51 format=3 uid="uid://14q8x5lk82hm"]
 
-[ext_resource type="Script" uid="uid://c728ruy6senqn" path="res://Jericho Area No Touchy/Players/Scripts/fighterController.gd" id="1_hnd4r"]
-[ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://GlobalModules/HealthModule.tscn" id="2_p30ql"]
+[ext_resource type="Script" uid="uid://c728ruy6senqn" path="res://Scenes/Player/Fighter/fighterController.gd" id="1_hnd4r"]
+[ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://Components/HealthModule.tscn" id="2_p30ql"]
 [ext_resource type="Texture2D" uid="uid://dq6161kmk24k6" path="res://Sprites/animated sprites/Knight Sprites/with_outline/ATTACK 1.png" id="3_ektv8"]
 [ext_resource type="Texture2D" uid="uid://cergdffff8oj2" path="res://Sprites/animated sprites/Knight Sprites/with_outline/ATTACK 3.png" id="4_uif0r"]
 [ext_resource type="Texture2D" uid="uid://brr40gtaw5ns4" path="res://Sprites/animated sprites/Knight Sprites/with_outline/DEATH.png" id="5_c8iyf"]
 [ext_resource type="Texture2D" uid="uid://crfw3s8v8dk5u" path="res://Sprites/animated sprites/Knight Sprites/with_outline/IDLE.png" id="6_plm3l"]
 [ext_resource type="Texture2D" uid="uid://n8p8p6xncqt3" path="res://Sprites/animated sprites/Knight Sprites/with_outline/RUN.png" id="7_fm81o"]
-[ext_resource type="Script" uid="uid://c728ruy6senqn" path="res://Scenes/Player/Fighter/fighterController.gd" id="1_hnd4r"]
-[ext_resource type="PackedScene" uid="uid://udq0r6fp3mgm" path="res://Components/HealthModule.tscn" id="2_p30ql"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_gbv5x"]
-radius = 3.1622777
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_hnd4r"]
-size = Vector2(6, 11)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_hnd4r"]
-radius = 23.086792
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bvcuv"]
 atlas = ExtResource("3_ektv8")
@@ -196,7 +185,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_1x151")
 }],
-"loop": true,
+"loop": false,
 "name": &"AttackBasic",
 "speed": 10.0
 }, {
@@ -219,7 +208,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_64t0a")
 }],
-"loop": true,
+"loop": false,
 "name": &"AttackSpecial",
 "speed": 10.0
 }, {
@@ -320,17 +309,18 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_gbv5x"]
+radius = 3.1622777
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hnd4r"]
+size = Vector2(22, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fro11"]
+size = Vector2(26, 53)
+
 [node name="Fighter" type="CharacterBody2D" groups=["Players"]]
 collision_mask = 15
 script = ExtResource("1_hnd4r")
-
-[node name="Polygon2D" type="Polygon2D" parent="."]
-color = Color(0, 1, 1, 1)
-polygon = PackedVector2Array(-2, 2, 3, 2, 3, -2, 0, -5, -3, -2, -3, 2)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -1)
-shape = SubResource("CircleShape2D_gbv5x")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 avoidance_enabled = true
@@ -343,27 +333,35 @@ one_shot = true
 [node name="SpecialCoolDown" type="Timer" parent="."]
 one_shot = true
 
-[node name="BasicRange" type="Area2D" parent="."]
-collision_mask = 14
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BasicRange"]
-position = Vector2(0, -5.5)
-shape = SubResource("RectangleShape2D_hnd4r")
-
-[node name="SpecialRange" type="Area2D" parent="."]
-collision_mask = 14
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SpecialRange"]
-shape = SubResource("CircleShape2D_hnd4r")
-
 [node name="HealthModule" parent="." instance=ExtResource("2_p30ql")]
-
-[node name="RayCast2D" type="RayCast2D" parent="."]
-collision_mask = 4
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -5)
 sprite_frames = SubResource("SpriteFrames_5j1gw")
-animation = &"Run"
+animation = &"AttackSpecial"
 autoplay = "Idle"
-frame_progress = 0.7756454
+frame = 5
+frame_progress = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_gbv5x")
+
+[node name="Pivot" type="Node2D" parent="."]
+
+[node name="BasicRange" type="Area2D" parent="Pivot"]
+collision_mask = 14
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/BasicRange"]
+position = Vector2(0, -14)
+shape = SubResource("RectangleShape2D_hnd4r")
+
+[node name="SpecialRange" type="Area2D" parent="Pivot"]
+collision_mask = 14
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/SpecialRange"]
+position = Vector2(0, -16.5)
+shape = SubResource("RectangleShape2D_fro11")
+
+[node name="RayCast2D" type="RayCast2D" parent="Pivot"]
+collision_mask = 4
