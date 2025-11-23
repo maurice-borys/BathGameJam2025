@@ -44,7 +44,6 @@ func _ready():
 
 func _process(_delta):
 
-	print("current Health: ", health_module.health)
 	if Input.is_action_just_pressed("button_1") and not attacking:
 		start_attack()
 		pivot.rotation = global_position.direction_to(get_global_mouse_position()).angle() - PI
