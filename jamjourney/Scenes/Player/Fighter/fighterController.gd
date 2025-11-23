@@ -75,7 +75,7 @@ func _physics_process(delta: float) -> void:
 			completedMap.emit()
 			return
 		else:
-			target = targetArray.pop_front()
+			target = targetArray.filter(func(item): return is_instance_valid(item) ).pop_front()
 	
 	if not target:
 		return

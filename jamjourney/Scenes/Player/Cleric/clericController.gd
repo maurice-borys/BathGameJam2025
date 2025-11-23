@@ -57,7 +57,7 @@ func _ready() -> void:
 			allies.append(raw)
 
 func _physics_process(delta: float) -> void:
-	allies.filter(func(item): return item != null)
+	allies.filter(func(item): return item != null && is_instance_valid(item))
 	allyTarget = getLowestHealthAlly()
 	
 	if allyTarget != null:

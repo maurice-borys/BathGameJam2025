@@ -86,8 +86,7 @@ position = Vector2(-181, -28)
 [node name="Cleric" parent="." instance=ExtResource("6_jcxtp")]
 position = Vector2(-158, 7)
 
-[node name="HUD" parent="." node_paths=PackedStringArray("mana_manager") instance=ExtResource("5_ubj35")]
-mana_manager = NodePath("../ManaManager")
+[node name="HUD" parent="." instance=ExtResource("5_ubj35")]
 
 [node name="CursorLayer" parent="HUD" instance=ExtResource("5_b1hrc")]
 metadata/_edit_use_anchors_ = true

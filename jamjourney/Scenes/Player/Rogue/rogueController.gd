@@ -76,7 +76,7 @@ func _physics_process(_delta: float) -> void:
 		if targetArray.size() <= 0:
 			completedMap.emit()
 		else:
-			target = targetArray.pop_front()
+			target = targetArray.filter(func(item): return is_instance_valid(item) ).pop_front()
 	
 	if target:
 		agent.target_position = target.global_position
