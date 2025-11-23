@@ -5,7 +5,7 @@ var target : Node2D
 var closestEnemy : Node2D
 
 @onready var agent : NavigationAgent2D = $NavigationAgent2D
-@onready var sprite : Node2D = $Polygon2D
+@onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
 @onready var basicTimer : Timer = $BasicCoolDown
 @onready var specialTimer : Timer = $SpecialCoolDown
 @onready var healthModule : Health = $HealthModule
@@ -54,9 +54,14 @@ func _ready() -> void:
 	
 	addXp(0)
 	
+	sprite.play("Walk")
+	sprite.animation_finished.connect(killMe)
+	
 	target = targetArray.pop_front()
 
 func _physics_process(delta: float) -> void:
+	closestEnemy = setClosestEnemy()
+	
 	if not is_instance_valid(target):
 		if targetArray.size() <= 0:
 			completedMap.emit()
@@ -66,8 +71,8 @@ func _physics_process(delta: float) -> void:
 			
 	if target:
 		agent.target_position = target.global_position
-	
-	if not is_instance_valid(closestEnemy):
+
+	if not is_instance_valid(closestEnemy) || not closestEnemy:
 		closestEnemy = null
 		
 		if global_position.distance_to(target.global_position) > range:
@@ -82,7 +87,6 @@ func _physics_process(delta: float) -> void:
 	if not target:
 		return
 	
-
 	if global_position.distance_to(closestEnemy.global_position) < range && closestEnemy != null:
 		pivot.rotation = (global_position.direction_to(closestEnemy.position).angle() + PI/2) 
 		attack(closestEnemy)
@@ -94,6 +98,9 @@ func _physics_process(delta: float) -> void:
 				attack(rayWall.get_collider())
 	else:
 		attack(target)
+
+func killMe():
+	sprite.play("Walk")
 
 func move() -> void:
 	var pathPos = agent.get_next_path_position()
@@ -112,6 +119,7 @@ func attack(targ : Node2D) -> void:
 		basicTimer.start()
 
 func basicAtack(targ : Node2D):
+	sprite.play("BasicAttack")
 	var spell : HomingSpell = homingSpellScene.instantiate()
 	spell.global_position = global_position
 	spell.direction = Vector2.RIGHT.rotated(pivot.rotation - PI/2)
@@ -121,6 +129,7 @@ func basicAtack(targ : Node2D):
 	get_tree().current_scene.add_child(spell)
 	
 func specialAttack():
+	sprite.play("BasicAttack")
 	var spell : PiercingSpell = piercingSpellScene.instantiate()
 	spell.global_position = global_position
 	spell.direction = Vector2.RIGHT.rotated(pivot.rotation - PI/2)

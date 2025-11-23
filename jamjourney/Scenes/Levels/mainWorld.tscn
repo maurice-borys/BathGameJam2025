@@ -1,10 +1,15 @@
-[gd_scene load_steps=7 format=3 uid="uid://bmisabixoxem4"]
+[gd_scene load_steps=12 format=3 uid="uid://bmisabixoxem4"]
 
+[ext_resource type="Script" uid="uid://bcb6glt27sji8" path="res://Scenes/Levels/LevelManager.gd" id="1_ou8j6"]
 [ext_resource type="PackedScene" uid="uid://4okppg7asb2m" path="res://Scenes/Buildings/ManaGenerator/manaGenerator.tscn" id="1_ufdwi"]
 [ext_resource type="PackedScene" uid="uid://bes1ttstk5flj" path="res://Scenes/Enemies/Bosses/Vampire/vampire.tscn" id="2_w8dcx"]
 [ext_resource type="PackedScene" uid="uid://7m13g1m77co8" path="res://Scenes/Buildings/Spawner/Spawner.tscn" id="3_w8dcx"]
+[ext_resource type="PackedScene" uid="uid://d042r43unr0un" path="res://Scenes/Player/Rogue/rogue.tscn" id="4_b1hrc"]
 [ext_resource type="PackedScene" uid="uid://774jqjjmrbeu" path="res://Components/Selection/Selection.tscn" id="4_hnayu"]
 [ext_resource type="PackedScene" uid="uid://d1cfcnv1exgdk" path="res://Components/Cursor/Cursor.tscn" id="5_b1hrc"]
+[ext_resource type="PackedScene" uid="uid://14q8x5lk82hm" path="res://Scenes/Player/Fighter/fighter.tscn" id="6_b1hrc"]
+[ext_resource type="PackedScene" uid="uid://ohjyvm53ohnf" path="res://Scenes/Player/Cleric/cleric.tscn" id="6_jcxtp"]
+[ext_resource type="PackedScene" uid="uid://dixjgii5h8mg6" path="res://Scenes/Player/Mage/mage.tscn" id="7_gke0t"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_qlyuv"]
 vertices = PackedVector2Array(326.0703, -169.02344, 328.90625, 185.89844, -324.9375, 180.07813, -323.04688, -170.96875)
@@ -12,6 +17,7 @@ polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-333, -181, 336, -179, 339, 196, -335, 190)])
 
 [node name="MainWorld" type="Node2D"]
+script = ExtResource("1_ou8j6")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
@@ -37,12 +43,15 @@ scale = Vector2(0.5, 0.5)
 
 [node name="mana_gen1" parent="Forest" instance=ExtResource("1_ufdwi")]
 position = Vector2(126, -92)
+tickRate = 10.0
 
 [node name="mana_gen2" parent="Forest" instance=ExtResource("1_ufdwi")]
 position = Vector2(40, -122)
+tickRate = 10.0
 
 [node name="mana_gen3" parent="Forest" instance=ExtResource("1_ufdwi")]
 position = Vector2(214, -31)
+tickRate = 10.0
 
 [node name="spawner1" parent="Forest" instance=ExtResource("3_w8dcx")]
 position = Vector2(69, 100)
@@ -52,6 +61,22 @@ position = Vector2(219, -94)
 
 [node name="spawner3" parent="Forest" instance=ExtResource("3_w8dcx")]
 position = Vector2(165, 23)
+
+[node name="Fighter" parent="Forest" node_paths=PackedStringArray("targetArray") instance=ExtResource("6_b1hrc")]
+position = Vector2(-173, 9)
+targetArray = [NodePath("../mana_gen1"), NodePath("../mana_gen2"), NodePath("../mana_gen3")]
+
+[node name="Rogue" parent="Forest" node_paths=PackedStringArray("targetArray") instance=ExtResource("4_b1hrc")]
+position = Vector2(-116, 37)
+targetArray = [NodePath("../mana_gen1"), NodePath("../mana_gen2"), NodePath("../mana_gen3")]
+
+[node name="Cleric" parent="Forest" instance=ExtResource("6_jcxtp")]
+position = Vector2(-183, 88)
+
+[node name="Mage" parent="Forest" node_paths=PackedStringArray("targetArray") instance=ExtResource("7_gke0t")]
+position = Vector2(-116, -2)
+scale = Vector2(0.75, 0.75)
+targetArray = [NodePath("../mana_gen1"), NodePath("../mana_gen2"), NodePath("../mana_gen3")]
 
 [node name="Selection" parent="." node_paths=PackedStringArray("nav_mesh", "cursor") instance=ExtResource("4_hnayu")]
 nav_mesh = NodePath("../Forest/NavigationRegion2D")
