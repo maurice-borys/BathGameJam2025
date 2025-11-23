@@ -220,6 +220,9 @@ autostart = true
 [node name="stun_cd" type="Timer" parent="."]
 wait_time = 10.0
 
+[node name="summon_cd" type="Timer" parent="."]
+wait_time = 15.0
+
 [node name="stun_timer" type="Timer" parent="."]
 wait_time = 5.0
 
@@ -241,5 +244,6 @@ sprite_frames = SubResource("SpriteFrames_kar1b")
 [connection signal="timeout" from="teleport_cd" to="." method="_on_teleport_cd_timeout"]
 [connection signal="timeout" from="fireball_cd" to="." method="_on_fireball_cd_timeout"]
 [connection signal="timeout" from="stun_cd" to="." method="_on_stun_cd_timeout"]
+[connection signal="timeout" from="summon_cd" to="." method="_on_summon_cd_timeout"]
 [connection signal="timeout" from="stun_timer" to="." method="_on_stun_timer_timeout"]
 [connection signal="computed_velocity" from="NavComponent" to="." method="_on_nav_component_computed_velocity"]

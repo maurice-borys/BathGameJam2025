@@ -4,6 +4,7 @@ extends CharacterBody2D
 @export var damage = 200
 
 @onready var fireball = preload("res://Scenes/Enemies/Bosses/Lich/fireball.tscn")
+@onready var grunt = preload("res://Scenes/Enemies/Normal/Grunt.tscn")
 
 @onready var nav_component: NavComponent = $NavComponent
 
@@ -17,12 +18,14 @@ extends CharacterBody2D
 @onready var stun_hitbox_shape: CollisionShape2D = $Stun_area/stun_collision
 @onready var stun_anim: AnimatedSprite2D = $stun_anim
 @onready var pivot: Node2D = $pivot
+@onready var root: CharacterBody2D = get_tree().get_root().get_node("LichBody2D")
 #different timers
 @onready var death_timer: Timer = $death_timer
 @onready var stun_timer: Timer = $stun_timer
 @onready var teleport_cd: Timer = $teleport_cd
 @onready var fireball_cd: Timer = $fireball_cd
 @onready var stun_cd: Timer = $stun_cd
+@onready var summon_cd: Timer = $summon_cd
  
 @export var teleport_range : float = 300
 
@@ -35,6 +38,7 @@ var attacking = false
 var teleport_ready = true
 var fireball_ready = true
 var stun_ready = true
+var summon_ready = true
 var char_speed : float
 var char_changed : CharacterBody2D
 
@@ -60,6 +64,8 @@ func _process(_delta):
 		start_shoot()
 	elif Input.is_action_just_pressed("button_4") and not attacking and stun_ready:
 		start_stun()
+	elif Input.is_action_just_pressed("button_5") and not attacking and summon_ready:
+		start_summon()
 	
 	
 	
@@ -104,6 +110,18 @@ func start_stun():
 	stun_hitbox_shape.disabled = false
 	
 	stun_anim.play("default")
+
+func start_summon():
+	attacking = true
+	summon_ready = false
+	summon_cd.start()
+	
+	for i in range(4):
+		var grunt_instance = grunt.instantiate()
+		root.call_deferred("add_child",grunt_instance)
+	
+	attacking = false
+	
 
 
 func health_changed(_old, new):
@@ -160,3 +178,7 @@ func _on_stun_cd_timeout() -> void:
 
 func _on_stun_timer_timeout() -> void:
 	reset_speed(char_changed,char_speed)
+
+
+func _on_summon_cd_timeout() -> void:
+	summon_ready = true
